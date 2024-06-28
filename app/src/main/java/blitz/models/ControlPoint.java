@@ -1,11 +1,14 @@
-package blitz.data;
+package blitz.models;
 
-import blitz.utils.PolarCoordinate;
-import blitz.utils.Utils;
+import blitz.servises.CartesianCoordinate;
+import blitz.servises.PolarCoordinate;
+import blitz.servises.Utils;
 
 public class ControlPoint {
     
     // -=-=-=- FIELDS -=-=-=-
+
+    private String name;
 
     // CP position on the field
     private double x, y;
@@ -33,8 +36,14 @@ public class ControlPoint {
      * @param rE    r of End Control Point
      * @param tE    theta of End Control Point
      */
-    public ControlPoint(double x, double  y, double rS, double tS, double rE, double tE) {
-
+    public ControlPoint(String name, double x, double  y, double rS, double tS, double rE, double tE) {
+        setName(name);
+        setX(x);
+        setY(y);
+        setRStart(rS);
+        setThetaStart(tS);
+        setREnd(rE);
+        setThetaEnd(tE);
     }
 
 
@@ -42,6 +51,14 @@ public class ControlPoint {
     // -=-=-=- METHODS -=-=-=-
 
     // -=- Control Point -=-
+
+    public void setName(String name){
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
 
     /**
      * Set x and y position of Control Point.
@@ -129,6 +146,16 @@ public class ControlPoint {
         setRelStartHelperPos((x-this.x), (y-this.y));
     }
 
+    public CartesianCoordinate getRelStartHelperPos(){
+        return Utils.polarToCartesian(rStart, thetaStart);
+    }
+
+    public CartesianCoordinate getAbsStartHelperPos(){
+        double relX = x + getRelStartHelperPos().getX();
+        double relY = y + getRelStartHelperPos().getY();
+        return new CartesianCoordinate(relX, relY);
+    }
+
     // -=- End Helper Point -=-
     
     /**
@@ -168,6 +195,16 @@ public class ControlPoint {
      */
     public void setAbsEndHelperPos(double x, double y){
         setRelStartHelperPos((x-this.x), (y-this.y));
+    }
+
+    public CartesianCoordinate getRelEndHelperPos(){
+        return Utils.polarToCartesian(rEnd, thetaEnd);
+    }
+
+    public CartesianCoordinate getAbsEndHelperPos(){
+        double relX = x + getRelEndHelperPos().getX();
+        double relY = y + getRelEndHelperPos().getY();
+        return new CartesianCoordinate(relX, relY);
     }
 
 }

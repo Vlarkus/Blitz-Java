@@ -1,4 +1,4 @@
-package blitz.ui;
+package blitz.ui.main;
 
 public class MainFrame {
     

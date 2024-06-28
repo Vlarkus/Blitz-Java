@@ -1,4 +1,4 @@
-package blitz.utils;
+package blitz.servises;
 
 /**
  * PolarCoordinate represents a single polar coordinate.

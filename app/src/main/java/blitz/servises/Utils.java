@@ -1,4 +1,4 @@
-package blitz.utils;
+package blitz.servises;
 
 public class Utils {
     
