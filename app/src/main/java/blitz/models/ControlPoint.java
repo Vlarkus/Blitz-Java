@@ -130,6 +130,10 @@ public class ControlPoint {
         this.y = y;
     }
 
+    public CartesianCoordinate getPosition(){
+        return new CartesianCoordinate(x, y);
+    }
+
     /**
      * Returns the x position of the Control Point.
      * 
