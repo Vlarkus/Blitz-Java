@@ -50,7 +50,7 @@ public class Active {
     public static void setActiveControlPoint(ControlPoint activeControlPoint) {
         Trajectory newTrajectory = TrajectoriesList.getTrajectoryByControlPoint(activeControlPoint);
         if(newTrajectory == null){
-            throw new IllegalArgumentException("Control point does not correspond to any trajectory.");
+            throw new IllegalArgumentException("ControlPoint does not correspond to any trajectory.");
         }
         Active.activeControlPoint = activeControlPoint;
         Active.activeTrajectory = newTrajectory;

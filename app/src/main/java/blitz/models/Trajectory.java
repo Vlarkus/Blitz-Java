@@ -87,5 +87,17 @@ public class Trajectory {
     public ArrayList<ControlPoint> copyControlPoints(){
         return new ArrayList<ControlPoint>(controlPoints);
     }
+
+    public void ArrayList<Cartesian> getBezierCurveFrom(ControlPoint cp){
+
+        if(!contains(cp)){
+            throw new NullPointerException("Trajectory does not contain this ControlPoint!");
+        }
+
+        for (int i = 0; i <= cp.getNumSeg; i++) {
+            
+        }
+
+    }
     
 }

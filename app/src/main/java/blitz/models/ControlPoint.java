@@ -1,5 +1,6 @@
 package blitz.models;
 
+import blitz.configs.ModelsConfig;
 import blitz.servises.CartesianCoordinate;
 import blitz.servises.PolarCoordinate;
 import blitz.servises.Utils;
@@ -35,13 +36,31 @@ public class ControlPoint {
      * @param rE    r of End Helper Point
      * @param tE    theta of End Helper Point
      */
-    public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
+    public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE, int numSegments, double time) {
         setName(name);
         setPosition(x, y);
         setRStart(rS);
         setThetaStart(tS);
         setREnd(rE);
         setThetaEnd(tE);
+        setNumSegments(numSegments);
+        setTime(time);
+    }
+
+    public ControlPoint(String name, double x, double y, double tS, double tE) {
+        this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, tS, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, tE, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+    }
+
+    public ControlPoint(String name, double x, double y, int numSegments, double time) {
+        this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, numSegments, time);
+    }
+
+    public ControlPoint(String name, double x, double y) {
+        this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+    }
+
+    public ControlPoint(String name) {
+        this(name, ModelsConfig.CONTROL_POINT_DEFAULT_X, ModelsConfig.CONTROL_POINT_DEFAULT_Y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
     }
 
     // -=-=-=- METHODS -=-=-=-
@@ -64,6 +83,22 @@ public class ControlPoint {
      */
     public String getName() {
         return name;
+    }
+
+    public int getNumSegments() {
+        return numSegments;
+    }
+
+    public void setNumSegments(int numSegments) {
+        this.numSegments = numSegments;
+    }
+
+    public double getTime() {
+        return time;
+    }
+
+    public void setTime(double time) {
+        this.time = time;
     }
 
     /**
