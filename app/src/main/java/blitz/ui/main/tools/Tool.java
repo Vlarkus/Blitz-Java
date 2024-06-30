@@ -1,6 +1,6 @@
 package blitz.ui.main.tools;
 
-public class Tool {
+public class Tool extends JRadioButton{
 
     public enum Tools{
         ADD,
@@ -15,4 +15,6 @@ public class Tool {
         SHOW_ROBOT,
     }
     
+
+
 }
