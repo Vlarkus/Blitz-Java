@@ -1,5 +1,7 @@
 package blitz.ui.main.tools;
 
+import javax.swing.JRadioButton;
+
 public class Tool extends JRadioButton{
 
     public enum Tools{

@@ -1,4 +1,4 @@
-package blitz.ui.main;
+package blitz.ui.main.panels;
 
 public class MenuBar {
     
