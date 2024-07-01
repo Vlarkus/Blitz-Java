@@ -34,7 +34,7 @@ public class Trajectory {
      */
     public Trajectory(Trajectory other){
         setName(other.getName());
-        controlPoints = other.copyControlPoints();
+        controlPoints = other.copyAllControlPoints();
     }
 
 
@@ -85,7 +85,7 @@ public class Trajectory {
         return controlPoints;
     }
 
-    public ArrayList<ControlPoint> copyControlPoints(){
+    public ArrayList<ControlPoint> copyAllControlPoints(){
         return new ArrayList<ControlPoint>(controlPoints);
     }
 
@@ -119,7 +119,7 @@ public class Trajectory {
             throw new NullPointerException("Trajectory does not contain this ControlPoint!");
         }
         if (controlPoints.get(controlPoints.size() - 1).equals(cp)) {
-            throw new IndexOutOfBoundsException("ControlPoint is the last in the list; it is not the beginning of any curve!");
+            return null;
         }
 
         // Presets
@@ -135,8 +135,8 @@ public class Trajectory {
         ArrayList<CartesianCoordinate> bezierCoordinates = new ArrayList<>(numSeg + 1);
 
         // Calculations
-        for (int i = 0; i <= numSeg; i++) {
-            double t = (double) i / numSeg;
+        for (double i = 0; i <= numSeg; i++) {
+            double t = i / numSeg;
             double x = Math.pow(1 - t, 3) * strt.getX() + 3 * Math.pow(1 - t, 2) * t * h1.getX() + 3 * (1 - t) * Math.pow(t, 2) * h2.getX() + Math.pow(t, 3) * end.getX();
             double y = Math.pow(1 - t, 3) * strt.getY() + 3 * Math.pow(1 - t, 2) * t * h1.getY() + 3 * (1 - t) * Math.pow(t, 2) * h2.getY() + Math.pow(t, 3) * end.getY();
             bezierCoordinates.add(new CartesianCoordinate(x, y));

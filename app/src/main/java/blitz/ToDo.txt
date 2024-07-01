@@ -1,3 +1,4 @@
 - MenuBar/View/ChangeField shows all the field pictures and their names from a certain folder.
 - CanvasPanel allows to pan around and zoom in/out.
 - CanvasPanel has an option in the settings scale the field in terms of inches.
+- Invert y coordinate of CanvasPanel, so it increases upwards. Invert it in rendering only!

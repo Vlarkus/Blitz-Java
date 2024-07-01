@@ -23,6 +23,10 @@ public class TrajectoriesList {
         return trajectoriesList;
     }
 
+    public static ArrayList<Trajectory> copyTrajectoriesList() {
+        return new ArrayList<Trajectory>(trajectoriesList);
+    }
+
     public static boolean contains(Trajectory tr){
         return trajectoriesList.contains(tr);
     }

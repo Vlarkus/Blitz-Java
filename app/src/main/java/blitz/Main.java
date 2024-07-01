@@ -4,13 +4,14 @@ import javax.swing.SwingUtilities;
 
 import blitz.ui.main.MainFrame;
 
-public class Blitz {
+public class Main {
     
     public static void main(String[] args) {
+        System.out.println("\n\n\nApplication Started\n");
+        setupMacOS();
         SwingUtilities.invokeLater(() -> {
             new MainFrame();
         });
-        setupMacOS();
     }
 
     private static void setupMacOS() {

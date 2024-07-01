@@ -3,7 +3,6 @@ package blitz.ui.main;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.io.ObjectInputFilter.Config;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -11,8 +10,15 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+
 import blitz.configs.MainFrameConfig;
-import blitz.ui.main.panels.*;
+import blitz.models.ControlPoint;
+import blitz.models.TrajectoriesList;
+import blitz.models.Trajectory;
+import blitz.ui.main.panels.CanvasPanel;
+import blitz.ui.main.panels.InfoPanel;
+import blitz.ui.main.panels.SelectionPanel;
+import blitz.ui.main.panels.ToolPanel;
 
 public class MainFrame extends JFrame{
     
@@ -34,9 +40,21 @@ public class MainFrame extends JFrame{
         super(MainFrameConfig.FRAME_TITLE);
         constructMenuBar();
         constructFrame();
+        testing();
     }
 
 
+    private void testing(){
+        Trajectory tr = new Trajectory("Trajectory 1");
+        TrajectoriesList.addTrajectory(tr);
+
+        tr.addControlPoint(new ControlPoint("CP1"));
+        tr.addControlPoint(new ControlPoint("CP2", 200, 200));
+        tr.addControlPoint(new ControlPoint("CP3", 300, 400, 100, 0, 50, 90));
+        tr.addControlPoint(new ControlPoint("CP4", 500, 500, 90.0, -90));
+
+        canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
+    }
 
 
     

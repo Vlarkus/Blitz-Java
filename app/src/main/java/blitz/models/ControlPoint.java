@@ -47,6 +47,10 @@ public class ControlPoint {
         setTime(time);
     }
 
+    public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
+        this(name, x, y, rS, tS, rE, tE, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+    }
+
     public ControlPoint(String name, double x, double y, double tS, double tE) {
         this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, tS, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, tE, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
     }

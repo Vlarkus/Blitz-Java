@@ -2,6 +2,7 @@ package blitz.configs;
 
 import java.awt.Dimension;
 
+import blitz.servises.CartesianCoordinate;
 import blitz.servises.HexColor;
 
 public class MainFrameConfig {
@@ -30,7 +31,8 @@ public class MainFrameConfig {
 
     // CanvasPanel
     public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSIONS = new Dimension(0, 0);
-    public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#ff0000");
+    public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#888888");
+    public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
 
 
 
