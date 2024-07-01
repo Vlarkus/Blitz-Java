@@ -2,24 +2,16 @@ package blitz.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
 import java.io.ObjectInputFilter.Config;
-import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.plaf.basic.BasicTreeUI;
-
-import blitz.Main;
 import blitz.configs.MainFrameConfig;
-import blitz.models.ControlPoint;
-import blitz.models.Trajectory;
 import blitz.ui.main.panels.*;
 
 public class MainFrame extends JFrame{
@@ -30,8 +22,8 @@ public class MainFrame extends JFrame{
     private JPanel sidePanel;
     private InfoPanel infoPanel;
     private SelectionPanel SelectionPanel;
-
-
+    
+    private JMenuBar menuBar;
 
     // -=-=-=- CONSTRUCTOR -=-=-=-
 
@@ -39,6 +31,8 @@ public class MainFrame extends JFrame{
      * Contstructs JFrame and creates working Trajectory.
      */
     public MainFrame(){
+        super(MainFrameConfig.FRAME_TITLE);
+        constructMenuBar();
         constructFrame();
     }
 
@@ -47,6 +41,53 @@ public class MainFrame extends JFrame{
 
     
     // -=-=-=- METHODS -=-=-=-
+
+    private void constructMenuBar(){
+        
+        menuBar = new JMenuBar();
+        setJMenuBar(menuBar);
+
+        // -=- File Menu -=-
+        JMenu fileMenu = new JMenu("File");
+        menuBar.add(fileMenu);
+
+        // Open
+        JMenuItem openMenuItem = new JMenuItem("Open");
+        openMenuItem.addActionListener((ActionEvent e) -> {});
+        fileMenu.add(openMenuItem);
+        
+        // Save As
+        JMenuItem saveAsMenuItem = new JMenuItem("Save As");
+        saveAsMenuItem.addActionListener((ActionEvent e) -> {});
+        fileMenu.add(saveAsMenuItem);
+
+        // Export
+        JMenuItem exportAsMenuItem = new JMenuItem("Export");
+        exportAsMenuItem.addActionListener((ActionEvent e) -> {});
+        fileMenu.add(exportAsMenuItem);
+
+
+
+
+
+        // -=- View Menu -=-
+        JMenu viewMenu = new JMenu("View");
+        menuBar.add(viewMenu);
+
+        // Change Field Options
+        JMenu changeFieldMenu = new JMenu("Change Field");
+        viewMenu.add(changeFieldMenu);
+
+        JMenuItem matchFieldOption = new JMenuItem("Field Image Name.png");
+        matchFieldOption.addActionListener((ActionEvent e) -> {});
+        changeFieldMenu.add(matchFieldOption);
+        
+        // View Options
+        JMenuItem viewSettingsMenu = new JMenuItem("View Options");
+        viewMenu.add(viewSettingsMenu);
+        viewSettingsMenu.addActionListener((ActionEvent e) -> {});
+
+    }
 
     /**
      * Contstructs JFrame and adds Panels onto it.

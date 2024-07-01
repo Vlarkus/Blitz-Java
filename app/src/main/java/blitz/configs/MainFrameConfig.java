@@ -8,7 +8,7 @@ public class MainFrameConfig {
  
     // MainFrame
 
-    public static final String FRAME_TITLE = "GUARD";
+    public static final String FRAME_TITLE = "Blitz";
     public static final Dimension MINIMUM_FRAME_DIMENSIONS = new Dimension(1000, 600);
     public static final Dimension DEFAULT_FRAME_DIMENSIONS = MINIMUM_FRAME_DIMENSIONS;
 
