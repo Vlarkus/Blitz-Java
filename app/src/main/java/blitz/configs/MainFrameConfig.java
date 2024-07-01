@@ -18,14 +18,12 @@ public class MainFrameConfig {
 
 
     // ToolPanel
-
     public static final Dimension TOOL_PANEL_PREFFERED_DIMENSIONS = new Dimension(75, 0);
     public static final HexColor TOOL_PANEL_BACKGROUND_COLOR = new HexColor("#00ff00");
 
 
 
     // sidePanel
-
     public static final Dimension SIDE_PANEL_PREFFERED_DIMENSIONS = new Dimension(350, 0);
 
     
@@ -45,5 +43,24 @@ public class MainFrameConfig {
     // SelectionPanel
     public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
     public static final HexColor SELECTION_PANEL_BACKGROUND_COLOR = new HexColor("#999999");
+
+
+
+    // Pointers
+
+    // ControlPointer
+    public static final HexColor UNSELECTED_CONTROL_POINTER_COLOR = new HexColor("#3441ed");
+    public static final HexColor HIGHLIGHTED_CONTROL_POINTER_COLOR = new HexColor("#fcdf3a");
+    public static final HexColor SELECTED_CONTROL_POINTER_COLOR = new HexColor("#43aef0");
+    public  static final int CONTROL_POINTER_DIAMETER = 17;
+
+    // BezierPointer
+    public static final HexColor DEFAULT_BEZIER_POINTER_COLOR = new HexColor("#33ff1c");
+    public static final HexColor HIGHLIGHTED_BEZIER_POINTER_COLOR = new HexColor("#fcdf3a");
+    public  static final int BEZIER_POINTER_DIAMETER = 8;
+
+    // HelperPointer
+    public static final HexColor DEFAULT_HELPER_POINTER_COLOR = new HexColor("#f57e1d");
+    public  static final int HELPER_POINTER_DIAMETER = 13;
 
 }
