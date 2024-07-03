@@ -55,7 +55,7 @@ public class MainFrame extends JFrame{
         tr.addControlPoint(new ControlPoint("CP1"));
         tr.addControlPoint(new ControlPoint("CP2", 200, 200));
         tr.addControlPoint(new ControlPoint("CP3", 300, 400, 100, 0, 50, 90));
-        tr.addControlPoint(new ControlPoint("CP4", 500, 500, 90.0, -90));
+        tr.addControlPoint(new ControlPoint("CP4", 1000, 1000, 90.0, -90));
 
         canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
     }

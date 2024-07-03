@@ -1,5 +1,7 @@
 package blitz.ui.main.panels;
 
+import java.awt.Dimension;
+import java.awt.Panel;
 import java.awt.Point;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -209,16 +211,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mousePressed(MouseEvent e) {
-        Point initialClick = e.getPoint();
-        SwingUtilities.invokeLater(() -> {
-            JViewport viewport = scrollPane.getViewport();
-            if (viewport != null) {
-                Point viewPos = viewport.getViewPosition();
-                initialClick.translate(viewPos.x, viewPos.y);
-                initialClick.setLocation(initialClick.x - viewPos.x, initialClick.y - viewPos.y);
-                viewport.setViewPosition(initialClick);
-            }
-        });
+        mousePreviousX = e.getX();
+        mousePreviousY = e.getY();
     }
 
     @Override
@@ -228,14 +222,28 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     @Override
     public void mouseDragged(MouseEvent e) {
-        SwingUtilities.invokeLater(() -> {
-            JViewport viewport = scrollPane.getViewport();
-            if (viewport != null) {
-                Point viewPos = viewport.getViewPosition();
-                viewPos.translate(-e.getX(), -e.getY());
-                viewport.setViewPosition(viewPos);
+        calculatePanning(e);
+    }
+
+    private void calculatePanning(MouseEvent e){
+        JViewport viewport = scrollPane.getViewport();
+        if (viewport != null) {
+            int dx = e.getX() - mousePreviousX;
+            int dy = e.getY() - mousePreviousY;
+            Point viewPos = viewport.getViewPosition();
+            viewPos.translate(-dx, -dy);
+            Dimension d = MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION;
+            if(d.getWidth() < viewPos.getX() - getWidth()){
+                viewPos.setLocation(d.getWidth(), viewPos.getY());
             }
-        });
+            if(viewPos.getX() < 0){
+                viewPos.setLocation(0, viewPos.getY());
+            }
+            if(viewPos.getY() < 0){
+                viewPos.setLocation(viewPos.getX(), 0);
+            }
+            viewport.setViewPosition(viewPos);
+        }
     }
     
 
