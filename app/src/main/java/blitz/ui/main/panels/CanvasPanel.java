@@ -1,5 +1,8 @@
 package blitz.ui.main.panels;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
@@ -13,9 +16,10 @@ import blitz.ui.main.pointers.ControlPointer;
 import blitz.ui.main.pointers.HelperPointer;
 import blitz.ui.main.pointers.Pointer.State;
 
-public class CanvasPanel extends JPanel{
+public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener{
 
     private int xOffset, yOffset;
+    private int mousePreviousX, mousePreviousY;
     private ArrayList<Trajectory> visibleTrajectories;
     private ArrayList<ControlPointer> controlPointers;
     private ArrayList<HelperPointer> helperPointers;
@@ -33,6 +37,9 @@ public class CanvasPanel extends JPanel{
 
         setXOffset((int) MainFrameConfig.DEFAULT_OFFSET.getX());
         setYOffset((int) MainFrameConfig.DEFAULT_OFFSET.getY());
+
+        addMouseListener(this);
+        addMouseMotionListener(this);
 
     }
 
@@ -132,16 +139,18 @@ public class CanvasPanel extends JPanel{
 
     }
 
-    public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate c){
-        double x = c.getX();
-        x += getXOffset();
-
-        double y = c.getY();
-        y += getYOffset();
-
-        return new CartesianCoordinate((int)x, (int)y);
-        
+    public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate c) {
+        double x = c.getX() + getXOffset();
+        double y = -c.getY() + getYOffset();
+        return new CartesianCoordinate((int) x, (int) y);
     }
+    
+    public CartesianCoordinate convertScreenToFieldCoordinates(CartesianCoordinate c) {
+        double x = c.getX() - getXOffset();
+        double y = -(c.getY() - getYOffset());
+        return new CartesianCoordinate(x, y);
+    }
+    
 
     public int getXOffset() {
         return xOffset;
@@ -165,12 +174,16 @@ public class CanvasPanel extends JPanel{
 
     public void setVisibleTrajectories(ArrayList<Trajectory> visibleTrajectories) {
         this.visibleTrajectories = visibleTrajectories;
-        populateControlPointers();//TODO: Delete this line.
-        populateBezierPointers();//TODO: Delete this line.
-        controlPointers.get(2).setState(State.SELECTED);
-        populateHelperPointers();//TODO: Delete this line.
-        addAllPointers();//TODO: Delete this line.
+        renderVisibleTrajectories();
         //TODO: Rerender visibleTrajectories.
+    }
+
+    public void renderVisibleTrajectories(){
+        populateControlPointers();
+        populateBezierPointers();
+        populateHelperPointers();
+        addAllPointers();
+        repaint();
     }
 
     private ArrayList<ControlPointer> getControlPointers() {
@@ -197,6 +210,53 @@ public class CanvasPanel extends JPanel{
         this.bezierPointers = bezierPointers;
     }
 
+    @Override
+    public void mouseClicked(MouseEvent e) {}
 
+    @Override
+    public void mousePressed(MouseEvent e) {
+        mousePreviousX = e.getX();
+        mousePreviousY = e.getY();
+        System.out.println("Pressed");
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+    
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        int mouseX = e.getX();
+        int mouseY = e.getY();
+        int dx = mouseX - mousePreviousX;
+        int dy = mouseY - mousePreviousY;
+    
+        setXOffset(getXOffset() + dx);
+        setYOffset(getYOffset() + dy);
+    
+        mousePreviousX = mouseX;
+        mousePreviousY = mouseY;
+    
+        renderVisibleTrajectories();
+    
+        System.out.println(getXOffset() + ", " + getYOffset());
+    }
+    
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
     
 }

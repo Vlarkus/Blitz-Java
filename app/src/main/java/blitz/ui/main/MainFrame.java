@@ -40,7 +40,9 @@ public class MainFrame extends JFrame{
         super(MainFrameConfig.FRAME_TITLE);
         constructMenuBar();
         constructFrame();
-        testing();
+        requestFocusInWindow();
+        toFront();
+        testing();// TODO: Delete this line.
     }
 
 
