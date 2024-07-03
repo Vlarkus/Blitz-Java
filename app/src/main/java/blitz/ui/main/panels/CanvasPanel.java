@@ -1,11 +1,18 @@
 package blitz.ui.main.panels;
 
+import java.awt.Point;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.ControlPoint;
@@ -18,8 +25,10 @@ import blitz.ui.main.pointers.Pointer.State;
 
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener{
 
-    private int xOffset, yOffset;
     private int mousePreviousX, mousePreviousY;
+
+    private JScrollPane scrollPane;
+
     private ArrayList<Trajectory> visibleTrajectories;
     private ArrayList<ControlPointer> controlPointers;
     private ArrayList<HelperPointer> helperPointers;
@@ -28,15 +37,13 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     public CanvasPanel(){
         
         setBackground(MainFrameConfig.CANVAS_PANEL_BACKGROUND_COLOR);
+        setPreferredSize(MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION);
         setLayout(null);
 
         visibleTrajectories = new ArrayList<Trajectory>();
         controlPointers = new ArrayList<ControlPointer>();
         bezierPointers = new ArrayList<BezierPointer>();
         helperPointers = new ArrayList<HelperPointer>();
-
-        setXOffset((int) MainFrameConfig.DEFAULT_OFFSET.getX());
-        setYOffset((int) MainFrameConfig.DEFAULT_OFFSET.getY());
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -140,32 +147,15 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate c) {
-        double x = c.getX() + getXOffset();
-        double y = -c.getY() + getYOffset();
+        double x = c.getX() + MainFrameConfig.CANVAS_PANEL_X_OFFSET;
+        double y = -c.getY() + MainFrameConfig.CANVAS_PANEL_Y_OFFSET;
         return new CartesianCoordinate((int) x, (int) y);
     }
     
     public CartesianCoordinate convertScreenToFieldCoordinates(CartesianCoordinate c) {
-        double x = c.getX() - getXOffset();
-        double y = -(c.getY() - getYOffset());
+        double x = c.getX() - MainFrameConfig.CANVAS_PANEL_X_OFFSET;
+        double y = -(c.getY() - MainFrameConfig.CANVAS_PANEL_Y_OFFSET);
         return new CartesianCoordinate(x, y);
-    }
-    
-
-    public int getXOffset() {
-        return xOffset;
-    }
-    
-    public void setXOffset(int xOffset) {
-        this.xOffset = xOffset;
-    }
-
-    public int getYOffset() {
-        return yOffset;
-    }
-
-    public void setYOffset(int yOffset) {
-        this.yOffset = yOffset;
     }
 
     public ArrayList<Trajectory> getVisibleTrajectories() {
@@ -210,14 +200,25 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         this.bezierPointers = bezierPointers;
     }
 
+    public void setScrollPane(JScrollPane p){
+        scrollPane = p;
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {}
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mousePreviousX = e.getX();
-        mousePreviousY = e.getY();
-        System.out.println("Pressed");
+        Point initialClick = e.getPoint();
+        SwingUtilities.invokeLater(() -> {
+            JViewport viewport = scrollPane.getViewport();
+            if (viewport != null) {
+                Point viewPos = viewport.getViewPosition();
+                initialClick.translate(viewPos.x, viewPos.y);
+                initialClick.setLocation(initialClick.x - viewPos.x, initialClick.y - viewPos.y);
+                viewport.setViewPosition(initialClick);
+            }
+        });
     }
 
     @Override
@@ -227,20 +228,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     @Override
     public void mouseDragged(MouseEvent e) {
-        int mouseX = e.getX();
-        int mouseY = e.getY();
-        int dx = mouseX - mousePreviousX;
-        int dy = mouseY - mousePreviousY;
-    
-        setXOffset(getXOffset() + dx);
-        setYOffset(getYOffset() + dy);
-    
-        mousePreviousX = mouseX;
-        mousePreviousY = mouseY;
-    
-        renderVisibleTrajectories();
-    
-        System.out.println(getXOffset() + ", " + getYOffset());
+        SwingUtilities.invokeLater(() -> {
+            JViewport viewport = scrollPane.getViewport();
+            if (viewport != null) {
+                Point viewPos = viewport.getViewPosition();
+                viewPos.translate(-e.getX(), -e.getY());
+                viewport.setViewPosition(viewPos);
+            }
+        });
     }
     
 

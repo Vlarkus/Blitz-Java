@@ -30,9 +30,11 @@ public class MainFrameConfig {
     
 
     // CanvasPanel
-    public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSIONS = new Dimension(0, 0);
+    public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSION = new Dimension(2000, 2000);
     public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#888888");
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
+    public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getWidth()) / 2;
+    public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getHeight()) / 2;
 
 
 

@@ -10,6 +10,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.ControlPoint;
@@ -28,6 +29,7 @@ public class MainFrame extends JFrame{
     private JPanel sidePanel;
     private InfoPanel infoPanel;
     private SelectionPanel SelectionPanel;
+    private JScrollPane scrollPane;
     
     private JMenuBar menuBar;
 
@@ -140,7 +142,11 @@ public class MainFrame extends JFrame{
         mainPanel.add(toolPanel, BorderLayout.WEST);
 
         canvasPanel = new CanvasPanel();
-        mainPanel.add(canvasPanel, BorderLayout.CENTER);
+        scrollPane = new JScrollPane(canvasPanel);
+        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        canvasPanel.setScrollPane(scrollPane);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         sidePanel = new JPanel();
         sidePanel.setPreferredSize(MainFrameConfig.SIDE_PANEL_PREFFERED_DIMENSIONS);
