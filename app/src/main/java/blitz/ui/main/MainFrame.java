@@ -2,6 +2,7 @@ package blitz.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 
 import javax.swing.BoxLayout;
@@ -11,6 +12,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JViewport;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.ControlPoint;
@@ -54,8 +56,8 @@ public class MainFrame extends JFrame{
 
         tr.addControlPoint(new ControlPoint("CP1"));
         tr.addControlPoint(new ControlPoint("CP2", 200, 200));
-        tr.addControlPoint(new ControlPoint("CP3", 300, 400, 100, 0, 50, 90));
-        tr.addControlPoint(new ControlPoint("CP4", 1000, 1000, 90.0, -90));
+        tr.addControlPoint(new ControlPoint("CP3", -150, 100, 100, 0, 50, 90));
+        tr.addControlPoint(new ControlPoint("CP4", -200, -100, 90.0, -90));
 
         canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
     }
@@ -146,6 +148,8 @@ public class MainFrame extends JFrame{
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         canvasPanel.setScrollPane(scrollPane);
+        JViewport viewport = scrollPane.getViewport();
+        viewport.setViewPosition(new Point( (int)(MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION.width/3), (int)(MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION.height/3)));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         sidePanel = new JPanel();

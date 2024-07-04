@@ -53,6 +53,7 @@ public class MainFrameConfig {
     public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getHeight()) / 2;
     public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-in.png";
     public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-out.png";
+    public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
 
 
 

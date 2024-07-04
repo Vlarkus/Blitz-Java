@@ -1,6 +1,7 @@
 package blitz.ui.main.panels;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Panel;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
@@ -10,8 +11,12 @@ import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
@@ -23,14 +28,17 @@ import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.servises.CartesianCoordinate;
+import blitz.servises.Utils;
 import blitz.ui.main.pointers.BezierPointer;
 import blitz.ui.main.pointers.ControlPointer;
 import blitz.ui.main.pointers.HelperPointer;
 import blitz.ui.main.pointers.Pointer.State;
+import blitz.ui.main.tools.Tool;
 
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener{
 
     private int mousePreviousX, mousePreviousY;
+    private BufferedImage field;
 
     private JScrollPane scrollPane;
 
@@ -49,6 +57,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         controlPointers = new ArrayList<ControlPointer>();
         bezierPointers = new ArrayList<BezierPointer>();
         helperPointers = new ArrayList<HelperPointer>();
+
+        setFieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -209,6 +219,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         scrollPane = p;
     }
 
+    public void setImageToRender(String path) {
+        try {
+            this.field = ImageIO.read(new File(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public void mouseClicked(MouseEvent e) {}
 
@@ -225,7 +243,38 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     @Override
     public void mouseDragged(MouseEvent e) {
-        calculatePanning(e);
+        switch (Tool.getSelectedTool()) {
+            case MOVE:
+                break;
+
+            case ADD:
+                break;
+            
+            case INSERT:
+                break;
+            
+            case REMOVE:
+                break;
+            
+            case CUT:
+                break;
+            
+            case SHOW_ROBOT:
+                break;
+            
+            case MERGE:
+                break;
+            
+            case RENDER_ALL:
+                break;
+
+            case PAN:
+                calculatePanning(e);
+                break;
+
+            case EDIT_TIME:
+                break;
+        }
     }
 
     private void calculatePanning(MouseEvent e){
@@ -262,6 +311,32 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void setFieldImage(String path) {
+        try {
+            field = ImageIO.read(new File(path));
+            resizeFieldImage(600, 600);
+            repaint();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void resizeFieldImage(int width, int height){
+        field = Utils.resizeImage(field, width, height);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+
+        // Draw the image at the center of the panel
+        if (field != null) {
+            int imageX = (getWidth() - field.getWidth()) / 2;
+            int imageY = (getHeight() - field.getHeight()) / 2;
+            g.drawImage(field, imageX, imageY, this);
+        }
     }
 
     public void activeTrajectoryChanged(Trajectory tr) {
