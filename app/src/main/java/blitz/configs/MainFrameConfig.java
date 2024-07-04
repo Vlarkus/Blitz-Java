@@ -21,7 +21,11 @@ public class MainFrameConfig {
     // ToolPanel
     public static final Dimension TOOL_PANEL_PREFFERED_DIMENSIONS = new Dimension(75, 0);
     public static final HexColor TOOL_PANEL_BACKGROUND_COLOR = new HexColor("#00ff00");
-    public static final Dimension TOOL_DIMENSIONS = new Dimension( (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75), (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75));
+    public static final HexColor TOOL_PANEL_TOOLS_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    public static final HexColor TOOL_PANEL_OPTIONS_BACKGROUND_COLOR = new HexColor("#aaaaaa");
+    public static final HexColor TOOL_PANEL_EXTRA_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    // public static final Dimension TOOL_DIMENSIONS = new Dimension( (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75), (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75));
+    public static final Dimension TOOL_DIMENSIONS = new Dimension(32, 32);
     public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/add.png";
     public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/cut.png";
     public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/insert.png";

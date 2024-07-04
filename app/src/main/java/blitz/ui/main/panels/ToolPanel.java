@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
-import javax.swing.BoxLayout;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 
@@ -32,20 +31,45 @@ public class ToolPanel extends JPanel {
         setBackground(MainFrameConfig.TOOL_PANEL_BACKGROUND_COLOR);
         setPreferredSize(MainFrameConfig.TOOL_PANEL_PREFFERED_DIMENSIONS);
 
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        setLayout(new GridBagLayout());
 
+        // Add these GridBagConstraints for the tools panel
         tools = new JPanel();
-        // tools.setPreferredSize(MainFrameConfig.TOOL_DIMENSIONS);
         tools.setLayout(new GridBagLayout());
-        add(tools);
+        tools.setBackground(MainFrameConfig.TOOL_PANEL_TOOLS_BACKGROUND_COLOR);
+        GridBagConstraints gbcTools = new GridBagConstraints();
+        gbcTools.gridx = 0;
+        gbcTools.gridy = 0;
+        gbcTools.weightx = 1;
+        gbcTools.weighty = 0;
+        gbcTools.fill = GridBagConstraints.HORIZONTAL;
+        add(tools, gbcTools);
 
+        
+        
         options = new JPanel();
+        options.setBackground(MainFrameConfig.TOOL_PANEL_OPTIONS_BACKGROUND_COLOR);
         options.setLayout(new GridBagLayout());
-        add(options);
-
+        GridBagConstraints gbcOptions = new GridBagConstraints();
+        gbcOptions.gridx = 0;
+        gbcOptions.gridy = 1;
+        gbcOptions.weightx = 1;
+        gbcOptions.weighty = 0;
+        gbcOptions.fill = GridBagConstraints.HORIZONTAL;
+        add(options, gbcOptions);
+        
+        // Add these GridBagConstraints for the extra panel
         extra = new JPanel();
+        extra.setBackground(MainFrameConfig.TOOL_PANEL_EXTRA_BACKGROUND_COLOR);
         extra.setLayout(new GridBagLayout());
-        add(extra);
+        GridBagConstraints gbcExtra = new GridBagConstraints();
+        gbcExtra.gridx = 0;
+        gbcExtra.gridy = 2;
+        gbcExtra.weightx = 1;
+        gbcExtra.weighty = 1;
+        gbcExtra.fill = GridBagConstraints.BOTH;
+        add(extra, gbcExtra);
+        // tools.setPreferredSize(MainFrameConfig.TOOL_DIMENSIONS);
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
