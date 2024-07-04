@@ -3,6 +3,8 @@ package blitz.ui.main.panels;
 import java.awt.Dimension;
 import java.awt.Panel;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseEvent;
@@ -17,6 +19,7 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
+import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.servises.CartesianCoordinate;
@@ -25,7 +28,7 @@ import blitz.ui.main.pointers.ControlPointer;
 import blitz.ui.main.pointers.HelperPointer;
 import blitz.ui.main.pointers.Pointer.State;
 
-public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener{
+public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener{
 
     private int mousePreviousX, mousePreviousY;
 
@@ -232,16 +235,15 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             int dy = e.getY() - mousePreviousY;
             Point viewPos = viewport.getViewPosition();
             viewPos.translate(-dx, -dy);
-            Dimension d = MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION;
-            if(d.getWidth() < viewPos.getX() - getWidth()){
-                viewPos.setLocation(d.getWidth(), viewPos.getY());
-            }
-            if(viewPos.getX() < 0){
-                viewPos.setLocation(0, viewPos.getY());
-            }
-            if(viewPos.getY() < 0){
-                viewPos.setLocation(viewPos.getX(), 0);
-            }
+
+            int maxX = Math.max(0, getWidth() - viewport.getWidth());
+            int maxY = Math.max(0, getHeight() - viewport.getHeight());
+
+            if (viewPos.x < 0) viewPos.x = 0;
+            if (viewPos.x > maxX) viewPos.x = maxX;
+            if (viewPos.y < 0) viewPos.y = 0;
+            if (viewPos.y > maxY) viewPos.y = maxY;
+
             viewport.setViewPosition(viewPos);
         }
     }
@@ -259,6 +261,16 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseExited(MouseEvent e) {
+
+    }
+
+    public void activeTrajectoryChanged(Trajectory tr) {
+        System.out.println("CanvasPanel: Active Trajectory Changed!");
+    }
+
+    public void activeControlPointChanged(ControlPoint cp) {
+        renderVisibleTrajectories();
+        System.out.println("CanvasPanel: Active ControlPoint Changed!");
 
     }
     

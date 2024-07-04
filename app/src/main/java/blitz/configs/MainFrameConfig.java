@@ -21,7 +21,17 @@ public class MainFrameConfig {
     // ToolPanel
     public static final Dimension TOOL_PANEL_PREFFERED_DIMENSIONS = new Dimension(75, 0);
     public static final HexColor TOOL_PANEL_BACKGROUND_COLOR = new HexColor("#00ff00");
-
+    public static final Dimension TOOL_DIMENSIONS = new Dimension( (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75), (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75));
+    public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/add.png";
+    public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/cut.png";
+    public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/insert.png";
+    public static final String PATH_TO_EDIT_TIME_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/edit-time.png";
+    public static final String PATH_TO_MERGE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/merge.png";
+    public static final String PATH_TO_MOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/move.png";
+    public static final String PATH_TO_PAN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/move.png";
+    public static final String PATH_TO_REMOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/remove.png";
+    public static final String PATH_TO_RENDER_ALL_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/render-all.png";
+    public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/show-robot.png";
 
 
     // sidePanel
@@ -35,6 +45,9 @@ public class MainFrameConfig {
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
     public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getWidth()) / 2;
     public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getHeight()) / 2;
+    public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-in.png";
+    public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-out.png";
+
 
 
 
@@ -42,13 +55,9 @@ public class MainFrameConfig {
     public static final Dimension INFO_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
     public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#0000ff");
 
-
-
     // SelectionPanel
     public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
     public static final HexColor SELECTION_PANEL_BACKGROUND_COLOR = new HexColor("#999999");
-
-
 
     // Pointers
 

@@ -4,7 +4,7 @@ import javax.swing.SwingUtilities;
 
 import blitz.ui.main.MainFrame;
 
-public class Main {
+public class Blitz {
     
     public static void main(String[] args) {
         System.out.println("\n\n\nApplication Started\n");

@@ -11,7 +11,7 @@ public class Active {
 
     private static Trajectory activeTrajectory;
     private static ControlPoint activeControlPoint;
-    private static ArrayList<ActiveListener> listeners = new ArrayList<ActiveListener>();
+    private static ArrayList<ActiveListener> listeners = new ArrayList<>();
 
     /**
      * Returns the active trajectory.
@@ -86,12 +86,4 @@ public class Active {
             listener.activeControlPointChanged(activeControlPoint);
         }
     }
-}
-
-/**
- * Listener interface for receiving notifications about changes to the active trajectory and control point.
- */
-interface ActiveListener {
-    public void activeTrajectoryChanged(Trajectory tr);
-    public void activeControlPointChanged(ControlPoint cp);
 }

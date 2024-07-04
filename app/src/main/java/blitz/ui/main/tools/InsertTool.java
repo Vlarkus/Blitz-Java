@@ -1,5 +1,11 @@
 package blitz.ui.main.tools;
 
-public class InsertTool {
+import blitz.configs.MainFrameConfig;
+
+public class InsertTool extends Tool{
+    
+    public InsertTool(){
+        super(MainFrameConfig.PATH_TO_INSERT_TOOL_ICON, Tools.INSERT);
+    }
     
 }
