@@ -25,7 +25,7 @@ public class MainFrameConfig {
     public static final HexColor TOOL_PANEL_OPTIONS_BACKGROUND_COLOR = new HexColor("#aaaaaa");
     public static final HexColor TOOL_PANEL_EXTRA_BACKGROUND_COLOR = new HexColor("#eeeeee");
     // public static final Dimension TOOL_DIMENSIONS = new Dimension( (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75), (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75));
-    public static final Dimension TOOL_DIMENSIONS = new Dimension(32, 32);
+    public static final Dimension TOOL_DIMENSIONS = new Dimension(64, 64);
     public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/add.png";
     public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/cut.png";
     public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/insert.png";
@@ -36,6 +36,8 @@ public class MainFrameConfig {
     public static final String PATH_TO_REMOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/remove.png";
     public static final String PATH_TO_RENDER_ALL_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/render-all.png";
     public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/show-robot.png";
+    public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/selected-tool-background.png";
+    public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/unselected-tool-background.png";
 
 
     // sidePanel
