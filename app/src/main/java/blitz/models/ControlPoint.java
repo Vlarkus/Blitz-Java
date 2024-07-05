@@ -5,7 +5,7 @@ import blitz.servises.CartesianCoordinate;
 import blitz.servises.PolarCoordinate;
 import blitz.servises.Utils;
 
-public class ControlPoint {
+public final class ControlPoint {
     
     // -=-=-=- FIELDS -=-=-=-
 
@@ -37,14 +37,14 @@ public class ControlPoint {
      * @param tE    theta of End Helper Point
      */
     public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE, int numSegments, double time) {
-        setName(name);
+        setName(isValidName(name)? name : "ControlPoint");
         setPosition(x, y);
         setRStart(rS);
         setThetaStart(tS);
         setREnd(rE);
         setThetaEnd(tE);
-        setNumSegments(numSegments);
-        setTime(time);
+        setNumSegments(isValidNumSegments(numSegments)? numSegments : ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS);
+        setTime(isValidTime(time)? time : ModelsConfig.CONTROL_POINT_MIN_TIME);
     }
 
     public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
@@ -77,7 +77,8 @@ public class ControlPoint {
      * @param name the name to set
      */
     public void setName(String name) {
-        this.name = name;
+        if(isValidName(name))
+            this.name = name;
     }
 
     /**
@@ -89,20 +90,43 @@ public class ControlPoint {
         return name;
     }
 
+    public boolean isValidName(String name){
+        if(name != null && !name.isEmpty()){
+            return true;
+        }
+        return false;
+    }
+
     public int getNumSegments() {
         return numSegments;
     }
 
+    public boolean isValidNumSegments(int numSegments){
+        if(ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS <= numSegments && numSegments <= ModelsConfig.CONTROL_POINT_MAX_NUM_SEGMENTS){
+            return true;
+        }
+        return false;
+    }
+
     public void setNumSegments(int numSegments) {
-        this.numSegments = numSegments;
+        if(isValidNumSegments(numSegments))
+            this.numSegments = numSegments;
     }
 
     public double getTime() {
         return time;
     }
 
+    public boolean isValidTime(double time){
+        if(ModelsConfig.CONTROL_POINT_MIN_TIME <= time){
+            return true;
+        }
+        return false;
+    }
+
     public void setTime(double time) {
-        this.time = time;
+        if(isValidTime(time))
+            this.time = time;
     }
 
     /**

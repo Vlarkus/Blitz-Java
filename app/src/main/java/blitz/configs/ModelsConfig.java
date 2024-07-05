@@ -12,6 +12,8 @@ public class ModelsConfig {
     public static final double CONTROL_POINT_DEFAULT_THETA_END = 180;
     public static final int CONTROL_POINT_DEFAULT_NUM_SEGMENTS = 20;
     public static final double CONTROL_POINT_DEFAULT_TIME = 0;
-
+    public static final int CONTROL_POINT_MIN_NUM_SEGMENTS = 2;
+    public static final double CONTROL_POINT_MAX_NUM_SEGMENTS = 200;
+    public static final double CONTROL_POINT_MIN_TIME = 0;
     
 }

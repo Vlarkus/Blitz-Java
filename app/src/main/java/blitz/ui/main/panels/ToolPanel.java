@@ -3,10 +3,13 @@ package blitz.ui.main.panels;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 import blitz.configs.MainFrameConfig;
 import blitz.ui.main.tools.AddTool;
@@ -114,8 +117,15 @@ public class ToolPanel extends JPanel implements ToolListener{
             case RENDER_ALL:
                 for(Tool tool : toolList) {
                     if(tool.getTool() == Tool.getPreviousTool()) {
-                        toolGroup.clearSelection();
-                        tool.setSelected(true);
+                        Timer timer = new Timer(MainFrameConfig.RENDER_ALL_DELAY, new ActionListener() {
+                            @Override
+                            public void actionPerformed(ActionEvent e) {
+                                toolGroup.clearSelection();
+                                tool.setSelected(true);
+                            }
+                        });
+                        timer.setRepeats(false);
+                        timer.start();
                         break;
                     }
                 }

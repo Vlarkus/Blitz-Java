@@ -43,6 +43,8 @@ public class MainFrameConfig {
     public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/show-robot.png";
     public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/selected-tool-background.png";
     public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/unselected-tool-background.png";
+    public static final int RENDER_ALL_DELAY = 200;
+
 
 
     // sidePanel
