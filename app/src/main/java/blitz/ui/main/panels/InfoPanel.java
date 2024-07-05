@@ -52,6 +52,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
         gbc.insets = new Insets(5, 10, 5, 10);
 
         JLabel infoLabel = new JLabel("Info Panel", SwingConstants.CENTER);
+        infoLabel.setFont(MainFrameConfig.INFO_PANEL_TITLE_LABEL_FONT);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -60,52 +61,116 @@ public class InfoPanel extends JPanel implements ActiveListener{
         gbc.gridwidth = 1;
         gbc.gridy++;
 
-        // Left column
+        // Left column fields
         gbc.gridx = 0;
-        addField(gbc, "x:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getX()) : "", (value) -> {
+        addField(gbc, "x:", () -> {
             if (activeControlPoint != null) {
-                activeControlPoint.setX(parseDouble(value, activeControlPoint.getX()));
+                return String.valueOf(activeControlPoint.getX());
             }
-        });
-        addField(gbc, "r start:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getRStart()) : "", (value) -> {
+            return "";
+        }, (value) -> {
             if (activeControlPoint != null) {
-                activeControlPoint.setRStart(parseDouble(value, activeControlPoint.getRStart()));
-            }
-        });
-        addField(gbc, "r end:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getREnd()) : "", (value) -> {
-            if (activeControlPoint != null) {
-                activeControlPoint.setREnd(parseDouble(value, activeControlPoint.getREnd()));
-            }
-        });
-        addField(gbc, "num segments:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getNumSegments()) : "", (value) -> {
-            if (activeControlPoint != null) {
-                activeControlPoint.setNumSegments(parseInt(value, activeControlPoint.getNumSegments()));
+                double parsedValue = parseDouble(value, activeControlPoint.getX());
+                activeControlPoint.setX(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
             }
         });
 
-        // Right column
+        addField(gbc, "r start:", () -> {
+            if (activeControlPoint != null) {
+                return String.valueOf(activeControlPoint.getRStart());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                double parsedValue = parseDouble(value, activeControlPoint.getRStart());
+                activeControlPoint.setRStart(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
+            }
+        });
+
+        addField(gbc, "r end:", () -> {
+            if (activeControlPoint != null) {
+                return String.valueOf(activeControlPoint.getREnd());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                double parsedValue = parseDouble(value, activeControlPoint.getREnd());
+                activeControlPoint.setREnd(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
+            }
+        });
+
+        addField(gbc, "num segments:", () -> {
+            if (activeControlPoint != null) {
+                return String.valueOf(activeControlPoint.getNumSegments());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                int parsedValue = parseInt(value, activeControlPoint.getNumSegments());
+                activeControlPoint.setNumSegments(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
+            }
+        });
+
+        // Right column fields
         gbc.gridx = 1;
         gbc.gridy = 1;
-        addField(gbc, "y:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getY()) : "", (value) -> {
+
+        addField(gbc, "y:", () -> {
             if (activeControlPoint != null) {
-                activeControlPoint.setY(parseDouble(value, activeControlPoint.getY()));
+                return String.valueOf(activeControlPoint.getY());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                double parsedValue = parseDouble(value, activeControlPoint.getY());
+                activeControlPoint.setY(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
             }
         });
-        addField(gbc, "theta start:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getThetaStart()) : "", (value) -> {
+
+        addField(gbc, "theta start:", () -> {
             if (activeControlPoint != null) {
-                activeControlPoint.setThetaStart(parseDouble(value, activeControlPoint.getThetaStart()));
+                return String.valueOf(activeControlPoint.getThetaStart());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                double parsedValue = parseDouble(value, activeControlPoint.getThetaStart());
+                activeControlPoint.setThetaStart(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
             }
         });
-        addField(gbc, "theta end:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getThetaEnd()) : "", (value) -> {
+
+        addField(gbc, "theta end:", () -> {
             if (activeControlPoint != null) {
-                activeControlPoint.setThetaEnd(parseDouble(value, activeControlPoint.getThetaEnd()));
+                return String.valueOf(activeControlPoint.getThetaEnd());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                double parsedValue = parseDouble(value, activeControlPoint.getThetaEnd());
+                activeControlPoint.setThetaEnd(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
             }
         });
-        addField(gbc, "time:", () -> activeControlPoint != null ? String.valueOf(activeControlPoint.getTime()) : "", (value) -> {
+
+        addField(gbc, "time:", () -> {
             if (activeControlPoint != null) {
-                activeControlPoint.setTime(parseDouble(value, activeControlPoint.getTime()));
+                return String.valueOf(activeControlPoint.getTime());
+            }
+            return "";
+        }, (value) -> {
+            if (activeControlPoint != null) {
+                double parsedValue = parseDouble(value, activeControlPoint.getTime());
+                activeControlPoint.setTime(parsedValue);
+                Active.notifyActiveControlPointStateEdited();
             }
         });
+
     }
 
     /**
@@ -118,6 +183,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
      */
     private void addField(GridBagConstraints gbc, String labelText, ValueGetter getter, ValueSetter setter) {
         JLabel label = new JLabel(labelText, SwingConstants.LEFT);
+        label.setFont(MainFrameConfig.INFO_PANEL_NORMAL_LABEL_FONT);
         gbc.gridy++;
         gbc.insets = new Insets(10, 10, 1, 10);
         add(label, gbc);
@@ -138,6 +204,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
                 String newValue = textField.getText();
                 try {
                     setter.setValue(newValue);
+                    textField.setText(getter.getValue());
                 } catch (NumberFormatException ex) {
                     textField.setText(oldValue);
                 }
@@ -153,6 +220,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
                     String newValue = textField.getText();
                     try {
                         setter.setValue(newValue);
+                        textField.setText(getter.getValue());
                     } catch (NumberFormatException ex) {
                         textField.setText(oldValue);
                     }

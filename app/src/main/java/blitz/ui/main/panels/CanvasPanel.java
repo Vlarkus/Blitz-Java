@@ -400,11 +400,12 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
-        for (BezierPointer bezierPointer : bezierPointers) {
-            if(bezierPointer.getRelatedControlPoint().equals(cp)){
-                bezierPointers.remove(bezierPointer);
-            }
-        }
+        // for (BezierPointer bezierPointer : bezierPointers) {
+        //     if(bezierPointer.getRelatedControlPoint().equals(cp)){
+        //         bezierPointers.remove(bezierPointer);
+        //     }
+        // }
+        renderVisibleTrajectories();
     }
     
 }

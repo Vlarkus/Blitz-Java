@@ -1,6 +1,7 @@
 package blitz.configs;
 
 import java.awt.Dimension;
+import java.awt.Font;
 
 import blitz.servises.CartesianCoordinate;
 import blitz.servises.HexColor;
@@ -70,6 +71,8 @@ public class MainFrameConfig {
     // InfoPanel
     public static final Dimension INFO_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
     public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    public static final Font INFO_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
+    public static final Font INFO_PANEL_NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
 
     // SelectionPanel
     public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
