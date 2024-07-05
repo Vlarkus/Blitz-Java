@@ -18,6 +18,12 @@ public class MainFrameConfig {
 
 
 
+    // MenuBar
+
+    public static final String PATH_TO_FIELDS_DIRECTORY = "app/src/main/java/blitz/resources/images/fields";
+
+
+
     // ToolPanel
     public static final Dimension TOOL_PANEL_PREFFERED_DIMENSIONS = new Dimension(75, 0);
     public static final HexColor TOOL_PANEL_BACKGROUND_COLOR = new HexColor("#00ff00");

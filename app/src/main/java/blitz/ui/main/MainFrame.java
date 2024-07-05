@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -18,6 +19,8 @@ import blitz.configs.MainFrameConfig;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
+import blitz.servises.FieldImage;
+import blitz.servises.Utils;
 import blitz.ui.main.panels.CanvasPanel;
 import blitz.ui.main.panels.InfoPanel;
 import blitz.ui.main.panels.SelectionPanel;
@@ -34,6 +37,7 @@ public class MainFrame extends JFrame{
     private JScrollPane scrollPane;
     
     private JMenuBar menuBar;
+    private ArrayList<FieldImage> fieldImages;
 
     // -=-=-=- CONSTRUCTOR -=-=-=-
 
@@ -102,14 +106,28 @@ public class MainFrame extends JFrame{
         JMenu changeFieldMenu = new JMenu("Change Field");
         viewMenu.add(changeFieldMenu);
 
-        JMenuItem matchFieldOption = new JMenuItem("Field Image Name.png");
-        matchFieldOption.addActionListener((ActionEvent e) -> {});
-        changeFieldMenu.add(matchFieldOption);
+        fillChangeFieldMenu(changeFieldMenu);
         
         // View Options
         JMenuItem viewSettingsMenu = new JMenuItem("View Options");
         viewMenu.add(viewSettingsMenu);
         viewSettingsMenu.addActionListener((ActionEvent e) -> {});
+
+    }
+
+    private void fillChangeFieldMenu(JMenu changeFieldMenu){
+
+        fieldImages = Utils.searchForPngImages(MainFrameConfig.PATH_TO_FIELDS_DIRECTORY);
+
+        System.out.println(fieldImages.size());
+
+        for (FieldImage fieldImage : fieldImages) {
+            System.out.println(fieldImage.toString());
+            System.out.println();
+            JMenuItem matchFieldOption = new JMenuItem(fieldImage.getFieldName());
+            matchFieldOption.addActionListener((ActionEvent e) -> {canvasPanel.setFieldImage(fieldImage.getPath());});
+            changeFieldMenu.add(matchFieldOption);
+        }
 
     }
 

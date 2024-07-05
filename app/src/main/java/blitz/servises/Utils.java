@@ -3,6 +3,10 @@ package blitz.servises;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.util.ArrayList;
+
+import blitz.configs.ServicesConfig;
 
 public class Utils {
     
@@ -49,6 +53,30 @@ public class Utils {
         graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
         graphics2D.dispose();
         return resizedImage;
+    }
+
+    public static ArrayList<FieldImage> searchForPngImages(String folderPath) {
+        ArrayList<FieldImage> fieldImages = new ArrayList<>();
+        File folder = new File(folderPath);
+
+        if (folder.isDirectory()) {
+            File[] files = folder.listFiles();
+
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile() && file.getName().toLowerCase().endsWith(ServicesConfig.FIELD_IMAGE_EXTENSION)) {
+                        try{
+                            FieldImage image = new FieldImage(file.getPath());
+                            fieldImages.add(image);
+                        } catch(IllegalArgumentException e){}
+                    }
+                }
+            }
+        } else {
+            System.out.println("The specified path is not a directory.");
+        }
+
+        return fieldImages;
     }
 
 
