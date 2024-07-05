@@ -122,10 +122,9 @@ public class MainFrame extends JFrame{
         System.out.println(fieldImages.size());
 
         for (FieldImage fieldImage : fieldImages) {
-            System.out.println(fieldImage.toString());
             System.out.println();
             JMenuItem matchFieldOption = new JMenuItem(fieldImage.getFieldName());
-            matchFieldOption.addActionListener((ActionEvent e) -> {canvasPanel.setFieldImage(fieldImage.getPath());});
+            matchFieldOption.addActionListener((ActionEvent e) -> {canvasPanel.setFieldImage(fieldImage);});
             changeFieldMenu.add(matchFieldOption);
         }
 

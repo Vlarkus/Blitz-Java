@@ -28,6 +28,7 @@ import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.servises.CartesianCoordinate;
+import blitz.servises.FieldImage;
 import blitz.servises.Utils;
 import blitz.ui.main.pointers.BezierPointer;
 import blitz.ui.main.pointers.ControlPointer;
@@ -58,7 +59,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         bezierPointers = new ArrayList<BezierPointer>();
         helperPointers = new ArrayList<HelperPointer>();
 
-        setFieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD);
+        try {
+            setFieldImage(new FieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD));
+        } catch(Exception e){
+            setFieldImage(null);
+        }
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -313,13 +318,17 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     }
 
-    public void setFieldImage(String path) {
+    public void setFieldImage(FieldImage fieldImage) {
         try {
-            field = ImageIO.read(new File(path));
+            if(fieldImage == null){
+                field = null;
+                return;
+            }
+            field = ImageIO.read(new File(fieldImage.getPath()));
             resizeFieldImage(600, 600);
             repaint();
         } catch (IOException e) {
-            e.printStackTrace();
+
         }
     }
 
