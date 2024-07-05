@@ -19,6 +19,7 @@ public abstract class Tool extends JRadioButton{
     protected static Tools selectedTool;
     
     protected Tools tool;
+    
     public enum Tools{
         ADD,
         CUT,
@@ -113,6 +114,22 @@ public abstract class Tool extends JRadioButton{
         if (frontIcon != null) {
             g.drawImage(frontIcon.getImage(), 0, 0, getWidth(), getHeight(), null);
         }
+    }
+
+    public ImageIcon getFrontIcon() {
+        return frontIcon;
+    }
+
+    public ImageIcon getBackSelectedIcon() {
+        return backSelectedIcon;
+    }
+
+    public ImageIcon getBackUnselectedIcon() {
+        return backUnselectedIcon;
+    }
+
+    public static ArrayList<ToolListener> getListeners() {
+        return listeners;
     }
 
 }

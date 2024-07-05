@@ -5,6 +5,8 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
@@ -115,22 +117,33 @@ public class ToolPanel extends JPanel implements ToolListener{
     public void selectedToolChanged(Tools newSelectedTool) {
         switch (newSelectedTool) {
             case RENDER_ALL:
-                for(Tool tool : toolList) {
-                    if(tool.getTool() == Tool.getPreviousTool()) {
-                        Timer timer = new Timer(MainFrameConfig.RENDER_ALL_DELAY, new ActionListener() {
-                            @Override
-                            public void actionPerformed(ActionEvent e) {
-                                toolGroup.clearSelection();
-                                tool.setSelected(true);
-                            }
-                        });
-                        timer.setRepeats(false);
-                        timer.start();
-                        break;
+                Timer timer = new Timer(MainFrameConfig.RENDER_ALL_DELAY, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        setActiveTool(Tool.getPreviousTool());
                     }
-                }
+                });
+                timer.setRepeats(false);
+                timer.start();
                 break;
         }
 
     }
+
+    private Tool getTool(Tools t){
+        for (Tool tool : toolList) {
+            if(tool.getTool() == t){
+                return tool;
+            }
+        }
+        return null;
+    }
+
+    public void setActiveTool(Tools t){
+        toolGroup.clearSelection();
+        getTool(t).setSelected(true);
+    }
+
+    
+
 }

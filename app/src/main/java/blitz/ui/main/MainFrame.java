@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
@@ -25,8 +27,9 @@ import blitz.ui.main.panels.CanvasPanel;
 import blitz.ui.main.panels.InfoPanel;
 import blitz.ui.main.panels.SelectionPanel;
 import blitz.ui.main.panels.ToolPanel;
+import blitz.ui.main.tools.Tool.Tools;
 
-public class MainFrame extends JFrame{
+public class MainFrame extends JFrame implements KeyListener{
     
     private JPanel mainPanel;
     private ToolPanel toolPanel;
@@ -50,6 +53,7 @@ public class MainFrame extends JFrame{
         constructFrame();
         requestFocusInWindow();
         toFront();
+        addKeyListener(this);
         testing();// TODO: Delete this line.
     }
 
@@ -180,4 +184,60 @@ public class MainFrame extends JFrame{
 
     }
     
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        int code = e.getKeyCode();
+        switch (code) {
+            case KeyEvent.VK_V:
+                toolPanel.setActiveTool(Tools.MOVE);
+                break;
+
+            case KeyEvent.VK_A:
+                toolPanel.setActiveTool(Tools.ADD);
+                break;
+
+            case KeyEvent.VK_I:
+                toolPanel.setActiveTool(Tools.INSERT);
+                break;
+
+            case KeyEvent.VK_D:
+                toolPanel.setActiveTool(Tools.REMOVE);
+                break;
+
+            case KeyEvent.VK_C:
+                toolPanel.setActiveTool(Tools.CUT);
+                break;
+
+            case KeyEvent.VK_S:
+                toolPanel.setActiveTool(Tools.SHOW_ROBOT);
+                break;
+
+            case KeyEvent.VK_M:
+                toolPanel.setActiveTool(Tools.MERGE);
+                break;
+
+            case KeyEvent.VK_R:
+                toolPanel.setActiveTool(Tools.RENDER_ALL);
+                break;
+
+            case KeyEvent.VK_P:
+                toolPanel.setActiveTool(Tools.PAN);
+                break;
+
+            case KeyEvent.VK_T:
+                toolPanel.setActiveTool(Tools.EDIT_TIME);
+                break;
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+
 }

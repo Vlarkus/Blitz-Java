@@ -285,7 +285,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mousePressed(MouseEvent e) {
-        System.out.println("Pressed");
         mousePreviousX = e.getX();
         mousePreviousY = e.getY();
         switch (Tool.getSelectedTool()) {
