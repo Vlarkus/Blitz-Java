@@ -19,6 +19,7 @@ import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
+import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 import blitz.servises.CartesianCoordinate;
 import blitz.servises.FieldImage;
@@ -296,6 +297,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
 
             case ADD:
+                addControlPointToSelectedTrajectory(e.getX(), e.getY());
                 break;
             
             case INSERT:
@@ -344,6 +346,19 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         }
         selectedHelperPointer = null;
     }
+
+    public void addControlPointToSelectedTrajectory(int x, int y){
+        Trajectory tr = Active.getActiveTrajectory();
+        if(tr != null){
+            CartesianCoordinate c = convertScreenToFieldCoordinates(new CartesianCoordinate(x, y));
+            ControlPoint cp = new ControlPoint(tr.getNextAvaliableName(), c.getX(), c.getY());
+            tr.addControlPoint(cp);
+            Active.setActiveControlPoint(cp);
+        }
+    }
+
+
+
     
     @Override
     public void mouseDragged(MouseEvent e) {
@@ -426,7 +441,38 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     @Override
     public void mouseReleased(MouseEvent e) {
+        switch (Tool.getSelectedTool()) {
+            case MOVE:
+                break;
 
+            case ADD:
+                break;
+            
+            case INSERT:
+                break;
+            
+            case REMOVE:
+                break;
+            
+            case CUT:
+                break;
+            
+            case SHOW_ROBOT:
+                break;
+            
+            case MERGE:
+                break;
+            
+            case RENDER_ALL:
+                break;
+
+            case PAN:
+
+                break;
+
+            case EDIT_TIME:
+                break;
+        }
     }
 
     @Override

@@ -55,7 +55,14 @@ public class Trajectory {
         controlPoints.add(cp);
     }
 
-    
+    public void addControlPoint(double x, double y){
+        controlPoints.add(new ControlPoint(getNextAvaliableName(), x, y));
+    }
+
+    public void addControlPoint(CartesianCoordinate c){
+        controlPoints.add(new ControlPoint(getNextAvaliableName(), c.getX(), c.getY()));
+    }
+
     public void insertControlPoint(int index, ControlPoint cp){
         controlPoints.add(index, cp);
     }
@@ -145,6 +152,20 @@ public class Trajectory {
         return bezierCoordinates;
     }
 
+    public String getNextAvaliableName(){
+        
+        String name = "Control Point 1";
+        int i = 1;
+        boolean nameIsTaken = true;
+        while(nameIsTaken) { 
+            name = "Control Point " + ++i;
+            nameIsTaken = false;
+            for (ControlPoint cp : controlPoints)
+                if(cp.getName().equals(name))
+                    nameIsTaken = true;
+        }
+        return name;
+    }
 
     
 }
