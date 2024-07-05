@@ -31,6 +31,7 @@ public abstract class Pointer extends JComponent{
         this.color = color;
     }
     
+    @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.setColor(color);

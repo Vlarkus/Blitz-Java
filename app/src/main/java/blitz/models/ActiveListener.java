@@ -6,4 +6,5 @@ package blitz.models;
 public interface ActiveListener {
     public void activeTrajectoryChanged(Trajectory tr);
     public void activeControlPointChanged(ControlPoint cp);
+    public void activeControlPointStateEdited(ControlPoint cp);
 }

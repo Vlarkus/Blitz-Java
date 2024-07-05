@@ -90,4 +90,8 @@ public class MainFrameConfig {
     public static final HexColor DEFAULT_HELPER_POINTER_COLOR = new HexColor("#f57e1d");
     public  static final int HELPER_POINTER_DIAMETER = 13;
 
+    // HelperLine
+    public static final float HELPER_LINE_THICKNESS = 3f;
+    public static final HexColor HELPER_LINE_COLOR = new HexColor("f57e1d");
+
 }

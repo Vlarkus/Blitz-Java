@@ -121,7 +121,6 @@ public class ToolPanel extends JPanel implements ToolListener{
                 }
                 break;
         }
-        System.out.println("Selected: " + Tool.getSelectedTool() + ", Previous: " + Tool.getPreviousTool());
 
     }
 }

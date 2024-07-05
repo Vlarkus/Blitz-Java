@@ -86,4 +86,10 @@ public class Active {
             listener.activeControlPointChanged(activeControlPoint);
         }
     }
+
+    public static void notifyActiveControlPointStateEdited(){
+        for (ActiveListener listener : listeners) {
+            listener.activeControlPointStateEdited(activeControlPoint);
+        }
+    }
 }

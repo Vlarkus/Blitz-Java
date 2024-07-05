@@ -237,4 +237,9 @@ public class InfoPanel extends JPanel implements ActiveListener{
         activeControlPoint = cp;
         updateTextFields();
     }
+
+    @Override
+    public void activeControlPointStateEdited(ControlPoint cp) {
+        
+    }
 }

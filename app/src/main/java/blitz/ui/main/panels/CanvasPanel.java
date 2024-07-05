@@ -23,6 +23,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
+import org.checkerframework.checker.optional.qual.PolyPresent;
+
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
@@ -33,6 +35,7 @@ import blitz.servises.FieldImage;
 import blitz.servises.Utils;
 import blitz.ui.main.pointers.BezierPointer;
 import blitz.ui.main.pointers.ControlPointer;
+import blitz.ui.main.pointers.HelperLine;
 import blitz.ui.main.pointers.HelperPointer;
 import blitz.ui.main.pointers.Pointer.State;
 import blitz.ui.main.tools.Tool;
@@ -49,6 +52,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     private ArrayList<Trajectory> visibleTrajectories;
     private ArrayList<ControlPointer> controlPointers;
     private ArrayList<HelperPointer> helperPointers;
+    private ArrayList<HelperLine> helperLines;
     private ArrayList<BezierPointer> bezierPointers;
 
     public CanvasPanel(){
@@ -87,6 +91,10 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         helperPointers = new ArrayList<HelperPointer>();
     }
 
+    private void clearHelperLines(){
+        helperLines = new ArrayList<HelperLine>();
+    }
+
     private void populateControlPointers(){
         
         clearControlPointers();
@@ -97,7 +105,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 CartesianCoordinate coordinate = convertFieldToScreenCoordinates(cp.getPosition());
                 int x = (int) coordinate.getX();
                 int y = (int) coordinate.getY();
-                controlPointers.add( new ControlPointer(x, y, cp) );
+                ControlPointer pointer = new ControlPointer(x, y, cp);
+                if(cp.equals(Active.getActiveControlPoint())){
+                    pointer.setState(State.SELECTED);
+                }
+                controlPointers.add(pointer);
 
             }
         }
@@ -131,44 +143,60 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     }
 
-    private void populateHelperPointers(){
-
+    private void populateHelperPointers() {
         clearHelperPointers();
-
+        clearHelperLines();
+    
         for (ControlPointer p : controlPointers) {
-            
-            if(p.getState() == State.SELECTED){
+            if (p.getState() == State.SELECTED) {
                 ControlPoint cp = p.getRelatedControlPoint();
-
-                CartesianCoordinate helperStart = convertFieldToScreenCoordinates(cp.getAbsStartHelperPos());
-                helperPointers.add(new HelperPointer((int)helperStart.getX(), (int)helperStart.getY(), cp, true));
-
-                CartesianCoordinate endStart = convertFieldToScreenCoordinates(cp.getAbsEndHelperPos());
-                helperPointers.add(new HelperPointer((int)endStart.getX(), (int)endStart.getY(), cp, false));
+    
+                CartesianCoordinate helperStartCoord = convertFieldToScreenCoordinates(cp.getAbsStartHelperPos());
+                HelperPointer helperStartPointer = new HelperPointer((int) helperStartCoord.getX(), (int) helperStartCoord.getY(), cp, true);
+                helperPointers.add(helperStartPointer);
+                createHelperLine(helperStartPointer);
+    
+                CartesianCoordinate endStartCoord = convertFieldToScreenCoordinates(cp.getAbsEndHelperPos());
+                HelperPointer helperEndPointer = new HelperPointer((int) endStartCoord.getX(), (int) endStartCoord.getY(), cp, false);
+                helperPointers.add(helperEndPointer);
+                createHelperLine(helperEndPointer);
             }
-
         }
-
+    }
+    
+    private void createHelperLine(HelperPointer p) {
+        int x1 = p.getCenterX();
+        int y1 = p.getCenterY();
+        ControlPoint cp = p.getRelatedControlPoint();
+        CartesianCoordinate c = convertFieldToScreenCoordinates(new CartesianCoordinate(cp.getX(), cp.getY()));
+        int x2 = (int) c.getX();
+        int y2 = (int) c.getY();
+        HelperLine line = new HelperLine(x1, y1, x2, y2);
+    
+        helperLines.add(line);
     }
 
-    private void addAllPointers(){
-
+    private void addAllComponents() {
         removeAll();
-
+    
         for (HelperPointer p : helperPointers) {
             add(p);
         }
-
+    
         for (ControlPointer p : controlPointers) {
             add(p);
         }
 
+        for (HelperLine l : helperLines) {
+            add(l);
+        }
+    
+        
+    
         for (BezierPointer p : bezierPointers) {
             add(p);
         }
-
-        
-
+        repaint();
     }
 
     public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate c) {
@@ -197,7 +225,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         populateControlPointers();
         populateBezierPointers();
         populateHelperPointers();
-        addAllPointers();
+        addAllComponents();
         repaint();
     }
 
@@ -365,9 +393,17 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     public void selectedToolChanged(Tools tool) {
         switch (tool) {
             case RENDER_ALL:
-                System.out.println("CanvasPanel - selectedToolChanged()");
                 renderVisibleTrajectories();
                 break;
+        }
+    }
+
+    @Override
+    public void activeControlPointStateEdited(ControlPoint cp) {
+        for (BezierPointer bezierPointer : bezierPointers) {
+            if(bezierPointer.getRelatedControlPoint().equals(cp)){
+                bezierPointers.remove(bezierPointer);
+            }
         }
     }
     

@@ -61,11 +61,11 @@ public class MainFrame extends JFrame{
 
         tr.addControlPoint(new ControlPoint("CP1"));
         tr.addControlPoint(new ControlPoint("CP2", 200, 200));
-        tr.addControlPoint(new ControlPoint("CP3", -150, 100, 100, 0, 50, 90));
+        tr.addControlPoint(new ControlPoint("CP3", -150, 100, 100, 45, 50, 90));
         tr.addControlPoint(new ControlPoint("CP4", -200, -100, 90.0, -90));
 
         canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
-        Active.setActiveControlPoint(tr.getControlPoint(1));
+        Active.setActiveControlPoint(tr.getControlPoint("CP3"));
     }
 
 
