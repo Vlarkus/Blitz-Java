@@ -69,6 +69,7 @@ public class MainFrameConfig {
     public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-out.png";
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
 
+    public static final int PIXELS_IN_ONE_INCH = 36;
 
 
 

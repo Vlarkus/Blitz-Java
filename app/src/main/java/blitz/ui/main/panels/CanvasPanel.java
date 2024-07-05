@@ -210,14 +210,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate c) {
-        double x = c.getX() + MainFrameConfig.CANVAS_PANEL_X_OFFSET;
-        double y = -c.getY() + MainFrameConfig.CANVAS_PANEL_Y_OFFSET;
+        double x = (c.getX()  * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_X_OFFSET;
+        double y = (-c.getY() * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_Y_OFFSET;
         return new CartesianCoordinate((int) x, (int) y);
     }
     
     public CartesianCoordinate convertScreenToFieldCoordinates(CartesianCoordinate c) {
-        double x = c.getX() - MainFrameConfig.CANVAS_PANEL_X_OFFSET;
-        double y = -(c.getY() - MainFrameConfig.CANVAS_PANEL_Y_OFFSET);
+        double x = (c.getX() - MainFrameConfig.CANVAS_PANEL_X_OFFSET) / MainFrameConfig.PIXELS_IN_ONE_INCH;
+        double y = (-(c.getY() - MainFrameConfig.CANVAS_PANEL_Y_OFFSET)) / MainFrameConfig.PIXELS_IN_ONE_INCH;
         return new CartesianCoordinate(x, y);
     }
 
@@ -523,7 +523,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 return;
             }
             field = ImageIO.read(new File(fieldImage.getPath()));
-            resizeFieldImage(600, 600);
+            resizeFieldImage(fieldImage.getWidth() * MainFrameConfig.PIXELS_IN_ONE_INCH,
+                            fieldImage.getHeight() * MainFrameConfig.PIXELS_IN_ONE_INCH);
             repaint();
         } catch (IOException e) {
 
