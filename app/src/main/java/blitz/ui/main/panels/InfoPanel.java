@@ -1,5 +1,6 @@
 package blitz.ui.main.panels;
 
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -11,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 
 import blitz.configs.MainFrameConfig;
@@ -214,6 +216,12 @@ public class InfoPanel extends JPanel implements ActiveListener{
                     textField.setText(oldValue);
                 }
             }
+
+            // Transfer focus back to the main window or another component
+            Component window = SwingUtilities.getWindowAncestor(textField);
+            if (window != null) {
+                window.requestFocusInWindow();
+            }
         });
 
         // FocusAdapter for focus lost
@@ -232,8 +240,15 @@ public class InfoPanel extends JPanel implements ActiveListener{
                 } else {
                     textField.setText(""); // Clear text field if activeControlPoint is null
                 }
+
+                // Transfer focus back to the main window or another component
+                Component window = SwingUtilities.getWindowAncestor(textField);
+                if (window != null) {
+                    window.requestFocusInWindow();
+                }
             }
         });
+
 
         gbc.gridy++;
         gbc.insets = new Insets(1, 10, 10, 10);

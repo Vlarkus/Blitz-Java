@@ -301,6 +301,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
             
             case INSERT:
+                insertControlPointFromBezierPointer(e.getX(), e.getY());
                 break;
             
             case REMOVE:
@@ -355,6 +356,31 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             tr.addControlPoint(cp);
             Active.setActiveControlPoint(cp);
         }
+    }
+
+    public void insertControlPointFromBezierPointer(int x, int y){
+        BezierPointer p = getSelectedBezierPointer(x, y);
+        if(p != null){
+            ControlPoint relatedCP = p.getRelatedControlPoint();
+            Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(relatedCP);
+            int index = tr.indexOf(relatedCP);
+            int numSeg;
+            CartesianCoordinate c = convertScreenToFieldCoordinates(new CartesianCoordinate(p.getCenterX(), p.getCenterY()));
+            ControlPoint cp = new ControlPoint(tr.getNextAvaliableName(), c.getX(), c.getY());
+            cp.setNumSegments(relatedCP.getNumSegments()/2);
+            relatedCP.setNumSegments(relatedCP.getNumSegments()/2);
+            tr.insertControlPoint(index+1, cp);
+            Active.setActiveControlPoint(cp);
+        }
+    }
+
+    private BezierPointer getSelectedBezierPointer(int x, int y){
+        for (BezierPointer p : bezierPointers) {
+            if(p.isWithinPointer(x, y)){
+                return p;
+            }
+        }
+        return null;
     }
 
 
