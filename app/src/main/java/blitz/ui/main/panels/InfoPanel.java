@@ -1,11 +1,11 @@
 package blitz.ui.main.panels;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.util.ArrayList;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -13,14 +13,18 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import blitz.configs.MainFrameConfig;
+import blitz.models.Active;
+import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
+import blitz.models.Trajectory;
 
 /**
  * A panel displaying information about an active control point, allowing for editing if the control point is active.
  */
-public class InfoPanel extends JPanel {
+public class InfoPanel extends JPanel implements ActiveListener{
 
     private ControlPoint activeControlPoint;
+    private ArrayList<JTextField> textFields;
 
     /**
      * Constructs an InfoPanel with a default layout and appearance.
@@ -28,9 +32,14 @@ public class InfoPanel extends JPanel {
     public InfoPanel() {
         setBackground(MainFrameConfig.INFO_PANEL_BACKGROUND_COLOR);
         setPreferredSize(MainFrameConfig.INFO_PANEL_PREFFERED_DIMENSIONS);
+        setMinimumSize(getPreferredSize());
+        setMaximumSize(getPreferredSize());
         setLayout(new GridBagLayout());
 
+        textFields = new ArrayList<>();
         fillWithContent();
+
+        Active.addActiveListener(this);
     }
 
     /**
@@ -113,7 +122,11 @@ public class InfoPanel extends JPanel {
         gbc.insets = new Insets(10, 10, 1, 10);
         add(label, gbc);
 
-        JTextField textField = new JTextField(10);
+        JTextField textField = new JTextField(5);
+        textField.putClientProperty("ValueGetter", getter);
+        textField.putClientProperty("ValueSetter", setter);
+        // textField.putClientProperty(getter, "ValueGetter");
+        // textField.putClientProperty(setter, "ValueSetter");
         if (activeControlPoint != null) {
             textField.setText(getter.getValue());
         }
@@ -151,6 +164,7 @@ public class InfoPanel extends JPanel {
 
         gbc.gridy++;
         gbc.insets = new Insets(1, 10, 10, 10);
+        textFields.add(textField);
         add(textField, gbc);
         gbc.insets = new Insets(10, 10, 10, 10);
 
@@ -186,25 +200,10 @@ public class InfoPanel extends JPanel {
         }
     }
 
-    /**
-     * Setter for the active control point. Updates the panel to display information for the new active control point.
-     *
-     * @param activeControlPoint The new active ControlPoint instance to display and edit.
-     */
-    public void setActiveControlPoint(ControlPoint activeControlPoint) {
-        this.activeControlPoint = activeControlPoint;
-        updateTextFields();
-    }
-
-    /**
-     * Updates the text fields with current values from the active control point.
-     */
     private void updateTextFields() {
-        Component[] components = getComponents();
-        for (Component component : components) {
-            if (component instanceof JTextField) {
-                JTextField textField = (JTextField) component;
-                ValueGetter getter = (ValueGetter) textField.getClientProperty("valueGetter");
+        for (JTextField textField : textFields) {
+            if (textField != null) {
+                ValueGetter getter = (ValueGetter) textField.getClientProperty("ValueGetter");
                 if (getter != null) {
                     textField.setText(getter.getValue());
                 }
@@ -226,5 +225,16 @@ public class InfoPanel extends JPanel {
     @FunctionalInterface
     private interface ValueSetter {
         void setValue(String value);
+    }
+
+    @Override
+    public void activeTrajectoryChanged(Trajectory tr) {
+
+    }
+
+    @Override
+    public void activeControlPointChanged(ControlPoint cp) {
+        activeControlPoint = cp;
+        updateTextFields();
     }
 }

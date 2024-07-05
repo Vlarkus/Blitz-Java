@@ -3,6 +3,7 @@ package blitz.ui.main.panels;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.ArrayList;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
@@ -19,12 +20,15 @@ import blitz.ui.main.tools.RemoveTool;
 import blitz.ui.main.tools.RenderAllTool;
 import blitz.ui.main.tools.ShowRobotTool;
 import blitz.ui.main.tools.Tool;
+import blitz.ui.main.tools.Tool.Tools;
+import blitz.ui.main.tools.ToolListener;
 
-public class ToolPanel extends JPanel {
+public class ToolPanel extends JPanel implements ToolListener{
 
-    private JPanel tools, options, extra;
+    private JPanel toolsPanel, optionsPanel, extrasPanel;
     private ButtonGroup toolGroup;
     private GridBagConstraints gbc;
+    private ArrayList<Tool> toolList;
     private int toolYIndex;
 
     public ToolPanel() {
@@ -34,43 +38,43 @@ public class ToolPanel extends JPanel {
 
         setLayout(new GridBagLayout());
 
-        // Add these GridBagConstraints for the tools panel
-        tools = new JPanel();
-        tools.setLayout(new GridBagLayout());
-        tools.setBackground(MainFrameConfig.TOOL_PANEL_TOOLS_BACKGROUND_COLOR);
+        // Add these GridBagConstraints for the toolsPanel panel
+        toolsPanel = new JPanel();
+        toolsPanel.setLayout(new GridBagLayout());
+        toolsPanel.setBackground(MainFrameConfig.TOOL_PANEL_TOOLS_BACKGROUND_COLOR);
         GridBagConstraints gbcTools = new GridBagConstraints();
         gbcTools.gridx = 0;
         gbcTools.gridy = 0;
         gbcTools.weightx = 1;
         gbcTools.weighty = 0;
         gbcTools.fill = GridBagConstraints.HORIZONTAL;
-        add(tools, gbcTools);
+        add(toolsPanel, gbcTools);
 
-        
-        
-        options = new JPanel();
-        options.setBackground(MainFrameConfig.TOOL_PANEL_OPTIONS_BACKGROUND_COLOR);
-        options.setLayout(new GridBagLayout());
+
+
+        optionsPanel = new JPanel();
+        optionsPanel.setBackground(MainFrameConfig.TOOL_PANEL_OPTIONS_BACKGROUND_COLOR);
+        optionsPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbcOptions = new GridBagConstraints();
         gbcOptions.gridx = 0;
         gbcOptions.gridy = 1;
         gbcOptions.weightx = 1;
         gbcOptions.weighty = 0;
         gbcOptions.fill = GridBagConstraints.HORIZONTAL;
-        add(options, gbcOptions);
+        add(optionsPanel, gbcOptions);
         
-        // Add these GridBagConstraints for the extra panel
-        extra = new JPanel();
-        extra.setBackground(MainFrameConfig.TOOL_PANEL_EXTRA_BACKGROUND_COLOR);
-        extra.setLayout(new GridBagLayout());
+        // Add these GridBagConstraints for the extrasPanel panel
+        extrasPanel = new JPanel();
+        extrasPanel.setBackground(MainFrameConfig.TOOL_PANEL_EXTRA_BACKGROUND_COLOR);
+        extrasPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbcExtra = new GridBagConstraints();
         gbcExtra.gridx = 0;
         gbcExtra.gridy = 2;
         gbcExtra.weightx = 1;
         gbcExtra.weighty = 1;
         gbcExtra.fill = GridBagConstraints.BOTH;
-        add(extra, gbcExtra);
-        // tools.setPreferredSize(MainFrameConfig.TOOL_DIMENSIONS);
+        add(extrasPanel, gbcExtra);
+        // toolsPanel.setPreferredSize(MainFrameConfig.TOOL_DIMENSIONS);
 
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -78,6 +82,7 @@ public class ToolPanel extends JPanel {
         toolYIndex = 0;
 
         toolGroup = new ButtonGroup();
+        toolList = new ArrayList<>();
 
         addTool(new MoveTool());
         addTool(new AddTool());
@@ -90,13 +95,33 @@ public class ToolPanel extends JPanel {
         addTool(new PanTool());
         addTool(new EditTimeTool());
 
+        Tool.addToolListener(this);
+
     }
 
     private void addTool(Tool tool) {
         gbc.gridx = 0;
         gbc.gridy = toolYIndex++;
         gbc.fill = GridBagConstraints.NONE;
-        tools.add(tool, gbc);
+        toolsPanel.add(tool, gbc);
         toolGroup.add(tool);
+        toolList.add(tool);
+    }
+
+    @Override
+    public void selectedToolChanged(Tools newSelectedTool) {
+        switch (newSelectedTool) {
+            case RENDER_ALL:
+                for(Tool tool : toolList) {
+                    if(tool.getTool() == Tool.getPreviousTool()) {
+                        toolGroup.clearSelection();
+                        tool.setSelected(true);
+                        break;
+                    }
+                }
+                break;
+        }
+        System.out.println("Selected: " + Tool.getSelectedTool() + ", Previous: " + Tool.getPreviousTool());
+
     }
 }

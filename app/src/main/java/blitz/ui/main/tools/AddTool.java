@@ -9,4 +9,9 @@ public class AddTool extends Tool{
         super(MainFrameConfig.PATH_TO_ADD_TOOL_ICON, Tools.ADD);
     }
 
+    @Override
+    void performOnSelected() {
+        
+    }
+
 }

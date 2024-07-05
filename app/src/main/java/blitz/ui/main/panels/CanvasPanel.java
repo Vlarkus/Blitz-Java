@@ -24,6 +24,7 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
+import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
@@ -35,8 +36,10 @@ import blitz.ui.main.pointers.ControlPointer;
 import blitz.ui.main.pointers.HelperPointer;
 import blitz.ui.main.pointers.Pointer.State;
 import blitz.ui.main.tools.Tool;
+import blitz.ui.main.tools.Tool.Tools;
+import blitz.ui.main.tools.ToolListener;
 
-public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener{
+public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener{
 
     private int mousePreviousX, mousePreviousY;
     private BufferedImage field;
@@ -67,6 +70,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
         addMouseListener(this);
         addMouseMotionListener(this);
+        Active.addActiveListener(this);
+        Tool.addToolListener(this);
 
     }
 
@@ -349,13 +354,21 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void activeTrajectoryChanged(Trajectory tr) {
-        System.out.println("CanvasPanel: Active Trajectory Changed!");
+
     }
 
     public void activeControlPointChanged(ControlPoint cp) {
         renderVisibleTrajectories();
-        System.out.println("CanvasPanel: Active ControlPoint Changed!");
+    }
 
+    @Override
+    public void selectedToolChanged(Tools tool) {
+        switch (tool) {
+            case RENDER_ALL:
+                System.out.println("CanvasPanel - selectedToolChanged()");
+                renderVisibleTrajectories();
+                break;
+        }
     }
     
 }

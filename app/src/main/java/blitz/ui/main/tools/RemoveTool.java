@@ -8,4 +8,9 @@ public class RemoveTool extends Tool{
         super(MainFrameConfig.PATH_TO_REMOVE_TOOL_ICON, Tools.REMOVE);
     }
     
+    @Override
+    void performOnSelected() {
+        
+    }
+
 }

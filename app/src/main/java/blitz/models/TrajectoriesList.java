@@ -23,6 +23,10 @@ public class TrajectoriesList {
         return trajectoriesList;
     }
 
+    public static Trajectory getTrajectory(int index) {
+        return trajectoriesList.get(index);
+    }
+
     public static ArrayList<Trajectory> copyTrajectoriesList() {
         return new ArrayList<Trajectory>(trajectoriesList);
     }

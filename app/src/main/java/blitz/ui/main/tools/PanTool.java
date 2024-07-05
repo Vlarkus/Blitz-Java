@@ -8,5 +8,10 @@ public class PanTool extends Tool{
         super(MainFrameConfig.PATH_TO_PAN_TOOL_ICON, Tools.PAN);
         setSelected(true);
     }
+
+    @Override
+    void performOnSelected() {
+        
+    }
     
 }

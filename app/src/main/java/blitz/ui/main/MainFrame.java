@@ -16,6 +16,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import blitz.configs.MainFrameConfig;
+import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
@@ -64,6 +65,7 @@ public class MainFrame extends JFrame{
         tr.addControlPoint(new ControlPoint("CP4", -200, -100, 90.0, -90));
 
         canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
+        Active.setActiveControlPoint(tr.getControlPoint(1));
     }
 
 
@@ -119,10 +121,7 @@ public class MainFrame extends JFrame{
 
         fieldImages = Utils.searchForPngImages(MainFrameConfig.PATH_TO_FIELDS_DIRECTORY);
 
-        System.out.println(fieldImages.size());
-
         for (FieldImage fieldImage : fieldImages) {
-            System.out.println();
             JMenuItem matchFieldOption = new JMenuItem(fieldImage.getFieldName());
             matchFieldOption.addActionListener((ActionEvent e) -> {canvasPanel.setFieldImage(fieldImage);});
             changeFieldMenu.add(matchFieldOption);

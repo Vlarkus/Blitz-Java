@@ -7,5 +7,10 @@ public class CutTool extends Tool{
     public CutTool(){
         super(MainFrameConfig.PATH_TO_CUT_TOOL_ICON, Tools.CUT);
     }
+
+    @Override
+    void performOnSelected() {
+        
+    }
     
 }

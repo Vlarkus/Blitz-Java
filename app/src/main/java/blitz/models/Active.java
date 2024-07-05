@@ -62,7 +62,7 @@ public class Active {
      * 
      * @param listener the listener to add
      */
-    public void addActiveListener(ActiveListener listener) {
+    public static void addActiveListener(ActiveListener listener) {
         listeners.add(listener);
     }
 
@@ -71,7 +71,7 @@ public class Active {
      * 
      * @param listener the listener to remove
      */
-    public void removeActiveListener(ActiveListener listener) {
+    public static void removeActiveListener(ActiveListener listener) {
         listeners.remove(listener);
     }
 
