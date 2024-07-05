@@ -26,12 +26,15 @@ public class MainFrameConfig {
 
 
     // ToolPanel
+
     public static final Dimension TOOL_PANEL_PREFFERED_DIMENSIONS = new Dimension(75, 0);
+    public static final Dimension TOOL_DIMENSIONS = new Dimension(64, 64);
+
     public static final HexColor TOOL_PANEL_BACKGROUND_COLOR = new HexColor("#00ff00");
     public static final HexColor TOOL_PANEL_TOOLS_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final HexColor TOOL_PANEL_OPTIONS_BACKGROUND_COLOR = new HexColor("#aaaaaa");
     public static final HexColor TOOL_PANEL_EXTRA_BACKGROUND_COLOR = new HexColor("#eeeeee");
-    public static final Dimension TOOL_DIMENSIONS = new Dimension(64, 64);
+
     public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/add.png";
     public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/cut.png";
     public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/insert.png";
@@ -44,6 +47,7 @@ public class MainFrameConfig {
     public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/show-robot.png";
     public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/selected-tool-background.png";
     public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/unselected-tool-background.png";
+    
     public static final int RENDER_ALL_DELAY = 200;
 
 
@@ -73,6 +77,7 @@ public class MainFrameConfig {
     public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final Font INFO_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
     public static final Font INFO_PANEL_NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
+    public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,3})?";
 
     // SelectionPanel
     public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);

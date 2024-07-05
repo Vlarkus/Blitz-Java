@@ -11,12 +11,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.text.AbstractDocument;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.servises.DecimalFilter;
 
 /**
  * A panel displaying information about an active control point, allowing for editing if the control point is active.
@@ -191,11 +193,14 @@ public class InfoPanel extends JPanel implements ActiveListener{
         JTextField textField = new JTextField(5);
         textField.putClientProperty("ValueGetter", getter);
         textField.putClientProperty("ValueSetter", setter);
-        // textField.putClientProperty(getter, "ValueGetter");
-        // textField.putClientProperty(setter, "ValueSetter");
+
+        AbstractDocument doc = (AbstractDocument) textField.getDocument();
+        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.INFO_PANEL_TEXT_FIELD_REGEX));
+
         if (activeControlPoint != null) {
             textField.setText(getter.getValue());
         }
+
 
         // ActionListener for Enter key press
         textField.addActionListener(e -> {
@@ -308,6 +313,6 @@ public class InfoPanel extends JPanel implements ActiveListener{
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
-        
+        updateTextFields();
     }
 }

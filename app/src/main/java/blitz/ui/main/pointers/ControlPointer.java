@@ -29,6 +29,14 @@ public class ControlPointer extends Pointer{
         }
     }
 
+    public boolean isSelected(){
+        return getState() == State.SELECTED;
+    }
+
+    public boolean isHighlighted(){
+        return getState() == State.HIGHLIGHTED;
+    }
+
     public State getState(){
         return state;
     }

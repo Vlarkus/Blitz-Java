@@ -16,7 +16,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import blitz.configs.MainFrameConfig;
-import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
@@ -65,7 +64,7 @@ public class MainFrame extends JFrame{
         tr.addControlPoint(new ControlPoint("CP4", -200, -100, 90.0, -90));
 
         canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
-        Active.setActiveControlPoint(tr.getControlPoint("CP3"));
+        // Active.setActiveControlPoint(tr.getControlPoint("CP3"));
     }
 
 

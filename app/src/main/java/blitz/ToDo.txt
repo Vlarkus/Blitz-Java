@@ -1,3 +1,4 @@
 - CanvasPanel allows to zoom in/out.
-- CanvasPanel has an option in the settings scale the field in terms of inches.
-- Maybe add ControlPointListener, TrajectoryListener, TrajectoriesListListener?!
+- CanvasPanel displays mouse field position in bottom left corner.
+- When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window 
+- Add Help option in MenuBar containing Tutorials.
