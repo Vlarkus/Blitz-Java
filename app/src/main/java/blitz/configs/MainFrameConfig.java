@@ -30,7 +30,6 @@ public class MainFrameConfig {
     public static final HexColor TOOL_PANEL_TOOLS_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final HexColor TOOL_PANEL_OPTIONS_BACKGROUND_COLOR = new HexColor("#aaaaaa");
     public static final HexColor TOOL_PANEL_EXTRA_BACKGROUND_COLOR = new HexColor("#eeeeee");
-    // public static final Dimension TOOL_DIMENSIONS = new Dimension( (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75), (int)(TOOL_PANEL_PREFFERED_DIMENSIONS.getWidth()/1.75));
     public static final Dimension TOOL_DIMENSIONS = new Dimension(64, 64);
     public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/add.png";
     public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/cut.png";
@@ -47,13 +46,15 @@ public class MainFrameConfig {
 
 
     // sidePanel
+
     public static final Dimension SIDE_PANEL_PREFFERED_DIMENSIONS = new Dimension(350, 0);
 
     
 
     // CanvasPanel
+
     public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSION = new Dimension(2000, 2000);
-    public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#888888");
+    public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#666666");
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
     public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getWidth()) / 2;
     public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getHeight()) / 2;
@@ -66,7 +67,7 @@ public class MainFrameConfig {
 
     // InfoPanel
     public static final Dimension INFO_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
-    public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#0000ff");
+    public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
     // SelectionPanel
     public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);

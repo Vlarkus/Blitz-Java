@@ -281,4 +281,20 @@ public class ControlPoint {
         double absY = this.y + relEnd.getY();
         return new CartesianCoordinate(absX, absY);
     }
+
+    public double getRStart() {
+        return rStart;
+    }
+
+    public double getThetaStart() {
+        return thetaStart;
+    }
+
+    public double getREnd() {
+        return rEnd;
+    }
+
+    public double getThetaEnd() {
+        return thetaEnd;
+    }
 }

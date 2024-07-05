@@ -28,6 +28,7 @@ public class ToolPanel extends JPanel {
     private int toolYIndex;
 
     public ToolPanel() {
+
         setBackground(MainFrameConfig.TOOL_PANEL_BACKGROUND_COLOR);
         setPreferredSize(MainFrameConfig.TOOL_PANEL_PREFFERED_DIMENSIONS);
 
@@ -88,6 +89,7 @@ public class ToolPanel extends JPanel {
         addTool(new RenderAllTool());
         addTool(new PanTool());
         addTool(new EditTimeTool());
+
     }
 
     private void addTool(Tool tool) {

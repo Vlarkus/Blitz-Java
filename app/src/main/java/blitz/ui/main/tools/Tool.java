@@ -57,7 +57,6 @@ public abstract class Tool extends JRadioButton{
             }
         });
 
-        selectedTool = Tools.MOVE;
     }
 
     public static Tools getSelectedTool() {
