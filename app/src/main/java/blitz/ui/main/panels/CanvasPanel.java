@@ -386,8 +386,10 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     private void removeSelectedControlPoint(){
-        Active.getActiveTrajectory().removeControlPoint(Active.getActiveControlPoint());
-        Active.setActiveControlPoint(null);
+        if(Active.getActiveControlPoint() != null){
+            Active.getActiveTrajectory().removeControlPoint(Active.getActiveControlPoint());
+            Active.setActiveControlPoint(null);
+        }
     }
 
 
