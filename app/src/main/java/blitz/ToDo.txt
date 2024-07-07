@@ -2,5 +2,6 @@
 - CanvasPanel displays mouse field position in bottom left corner.
 - When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
 - Add Help option in MenuBar containing Tutorials.
-- Make tools activate on any key user chooses.
-- Insert tool inserts point so that the left and the right curves seem smooth and untouched.
+- Mouse changes cursor depending on the tool inside CanvasPanel.
+
+- CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!

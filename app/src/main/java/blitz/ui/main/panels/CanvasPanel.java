@@ -392,8 +392,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-
-
+    
     
     @Override
     public void mouseDragged(MouseEvent e) {

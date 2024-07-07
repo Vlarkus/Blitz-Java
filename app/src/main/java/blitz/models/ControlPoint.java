@@ -23,6 +23,8 @@ public final class ControlPoint {
     // Time the robot reaches this segment at
     private double time;
 
+    private boolean isLocked;
+
     // -=-=-=- CONSTRUCTORS -=-=-=-
 
     /**
@@ -45,6 +47,7 @@ public final class ControlPoint {
         setThetaEnd(tE);
         setNumSegments(isValidNumSegments(numSegments)? numSegments : ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS);
         setTime(isValidTime(time)? time : ModelsConfig.CONTROL_POINT_MIN_TIME);
+        setIsLocked(false);
     }
 
     public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
@@ -320,5 +323,13 @@ public final class ControlPoint {
 
     public double getThetaEnd() {
         return thetaEnd;
+    }
+
+    public boolean isIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
 }

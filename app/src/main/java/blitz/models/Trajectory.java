@@ -10,6 +10,7 @@ public class Trajectory {
 
     private String name;
     private ArrayList<ControlPoint> controlPoints;
+    private boolean isVisible, isLocked;
 
 
 
@@ -25,6 +26,8 @@ public class Trajectory {
     public Trajectory(String name){
         setName(name);
         controlPoints = new ArrayList<ControlPoint>();
+        setIsVisible(true);
+        setIsLocked(false);
     }
 
     /**
@@ -35,6 +38,8 @@ public class Trajectory {
     public Trajectory(Trajectory other){
         setName(other.getName());
         controlPoints = other.copyAllControlPoints();
+        setIsVisible(true);
+        setIsLocked(false);
     }
 
 
@@ -165,6 +170,22 @@ public class Trajectory {
                     nameIsTaken = true;
         }
         return name;
+    }
+
+    public boolean isIsVisible() {
+        return isVisible;
+    }
+
+    public void setIsVisible(boolean isVisible) {
+        this.isVisible = isVisible;
+    }
+
+    public boolean isIsLocked() {
+        return isLocked;
+    }
+
+    public void setIsLocked(boolean isLocked) {
+        this.isLocked = isLocked;
     }
 
     

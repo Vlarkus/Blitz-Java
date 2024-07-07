@@ -60,7 +60,7 @@ public class MainFrameConfig {
 
     // CanvasPanel
 
-    public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSION = new Dimension(2000, 2000);
+    public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSION = new Dimension(3000, 3000);
     public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#666666");
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
     public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getWidth()) / 2;
@@ -71,27 +71,13 @@ public class MainFrameConfig {
 
     public static final int PIXELS_IN_ONE_INCH = 36;
 
-
-
-    // InfoPanel
-    public static final Dimension INFO_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
-    public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
-    public static final Font INFO_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
-    public static final Font INFO_PANEL_NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
-    // public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?;
-    public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
-
-    // SelectionPanel
-    public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
-    public static final HexColor SELECTION_PANEL_BACKGROUND_COLOR = new HexColor("#999999");
-
     // Pointers
 
     // ControlPointer
     public static final HexColor UNSELECTED_CONTROL_POINTER_COLOR = new HexColor("#3441ed");
     public static final HexColor HIGHLIGHTED_CONTROL_POINTER_COLOR = new HexColor("#fcdf3a");
     public static final HexColor SELECTED_CONTROL_POINTER_COLOR = new HexColor("#43aef0");
-    public  static final int CONTROL_POINTER_DIAMETER = 17;
+    public  static final int CONTROL_POINTER_DIAMETER = 20;
 
     // BezierPointer
     public static final HexColor DEFAULT_BEZIER_POINTER_COLOR = new HexColor("#33ff1c");
@@ -100,10 +86,35 @@ public class MainFrameConfig {
 
     // HelperPointer
     public static final HexColor DEFAULT_HELPER_POINTER_COLOR = new HexColor("#f57e1d");
-    public  static final int HELPER_POINTER_DIAMETER = 13;
+    public  static final int HELPER_POINTER_DIAMETER = 12;
 
     // HelperLine
     public static final float HELPER_LINE_THICKNESS = 3f;
     public static final HexColor HELPER_LINE_COLOR = new HexColor("f57e1d");
+
+
+
+    // InfoPanel
+    public static final Dimension INFO_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
+    public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    public static final Font INFO_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
+    public static final Font INFO_PANEL_NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
+    public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
+
+
+
+    // SelectionPanel
+    public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
+    public static final HexColor SELECTION_PANEL_BACKGROUND_COLOR = new HexColor("#999999");
+    public static final Dimension SELECTION_PANEL_HEADER_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SELECTION_PANEL_PREFFERED_DIMENSIONS.getWidth(), 40);
+    public static final Dimension SELECTION_PANEL_SELECTION_MENU_PREFFERED_DIMENSIONS = new Dimension( (int) SELECTION_PANEL_PREFFERED_DIMENSIONS.getWidth(), 1000);
+    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_PREFFERED_DIMENSIONS = new Dimension( (int) SELECTION_PANEL_PREFFERED_DIMENSIONS.getWidth(), 30);
+    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFFERED_DIMENSIONS = new Dimension( 24, 24);
+    public static final HexColor SELECTION_PANEL_HEADER_PANEL_COLOR = new HexColor("#eeeeee");
+    public static final HexColor SELECTION_PANEL_SELECTION_MENU_COLOR = new HexColor("#eeeeee");
+    public static final HexColor SELECTION_PANEL_OPTIONS_BAR_COLOR = new HexColor("#dddddd");
+    public static final Font SELECTION_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
+    public static final Font SELECTION_PANEL_TRAJECTORY_LABEL_FONT = new Font("Verdana", Font.PLAIN, 14);
+    public static final Font SELECTION_PANEL_CONTROL_POINT_LABEL_FONT = new Font("Verdana", Font.PLAIN, 14);
 
 }
