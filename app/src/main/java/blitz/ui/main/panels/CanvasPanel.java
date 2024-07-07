@@ -305,6 +305,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
             
             case REMOVE:
+                setSelectedControlPointer(e.getX(), e.getY());
+                removeSelectedControlPoint();
                 break;
             
             case CUT:
@@ -381,6 +383,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             }
         }
         return null;
+    }
+
+    private void removeSelectedControlPoint(){
+        Active.getActiveTrajectory().removeControlPoint(Active.getActiveControlPoint());
+        Active.setActiveControlPoint(null);
     }
 
 
