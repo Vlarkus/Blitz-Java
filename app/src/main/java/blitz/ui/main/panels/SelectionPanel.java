@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -96,8 +97,11 @@ public class SelectionPanel extends JPanel{
     
 
         // Add Trajectory Button
-        JButton addTrajectoryButton = new JButton("A");
+        JButton addTrajectoryButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_ADD_TRAJECTORY_OPTION_ICON));
         addTrajectoryButton.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        addTrajectoryButton.setContentAreaFilled(false);
+        addTrajectoryButton.setBorderPainted(false);
+        addTrajectoryButton.setOpaque(false);
         addTrajectoryButton.setMaximumSize(addTrajectoryButton.getPreferredSize());
         addTrajectoryButton.addActionListener(new ActionListener() {
             @Override
@@ -118,8 +122,11 @@ public class SelectionPanel extends JPanel{
         optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
 
         // Delete Button
-        JButton deleteButton = new JButton("D");
+        JButton deleteButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_DELETE_OPTION_ICON));
         deleteButton.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        deleteButton.setContentAreaFilled(false);
+        deleteButton.setBorderPainted(false);
+        deleteButton.setOpaque(false);
         deleteButton.setMaximumSize(deleteButton.getPreferredSize());
         deleteButton.addActionListener(new ActionListener() {
             @Override
