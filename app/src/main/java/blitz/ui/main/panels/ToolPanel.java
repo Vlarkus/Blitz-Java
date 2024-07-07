@@ -39,7 +39,7 @@ public class ToolPanel extends JPanel implements ToolListener{
     public ToolPanel() {
 
         setBackground(MainFrameConfig.TOOL_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.TOOL_PANEL_PREFFERED_DIMENSIONS);
+        setPreferredSize(MainFrameConfig.TOOL_PANEL_PREFERRED_DIMENSIONS);
 
         setLayout(new GridBagLayout());
 

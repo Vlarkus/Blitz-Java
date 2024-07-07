@@ -38,7 +38,9 @@ public class Active {
      */
     public static void setActiveTrajectory(Trajectory activeTrajectory) {
         Active.activeTrajectory = activeTrajectory;
+        Active.activeControlPoint = null;
         notifyActiveTrajectoryChanged();
+        notifyActiveControlPointChanged();
     }
 
     /**

@@ -1,17 +1,27 @@
 package blitz.ui.main.panels;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
+import blitz.models.Active;
+import blitz.models.TrajectoriesList;
+import blitz.models.Trajectory;
 
 public class SelectionPanel extends JPanel{
 
@@ -21,7 +31,7 @@ public class SelectionPanel extends JPanel{
     public SelectionPanel(){
 
         setBackground(MainFrameConfig.SELECTION_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.SELECTION_PANEL_PREFFERED_DIMENSIONS);
+        setPreferredSize(MainFrameConfig.SELECTION_PANEL_PREFERRED_DIMENSIONS);
 
         setLayout(new BorderLayout());
 
@@ -33,12 +43,12 @@ public class SelectionPanel extends JPanel{
 
     private void constructHeaderPanel() {
         headerPanel = new JPanel(new GridBagLayout());
-        headerPanel.setPreferredSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFFERED_DIMENSIONS);
-        headerPanel.setMinimumSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFFERED_DIMENSIONS);
-        headerPanel.setMaximumSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFFERED_DIMENSIONS);
+        headerPanel.setPreferredSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setMinimumSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setMaximumSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS);
         headerPanel.setBackground(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_COLOR);
     
-        JLabel selectionLabel = new JLabel("Selection Panel", SwingConstants.CENTER);
+        JLabel selectionLabel = new JLabel("Selection Menu", SwingConstants.CENTER);
         selectionLabel.setFont(MainFrameConfig.SELECTION_PANEL_TITLE_LABEL_FONT);
     
         GridBagConstraints gbc = new GridBagConstraints();
@@ -63,24 +73,74 @@ public class SelectionPanel extends JPanel{
         selectionMenuScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         selectionMenuScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        fillSelectionMenuPanel();
+
         add(selectionMenuScrollPane, BorderLayout.CENTER);
 
-    }
-
-    private void constructOptionsBar(){
-        optionsBarPanel = new JPanel();
-        optionsBarPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, HEIGHT, WIDTH));
-        optionsBarPanel.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFFERED_DIMENSIONS);
-        optionsBarPanel.setMinimumSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFFERED_DIMENSIONS);
-        optionsBarPanel.setMaximumSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFFERED_DIMENSIONS);
-        optionsBarPanel.setBackground(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_COLOR);
-        optionsBarPanel.setAlignmentY(CENTER_ALIGNMENT);
-
-        add(optionsBarPanel, BorderLayout.SOUTH);
     }
 
     private void fillSelectionMenuPanel(){
         // TODO: fill the panel with TrajectoryLayer objects.
     }
+
+    private void constructOptionsBar() {
+        optionsBarPanel = new JPanel();
+        optionsBarPanel.setLayout(new BoxLayout(optionsBarPanel, BoxLayout.X_AXIS));
+        optionsBarPanel.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setMinimumSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setMaximumSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setBackground(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_COLOR);
+        optionsBarPanel.setAlignmentY(CENTER_ALIGNMENT);
+        optionsBarPanel.add(Box.createHorizontalGlue());
+    
+
+        // Add Trajectory Button
+        JButton addTrajectoryButton = new JButton("A");
+        addTrajectoryButton.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        addTrajectoryButton.setMaximumSize(addTrajectoryButton.getPreferredSize());
+        addTrajectoryButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Trajectory tr = new Trajectory(TrajectoriesList.getNextAvaliableName());
+                TrajectoriesList.addTrajectory(tr);
+                Active.setActiveTrajectory(tr);
+
+                System.out.println(Active.getActiveControlPoint());
+                System.out.println(Active.getActiveTrajectory());
+
+                Component window = SwingUtilities.getWindowAncestor(addTrajectoryButton);
+                if (window != null) {
+                    window.requestFocusInWindow();
+                }
+            
+            }
+        });
+        optionsBarPanel.add(addTrajectoryButton);
+        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
+
+        // Delete Button
+        JButton deleteButton = new JButton("D");
+        deleteButton.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        deleteButton.setMaximumSize(deleteButton.getPreferredSize());
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                //
+
+                Component window = SwingUtilities.getWindowAncestor(deleteButton);
+                if (window != null) {
+                    window.requestFocusInWindow();
+                }
+            
+            }
+        });
+        optionsBarPanel.add(deleteButton);
+        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
+    
+        add(optionsBarPanel, BorderLayout.SOUTH);
+    }
+    
 
 }

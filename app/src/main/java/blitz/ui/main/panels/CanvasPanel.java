@@ -51,7 +51,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     public CanvasPanel(){
         
         setBackground(MainFrameConfig.CANVAS_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION);
+        setPreferredSize(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION);
         setLayout(null);
 
         visibleTrajectories = new ArrayList<Trajectory>();

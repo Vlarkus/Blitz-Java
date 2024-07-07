@@ -54,12 +54,31 @@ public class TrajectoriesList {
         trajectoriesList.add(tr);
     }
 
+    public static void addTrajectory(){
+        trajectoriesList.add(new Trajectory(getNextAvaliableName()));
+    }
+
     public static void removeTrajectory(Trajectory tr){
         if(tr == null){
             throw new NullPointerException("Trajectory cannot be null!");
         }
 
         trajectoriesList.remove(tr);
+    }
+
+    public static String getNextAvaliableName(){
+        
+        String name = "Trajectory 1";
+        int i = 1;
+        boolean nameIsTaken = true;
+        while(nameIsTaken) { 
+            name = "Trajectory " + ++i;
+            nameIsTaken = false;
+            for (Trajectory tr : trajectoriesList)
+                if(tr.getName().equals(name))
+                    nameIsTaken = true;
+        }
+        return name;
     }
     
 }

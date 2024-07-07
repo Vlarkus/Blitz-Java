@@ -36,7 +36,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
      */
     public InfoPanel() {
         setBackground(MainFrameConfig.INFO_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.INFO_PANEL_PREFFERED_DIMENSIONS);
+        setPreferredSize(MainFrameConfig.INFO_PANEL_PREFERRED_DIMENSIONS);
         setMinimumSize(getPreferredSize());
         setMaximumSize(getPreferredSize());
         setLayout(new GridBagLayout());
@@ -56,7 +56,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.insets = new Insets(5, 10, 5, 10);
 
-        JLabel infoLabel = new JLabel("Info Panel", SwingConstants.CENTER);
+        JLabel infoLabel = new JLabel("Info Menu", SwingConstants.CENTER);
         infoLabel.setFont(MainFrameConfig.INFO_PANEL_TITLE_LABEL_FONT);
         gbc.gridx = 0;
         gbc.gridy = 0;

@@ -27,7 +27,7 @@ public class MainFrameConfig {
 
     // ToolPanel
 
-    public static final Dimension TOOL_PANEL_PREFFERED_DIMENSIONS = new Dimension(75, 0);
+    public static final Dimension TOOL_PANEL_PREFERRED_DIMENSIONS = new Dimension(75, 0);
     public static final Dimension TOOL_DIMENSIONS = new Dimension(64, 64);
 
     public static final HexColor TOOL_PANEL_BACKGROUND_COLOR = new HexColor("#00ff00");
@@ -54,17 +54,17 @@ public class MainFrameConfig {
 
     // sidePanel
 
-    public static final Dimension SIDE_PANEL_PREFFERED_DIMENSIONS = new Dimension(350, 0);
+    public static final Dimension SIDE_PANEL_PREFERRED_DIMENSIONS = new Dimension(350, 0);
 
     
 
     // CanvasPanel
 
-    public static final Dimension CANVAS_PANEL_PREFFERED_DIMENSION = new Dimension(3000, 3000);
+    public static final Dimension CANVAS_PANEL_PREFERRED_DIMENSION = new Dimension(3000, 3000);
     public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#666666");
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
-    public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getWidth()) / 2;
-    public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFFERED_DIMENSION.getHeight()) / 2;
+    public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFERRED_DIMENSION.getWidth()) / 2;
+    public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFERRED_DIMENSION.getHeight()) / 2;
     public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-in.png";
     public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-out.png";
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
@@ -95,7 +95,7 @@ public class MainFrameConfig {
 
 
     // InfoPanel
-    public static final Dimension INFO_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
+    public static final Dimension INFO_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 300);
     public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final Font INFO_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
     public static final Font INFO_PANEL_NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
@@ -103,13 +103,14 @@ public class MainFrameConfig {
 
 
 
-    // SelectionPanel
-    public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);
+   // SelectionPanel
+    public static final Dimension SELECTION_PANEL_PREFERRED_DIMENSIONS = new Dimension((int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 300);
     public static final HexColor SELECTION_PANEL_BACKGROUND_COLOR = new HexColor("#999999");
-    public static final Dimension SELECTION_PANEL_HEADER_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SELECTION_PANEL_PREFFERED_DIMENSIONS.getWidth(), 40);
-    public static final Dimension SELECTION_PANEL_SELECTION_MENU_PREFFERED_DIMENSIONS = new Dimension( (int) SELECTION_PANEL_PREFFERED_DIMENSIONS.getWidth(), 1000);
-    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_PREFFERED_DIMENSIONS = new Dimension( (int) SELECTION_PANEL_PREFFERED_DIMENSIONS.getWidth(), 30);
-    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFFERED_DIMENSIONS = new Dimension( 24, 24);
+    public static final Dimension SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS = new Dimension((int) SELECTION_PANEL_PREFERRED_DIMENSIONS.getWidth(), 40);
+    public static final Dimension SELECTION_PANEL_SELECTION_MENU_PREFERRED_DIMENSIONS = new Dimension((int) SELECTION_PANEL_PREFERRED_DIMENSIONS.getWidth(), 1000);
+    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS = new Dimension((int) SELECTION_PANEL_PREFERRED_DIMENSIONS.getWidth(), 30);
+    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS = new Dimension(16, 16);
+    public static final Dimension SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS = new Dimension(8, 0);
     public static final HexColor SELECTION_PANEL_HEADER_PANEL_COLOR = new HexColor("#eeeeee");
     public static final HexColor SELECTION_PANEL_SELECTION_MENU_COLOR = new HexColor("#eeeeee");
     public static final HexColor SELECTION_PANEL_OPTIONS_BAR_COLOR = new HexColor("#dddddd");

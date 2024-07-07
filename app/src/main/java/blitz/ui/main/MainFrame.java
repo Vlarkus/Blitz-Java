@@ -165,11 +165,11 @@ public class MainFrame extends JFrame implements KeyListener{
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         canvasPanel.setScrollPane(scrollPane);
         JViewport viewport = scrollPane.getViewport();
-        viewport.setViewPosition(new Point( (int)(MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION.width/3), (int)(MainFrameConfig.CANVAS_PANEL_PREFFERED_DIMENSION.height/3)));
+        viewport.setViewPosition(new Point( (int)(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.width/3), (int)(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.height/3)));
         mainPanel.add(scrollPane, BorderLayout.CENTER);
 
         sidePanel = new JPanel();
-        sidePanel.setPreferredSize(MainFrameConfig.SIDE_PANEL_PREFFERED_DIMENSIONS);
+        sidePanel.setPreferredSize(MainFrameConfig.SIDE_PANEL_PREFERRED_DIMENSIONS);
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
         mainPanel.add(sidePanel, BorderLayout.EAST);
 
