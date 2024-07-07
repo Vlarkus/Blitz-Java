@@ -20,6 +20,7 @@ import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
+import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 
@@ -106,9 +107,6 @@ public class SelectionPanel extends JPanel{
                 TrajectoriesList.addTrajectory(tr);
                 Active.setActiveTrajectory(tr);
 
-                System.out.println(Active.getActiveControlPoint());
-                System.out.println(Active.getActiveTrajectory());
-
                 Component window = SwingUtilities.getWindowAncestor(addTrajectoryButton);
                 if (window != null) {
                     window.requestFocusInWindow();
@@ -127,7 +125,15 @@ public class SelectionPanel extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                //
+                ControlPoint cp = Active.getActiveControlPoint();
+                Trajectory tr = Active.getActiveTrajectory();
+                if(cp != null){
+                    tr.removeControlPoint(cp);
+                    Active.setActiveControlPoint(null);
+                } else if(tr != null) {
+                    TrajectoriesList.removeTrajectory(tr);
+                    Active.setActiveTrajectory(null);
+                }
 
                 Component window = SwingUtilities.getWindowAncestor(deleteButton);
                 if (window != null) {

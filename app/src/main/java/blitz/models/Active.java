@@ -50,10 +50,16 @@ public class Active {
      * @throws IllegalArgumentException if the corresponding trajectory is not found
      */
     public static void setActiveControlPoint(ControlPoint activeControlPoint) {
-        Trajectory newTrajectory = TrajectoriesList.getTrajectoryByControlPoint(activeControlPoint);
-        Active.activeControlPoint = activeControlPoint;
-        Active.activeTrajectory = newTrajectory;
-        notifyActiveControlPointChanged();
+        if(activeControlPoint != null){
+            Trajectory newTrajectory = TrajectoriesList.getTrajectoryByControlPoint(activeControlPoint);
+            Active.activeControlPoint = activeControlPoint;
+            Active.activeTrajectory = newTrajectory;
+            notifyActiveControlPointChanged();
+            notifyActiveTrajectoryChanged();
+        } else {
+            Active.activeControlPoint = activeControlPoint;
+            notifyActiveControlPointChanged();
+        }
     }
 
     /**
