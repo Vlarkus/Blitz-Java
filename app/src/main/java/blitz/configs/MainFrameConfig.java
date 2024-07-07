@@ -78,7 +78,8 @@ public class MainFrameConfig {
     public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final Font INFO_PANEL_TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
     public static final Font INFO_PANEL_NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
-    public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,3})?";
+    // public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?;
+    public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
 
     // SelectionPanel
     public static final Dimension SELECTION_PANEL_PREFFERED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFFERED_DIMENSIONS.getWidth(), 300);

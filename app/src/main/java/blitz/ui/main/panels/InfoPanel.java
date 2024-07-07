@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
@@ -293,11 +294,22 @@ public class InfoPanel extends JPanel implements ActiveListener{
             if (textField != null) {
                 ValueGetter getter = (ValueGetter) textField.getClientProperty("ValueGetter");
                 if (getter != null) {
-                    textField.setText(getter.getValue());
+                    String value = getter.getValue();
+                    try {
+                        double parsedValue = Double.parseDouble(value);
+                        DecimalFormat decimalFormat = new DecimalFormat("###0.####"); // Adjust pattern as needed
+                        String formattedValue = decimalFormat.format(parsedValue);
+                        textField.setText(formattedValue);
+                    } catch (NumberFormatException e) {
+                        // Handle parsing error, if necessary
+                        textField.setText(value); // fallback to original text
+                    }
                 }
             }
         }
     }
+    
+    
 
     /**
      * Functional interface for retrieving the current value of a property as a String.

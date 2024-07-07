@@ -36,7 +36,6 @@ public class DecimalFilter extends DocumentFilter {
     }
 
     private boolean isValid(String text) {
-        // Allow empty text or text matching a decimal with up to 3 digits and optional negative sign
         return text.isEmpty() || text.matches(regex);
     }
 }
