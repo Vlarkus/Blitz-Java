@@ -18,9 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import blitz.configs.MainFrameConfig;
-import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
-import blitz.models.Trajectory;
 import blitz.servises.FieldImage;
 import blitz.servises.Utils;
 import blitz.ui.main.panels.CanvasPanel;
@@ -54,18 +52,7 @@ public class MainFrame extends JFrame implements KeyListener{
         requestFocusInWindow();
         toFront();
         addKeyListener(this);
-        testing();// TODO: Delete this line.
-    }
-
-
-    private void testing(){
-        Trajectory tr = new Trajectory("Trajectory 1");
-        TrajectoriesList.addTrajectory(tr);
-
-        tr.addControlPoint(new ControlPoint("CP1"));
-        tr.addControlPoint(new ControlPoint("CP2", 6, 6));
-
-        canvasPanel.setVisibleTrajectories(TrajectoriesList.getTrajectoriesList());
+        System.out.println(TrajectoriesList.getNextAvaliableName());
     }
 
 

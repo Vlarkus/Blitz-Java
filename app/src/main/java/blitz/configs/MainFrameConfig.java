@@ -35,18 +35,18 @@ public class MainFrameConfig {
     public static final HexColor TOOL_PANEL_OPTIONS_BACKGROUND_COLOR = new HexColor("#aaaaaa");
     public static final HexColor TOOL_PANEL_EXTRA_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
-    public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/add-tool.png";
-    public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/cut-tool.png";
-    public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/insert-tool.png";
-    public static final String PATH_TO_EDIT_TIME_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/edit-time-tool.png";
-    public static final String PATH_TO_MERGE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/merge-tool.png";
-    public static final String PATH_TO_MOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/move-tool.png";
-    public static final String PATH_TO_PAN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/move-tool.png";
-    public static final String PATH_TO_REMOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/remove-tool.png";
-    public static final String PATH_TO_RENDER_ALL_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/render-all-tool.png";
-    public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/show-robot-tool.png";
-    public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/selected-tool-background.png";
-    public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/unselected-tool-background.png";
+    public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/add-tool.png";
+    public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/cut-tool.png";
+    public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/insert-tool.png";
+    public static final String PATH_TO_EDIT_TIME_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/edit-time-tool.png";
+    public static final String PATH_TO_MERGE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/merge-tool.png";
+    public static final String PATH_TO_MOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/move-tool.png";
+    public static final String PATH_TO_PAN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/move-tool.png";
+    public static final String PATH_TO_REMOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/remove-tool.png";
+    public static final String PATH_TO_RENDER_ALL_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/render-all-tool.png";
+    public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/show-robot-tool.png";
+    public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/tools/selected-tool-background.png";
+    public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/tools/unselected-tool-background.png";
     
     public static final int RENDER_ALL_DELAY = 200;
 
@@ -65,8 +65,8 @@ public class MainFrameConfig {
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
     public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFERRED_DIMENSION.getWidth()) / 2;
     public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFERRED_DIMENSION.getHeight()) / 2;
-    public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-in.png";
-    public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/zoom-out.png";
+    public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-in.png";
+    public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-out.png";
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
 
     public static final int PIXELS_IN_ONE_INCH = 36;
@@ -126,8 +126,8 @@ public class MainFrameConfig {
     public static final Font SELECTION_PANEL_TRAJECTORY_LABEL_FONT = new Font("Verdana", Font.PLAIN, 14);
     public static final Font SELECTION_PANEL_CONTROL_POINT_LABEL_FONT = new Font("Verdana", Font.PLAIN, 14);
 
-    public static final String PATH_TO_DELETE_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/delete-option.png";
-    public static final String PATH_TO_ADD_TRAJECTORY_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/add-trajectory-option.png";
+    public static final String PATH_TO_DELETE_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/delete-option.png";
+    public static final String PATH_TO_ADD_TRAJECTORY_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/add-trajectory-option.png";
 
     public static final HexColor TRAJECTORY_LAYER_BACKGROUND_COLOR = new HexColor("#fefefe");
     public static final Dimension TRAJECTORY_LAYER_PREFERRED_DIMENSION = new Dimension(320, 40);

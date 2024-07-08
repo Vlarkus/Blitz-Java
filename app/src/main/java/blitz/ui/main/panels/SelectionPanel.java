@@ -25,9 +25,10 @@ import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
+import blitz.models.TrajectoriesListListener;
 import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
-public class SelectionPanel extends JPanel implements ActiveListener{
+public class SelectionPanel extends JPanel implements ActiveListener, TrajectoriesListListener{
 
     private JPanel headerPanel, selectionMenuPanel, optionsBarPanel;
     private JScrollPane selectionMenuScrollPane;
@@ -42,6 +43,9 @@ public class SelectionPanel extends JPanel implements ActiveListener{
         constructHeaderPanel();
         constructSelectionMenuPanel();
         constructOptionsBar();
+
+        Active.addActiveListener(this);
+        TrajectoriesList.addTrajecoriesListListener(this);
 
     }
 
@@ -94,9 +98,12 @@ public class SelectionPanel extends JPanel implements ActiveListener{
         gbc.gridx = 0;
         gbc.gridy = 0;
 
-        selectionMenuPanel.add(new TrajectoryLayer(new Trajectory("Hello")), gbc);
-        gbc.gridy++;
+        for (Trajectory tr : TrajectoriesList.getTrajectoriesList()) {
 
+            selectionMenuPanel.add(new TrajectoryLayer(tr), gbc);
+            gbc.gridy++;
+    
+        }
         
         selectionMenuPanel.revalidate();
         selectionMenuPanel.repaint();
@@ -180,17 +187,20 @@ public class SelectionPanel extends JPanel implements ActiveListener{
     @Override
     public void activeTrajectoryChanged(Trajectory tr) {
         renderSelectionMenuPanel();
-        System.out.println("activeTrajectoryChanged");
     }
 
     @Override
     public void activeControlPointChanged(ControlPoint cp) {
         renderSelectionMenuPanel();
-        System.out.println("activeControlPointChanged");
     }
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
+    }
+
+    @Override
+    public void TrajectoryListChanged() {
+        renderSelectionMenuPanel();
     }
 
 }

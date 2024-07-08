@@ -46,6 +46,8 @@ public class TrajectoryLayer extends JPanel {
     private JTextField nameTextField; // Edit name
     private GridBagConstraints trLayerGBC;
 
+    private boolean isCollapsed;
+
     private final int INSETS_DEFAULT = 4;
 
     public TrajectoryLayer(Trajectory tr) {

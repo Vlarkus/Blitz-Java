@@ -10,9 +10,26 @@ public class TrajectoriesList {
 
     private static ArrayList<Trajectory> trajectoriesList = new ArrayList<Trajectory>();
 
+    private static ArrayList<TrajectoriesListListener> listeners = new ArrayList<>();
+
 
 
     // -=-=-=- METHODS -=-=-=-
+
+    public static void addTrajecoriesListListener(TrajectoriesListListener listener){
+        listeners.add(listener);
+    }
+
+
+    public static void removeTrajecoriesListListener(TrajectoriesListListener listener){
+        listeners.remove(listener);
+    }
+
+    private static void notifyTrajectoriesListListeners(){
+        for (TrajectoriesListListener listener : listeners) {
+            listener.TrajectoryListChanged();
+        }
+    }
 
     /**
      * 
@@ -56,10 +73,12 @@ public class TrajectoriesList {
             throw new NullPointerException("Trajectory cannot be null!");
         }
         trajectoriesList.add(tr);
+        notifyTrajectoriesListListeners();
     }
 
     public static void addTrajectory(){
         trajectoriesList.add(new Trajectory(getNextAvaliableName()));
+        notifyTrajectoriesListListeners();
     }
 
     public static void removeTrajectory(Trajectory tr){
@@ -68,15 +87,16 @@ public class TrajectoriesList {
         }
 
         trajectoriesList.remove(tr);
+        notifyTrajectoriesListListeners();
     }
 
     public static String getNextAvaliableName(){
         
-        String name = "Trajectory 1";
+        String name = null;
         int i = 1;
         boolean nameIsTaken = true;
         while(nameIsTaken) { 
-            name = "Trajectory " + ++i;
+            name = "Trajectory " + i++;
             nameIsTaken = false;
             for (Trajectory tr : trajectoriesList)
                 if(tr.getName().equals(name))

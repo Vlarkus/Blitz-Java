@@ -20,6 +20,7 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
+import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
 import blitz.servises.CartesianCoordinate;
 import blitz.servises.FieldImage;
@@ -33,7 +34,7 @@ import blitz.ui.main.tools.Tool;
 import blitz.ui.main.tools.Tool.Tools;
 import blitz.ui.main.tools.ToolListener;
 
-public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener{
+public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener, TrajectoriesListListener{
 
     private int mousePreviousX, mousePreviousY;
     private BufferedImage field;
@@ -71,6 +72,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         addMouseMotionListener(this);
         Active.addActiveListener(this);
         Tool.addToolListener(this);
+        TrajectoriesList.addTrajecoriesListListener(this);
 
     }
 
@@ -225,10 +227,9 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         return visibleTrajectories;
     }
 
-    public void setVisibleTrajectories(ArrayList<Trajectory> visibleTrajectories) {
+    private void setVisibleTrajectories(ArrayList<Trajectory> visibleTrajectories) {
         this.visibleTrajectories = visibleTrajectories;
         renderVisibleTrajectories();
-        //TODO: Rerender visibleTrajectories.
     }
 
     public void renderVisibleTrajectories(){
@@ -575,6 +576,17 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
         renderVisibleTrajectories();
+    }
+
+    @Override
+    public void TrajectoryListChanged() {
+        ArrayList<Trajectory> newVisibleTrajectories = TrajectoriesList.getTrajectoriesList();
+        for (Trajectory trajectory : newVisibleTrajectories) {
+            if(!trajectory.isVisible()){
+                newVisibleTrajectories.remove(trajectory);
+            }
+        }
+        setVisibleTrajectories(newVisibleTrajectories);
     }
     
 }
