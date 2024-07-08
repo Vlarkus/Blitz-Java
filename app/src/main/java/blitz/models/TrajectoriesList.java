@@ -47,6 +47,10 @@ public class TrajectoriesList {
 
     }
 
+    public static int getTrajectoryIndex(Trajectory tr){
+        return trajectoriesList.indexOf(tr);
+    }
+
     public static void addTrajectory(Trajectory tr){
         if(tr == null){
             throw new NullPointerException("Trajectory cannot be null!");

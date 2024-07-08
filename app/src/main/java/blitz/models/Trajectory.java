@@ -172,7 +172,7 @@ public class Trajectory {
         return name;
     }
 
-    public boolean isIsVisible() {
+    public boolean isVisible() {
         return isVisible;
     }
 
@@ -180,7 +180,7 @@ public class Trajectory {
         this.isVisible = isVisible;
     }
 
-    public boolean isIsLocked() {
+    public boolean isLocked() {
         return isLocked;
     }
 

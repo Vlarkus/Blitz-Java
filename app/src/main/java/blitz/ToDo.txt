@@ -9,3 +9,4 @@
     add private boolean isCurved.
 
 - CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!
+- Use border for each panel instead of text.

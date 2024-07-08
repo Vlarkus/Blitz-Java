@@ -2,7 +2,6 @@ package blitz.ui.main.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,15 +21,15 @@ import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
+import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
-public class SelectionPanel extends JPanel{
+public class SelectionPanel extends JPanel implements ActiveListener{
 
     private JPanel headerPanel, selectionMenuPanel, optionsBarPanel;
-    private ButtonGroup trajectoryLayersGroup;
     private JScrollPane selectionMenuScrollPane;
     
     public SelectionPanel(){
@@ -48,10 +47,10 @@ public class SelectionPanel extends JPanel{
 
     private void constructHeaderPanel() {
         headerPanel = new JPanel(new GridBagLayout());
-        headerPanel.setPreferredSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS);
-        headerPanel.setMinimumSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS);
-        headerPanel.setMaximumSize(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_PREFERRED_DIMENSIONS);
-        headerPanel.setBackground(MainFrameConfig.SELECTION_PANEL_HEADER_PANEL_COLOR);
+        headerPanel.setPreferredSize(MainFrameConfig.HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setMinimumSize(MainFrameConfig.HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setMaximumSize(MainFrameConfig.HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setBackground(MainFrameConfig.HEADER_PANEL_COLOR);
     
         JLabel selectionLabel = new JLabel("Selection Menu", SwingConstants.CENTER);
         selectionLabel.setFont(MainFrameConfig.SELECTION_PANEL_TITLE_LABEL_FONT);
@@ -70,45 +69,50 @@ public class SelectionPanel extends JPanel{
       
 
     private void constructSelectionMenuPanel(){
+
         selectionMenuPanel = new JPanel();
         selectionMenuPanel.setLayout(new GridBagLayout());
-        selectionMenuPanel.setBackground(MainFrameConfig.SELECTION_PANEL_SELECTION_MENU_COLOR);
+        selectionMenuPanel.setBackground(MainFrameConfig.SELECTION_MENU_COLOR);
 
         selectionMenuScrollPane = new JScrollPane(selectionMenuPanel);
         selectionMenuScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         selectionMenuScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-        fillSelectionMenuPanel();
+        renderSelectionMenuPanel();
 
         add(selectionMenuScrollPane, BorderLayout.CENTER);
 
     }
 
-    private void fillSelectionMenuPanel(){
 
+    private void renderSelectionMenuPanel() {
+        
         selectionMenuPanel.removeAll();
-
-        trajectoryLayersGroup = new ButtonGroup();
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 4, 4, 4);
-        int yIndex = 0;
         gbc.gridx = 0;
-        gbc.gridy = yIndex;
+        gbc.gridy = 0;
 
-        for (Trajectory tr : TrajectoriesList.getTrajectoriesList()) {
-            // Create TrajectoryLayer and add it to the selectionMenuPanel
-            selectionMenuPanel.add(new TrajectoryLayer(), gbc);
-        }
+        selectionMenuPanel.add(new TrajectoryLayer(new Trajectory("Hello")), gbc);
+        gbc.gridy++;
+
+        
+        selectionMenuPanel.revalidate();
+        selectionMenuPanel.repaint();
     }
+
+
+
+
 
     private void constructOptionsBar() {
         optionsBarPanel = new JPanel();
         optionsBarPanel.setLayout(new BoxLayout(optionsBarPanel, BoxLayout.X_AXIS));
-        optionsBarPanel.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS);
-        optionsBarPanel.setMinimumSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS);
-        optionsBarPanel.setMaximumSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_PREFERRED_DIMENSIONS);
-        optionsBarPanel.setBackground(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_COLOR);
+        optionsBarPanel.setPreferredSize(MainFrameConfig.OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setMinimumSize(MainFrameConfig.OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setMaximumSize(MainFrameConfig.OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setBackground(MainFrameConfig.OPTIONS_BAR_COLOR);
         optionsBarPanel.setAlignmentY(CENTER_ALIGNMENT);
         optionsBarPanel.add(Box.createHorizontalGlue());
     
@@ -132,7 +136,7 @@ public class SelectionPanel extends JPanel{
             }
         });
         optionsBarPanel.add(addTrajectoryButton);
-        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
+        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
 
         // Delete Button
         JButton deleteButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_DELETE_OPTION_ICON));
@@ -159,18 +163,34 @@ public class SelectionPanel extends JPanel{
             }
         });
         optionsBarPanel.add(deleteButton);
-        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
+        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
     
         add(optionsBarPanel, BorderLayout.SOUTH);
     }
 
     private void configureOptionButton(JButton b){
-        b.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        b.setPreferredSize(MainFrameConfig.OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
         b.setContentAreaFilled(false);
         b.setBorderPainted(false);
         b.setOpaque(false);
+        b.setFocusPainted(false);
         b.setMaximumSize(b.getPreferredSize());
     }
-    
+
+    @Override
+    public void activeTrajectoryChanged(Trajectory tr) {
+        renderSelectionMenuPanel();
+        System.out.println("activeTrajectoryChanged");
+    }
+
+    @Override
+    public void activeControlPointChanged(ControlPoint cp) {
+        renderSelectionMenuPanel();
+        System.out.println("activeControlPointChanged");
+    }
+
+    @Override
+    public void activeControlPointStateEdited(ControlPoint cp) {
+    }
 
 }
