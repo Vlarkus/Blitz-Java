@@ -11,6 +11,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -24,10 +25,12 @@ import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
+import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
 public class SelectionPanel extends JPanel{
 
     private JPanel headerPanel, selectionMenuPanel, optionsBarPanel;
+    private ButtonGroup trajectoryLayersGroup;
     private JScrollPane selectionMenuScrollPane;
     
     public SelectionPanel(){
@@ -68,7 +71,7 @@ public class SelectionPanel extends JPanel{
 
     private void constructSelectionMenuPanel(){
         selectionMenuPanel = new JPanel();
-        selectionMenuPanel.setLayout(new FlowLayout(FlowLayout.LEADING, HEIGHT, WIDTH));
+        selectionMenuPanel.setLayout(new GridBagLayout());
         selectionMenuPanel.setBackground(MainFrameConfig.SELECTION_PANEL_SELECTION_MENU_COLOR);
 
         selectionMenuScrollPane = new JScrollPane(selectionMenuPanel);
@@ -82,7 +85,21 @@ public class SelectionPanel extends JPanel{
     }
 
     private void fillSelectionMenuPanel(){
-        // TODO: fill the panel with TrajectoryLayer objects.
+
+        selectionMenuPanel.removeAll();
+
+        trajectoryLayersGroup = new ButtonGroup();
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(4, 4, 4, 4);
+        int yIndex = 0;
+        gbc.gridx = 0;
+        gbc.gridy = yIndex;
+
+        for (Trajectory tr : TrajectoriesList.getTrajectoriesList()) {
+            // Create TrajectoryLayer and add it to the selectionMenuPanel
+            selectionMenuPanel.add(new TrajectoryLayer(), gbc);
+        }
     }
 
     private void constructOptionsBar() {
@@ -98,11 +115,7 @@ public class SelectionPanel extends JPanel{
 
         // Add Trajectory Button
         JButton addTrajectoryButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_ADD_TRAJECTORY_OPTION_ICON));
-        addTrajectoryButton.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
-        addTrajectoryButton.setContentAreaFilled(false);
-        addTrajectoryButton.setBorderPainted(false);
-        addTrajectoryButton.setOpaque(false);
-        addTrajectoryButton.setMaximumSize(addTrajectoryButton.getPreferredSize());
+        configureOptionButton(addTrajectoryButton);
         addTrajectoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -123,11 +136,7 @@ public class SelectionPanel extends JPanel{
 
         // Delete Button
         JButton deleteButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_DELETE_OPTION_ICON));
-        deleteButton.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
-        deleteButton.setContentAreaFilled(false);
-        deleteButton.setBorderPainted(false);
-        deleteButton.setOpaque(false);
-        deleteButton.setMaximumSize(deleteButton.getPreferredSize());
+        configureOptionButton(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -153,6 +162,14 @@ public class SelectionPanel extends JPanel{
         optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
     
         add(optionsBarPanel, BorderLayout.SOUTH);
+    }
+
+    private void configureOptionButton(JButton b){
+        b.setPreferredSize(MainFrameConfig.SELECTION_PANEL_OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        b.setContentAreaFilled(false);
+        b.setBorderPainted(false);
+        b.setOpaque(false);
+        b.setMaximumSize(b.getPreferredSize());
     }
     
 

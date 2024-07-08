@@ -4,4 +4,8 @@
 - Add Help option in MenuBar containing Tutorials.
 - Mouse changes cursor depending on the tool inside CanvasPanel.
 
+- ControlPoint can be continuous or not. isContinuous()? thetaEnd = thetaStart + 180; Add option to turn it on an off in InfoPanel.
+- Add button to InfoPanel to turn helper points off: set rStart and rEnd to 0 and not show text fields for them.
+    add private boolean isCurved.
+
 - CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!
