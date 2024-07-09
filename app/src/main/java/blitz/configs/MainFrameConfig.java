@@ -135,6 +135,8 @@ public class MainFrameConfig {
     public static final Dimension TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION = new Dimension(16, 16);
     public static final Dimension TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION = new Dimension(10, 10);
     public static final Dimension TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION = new Dimension(110, 16);
+    public static final Dimension FILLER_BETWEEN_TRAJECTORY_LAYERS = new Dimension(0, 10);
+
 
     public static final HexColor CONTROL_POINT_LAYER_BACKGROUND_COLOR = new HexColor("#dedede");
     public static final Dimension CONTROL_POINT_LAYER_PREFERRED_DIMENSION = new Dimension((int)(TRAJECTORY_LAYER_PREFERRED_DIMENSION.getWidth() - TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight()), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
