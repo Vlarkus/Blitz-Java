@@ -1,10 +1,14 @@
 package blitz.servises;
 
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+
+import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 
 import blitz.configs.ServicesConfig;
 
@@ -79,5 +83,11 @@ public class Utils {
         return fieldImages;
     }
 
+    public static void requestFocusInWindowFor(JComponent c){
+        Component window = SwingUtilities.getWindowAncestor(c);
+                if (window != null) {
+                    window.requestFocusInWindow();
+                }
+    }
 
 }

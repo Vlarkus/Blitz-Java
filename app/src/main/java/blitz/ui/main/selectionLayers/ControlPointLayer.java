@@ -1,6 +1,5 @@
 package blitz.ui.main.selectionLayers;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -16,12 +15,12 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
+import blitz.servises.Utils;
 
 public class ControlPointLayer extends JPanel{
 
@@ -61,6 +60,13 @@ public class ControlPointLayer extends JPanel{
         configureLayerButton(activeButton, true);
         setLayerButtonImage(activeButton, relatedControlPoint == Active.getActiveControlPoint(), MainFrameConfig.PATH_TO_SELECTED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
         add(activeButton, gbc);
+        activeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Active.setActiveControlPoint(relatedControlPoint);
+                Utils.requestFocusInWindowFor(activeButton);
+            }
+        });
 
         // Index
         gbc.gridx++;
@@ -89,10 +95,7 @@ public class ControlPointLayer extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 switchToLabel();
-                Component window = SwingUtilities.getWindowAncestor(nameTextField);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
+                Utils.requestFocusInWindowFor(nameTextField);
             }
         });
 
@@ -101,10 +104,7 @@ public class ControlPointLayer extends JPanel{
             @Override
             public void focusLost(FocusEvent e) {
                 switchToLabel();
-                Component window = SwingUtilities.getWindowAncestor(nameTextField);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
+                Utils.requestFocusInWindowFor(nameTextField);
             }
         });
         nameTextField.setVisible(false);
@@ -117,6 +117,17 @@ public class ControlPointLayer extends JPanel{
         configureLayerButton(lockButton, true);
         setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
         add(lockButton, gbc);
+        lockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                relatedControlPoint.setIsLocked(!relatedControlPoint.isLocked());
+                if(Active.getActiveControlPoint().equals(relatedControlPoint)){
+                    Active.setActiveControlPoint(null);
+                }
+                setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+                Utils.requestFocusInWindowFor(lockButton);
+            }
+        });
 
 
 
@@ -157,6 +168,7 @@ public class ControlPointLayer extends JPanel{
         nameLabel.setText(relatedControlPoint.getName());
         nameLabel.setVisible(true);
         nameTextField.setVisible(false);
+        Utils.requestFocusInWindowFor(nameTextField);
     }
     
 }

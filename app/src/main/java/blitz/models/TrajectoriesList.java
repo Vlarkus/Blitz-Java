@@ -16,6 +16,40 @@ public class TrajectoriesList {
 
     // -=-=-=- METHODS -=-=-=-
 
+    public static void moveTrajectoryDown(Trajectory tr) {
+        if (!trajectoriesList.contains(tr)) {
+            return;
+        }
+    
+        int indexTR = trajectoriesList.indexOf(tr);
+        if (indexTR == trajectoriesList.size() - 1) {
+            return;
+        }
+    
+        int indexTR2 = indexTR + 1;
+        Trajectory temp = trajectoriesList.get(indexTR2);
+        trajectoriesList.set(indexTR2, tr);
+        trajectoriesList.set(indexTR, temp);
+        notifyTrajectoriesListListeners();
+    }
+
+    public static void moveTrajectoryUp(Trajectory tr) {
+        if (!trajectoriesList.contains(tr)) {
+            return;
+        }
+    
+        int indexTR = trajectoriesList.indexOf(tr);
+        if (indexTR == 0) {
+            return;
+        }
+    
+        int indexTR2 = indexTR - 1;
+        Trajectory temp = trajectoriesList.get(indexTR2);
+        trajectoriesList.set(indexTR2, tr);
+        trajectoriesList.set(indexTR, temp);
+        notifyTrajectoriesListListeners();
+    }
+    
     public static void addTrajecoriesListListener(TrajectoriesListListener listener){
         listeners.add(listener);
     }

@@ -1,6 +1,5 @@
 package blitz.ui.main.panels;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,7 +12,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.text.AbstractDocument;
 
 import blitz.configs.MainFrameConfig;
@@ -22,6 +20,7 @@ import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.servises.DecimalFilter;
+import blitz.servises.Utils;
 
 /**
  * A panel displaying information about an active control point, allowing for editing if the control point is active.
@@ -217,12 +216,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
                     textField.setText(oldValue);
                 }
             }
-
-            // Transfer focus back to the main window or another component
-            Component window = SwingUtilities.getWindowAncestor(textField);
-            if (window != null) {
-                window.requestFocusInWindow();
-            }
+            Utils.requestFocusInWindowFor(textField);
         });
 
         // FocusAdapter for focus lost
@@ -243,10 +237,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
                 }
 
                 // Transfer focus back to the main window or another component
-                Component window = SwingUtilities.getWindowAncestor(textField);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
+                Utils.requestFocusInWindowFor(textField);
             }
         });
 

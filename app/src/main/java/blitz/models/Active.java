@@ -37,6 +37,13 @@ public class Active {
      * @param activeTrajectory the trajectory to set as active
      */
     public static void setActiveTrajectory(Trajectory activeTrajectory) {
+        if(activeTrajectory == null){
+            Active.activeTrajectory = null;
+            Active.activeControlPoint = null;
+            notifyActiveTrajectoryChanged();
+            notifyActiveControlPointChanged();
+        }
+        if(activeTrajectory.isLocked()) { return; }
         Active.activeTrajectory = activeTrajectory;
         Active.activeControlPoint = null;
         notifyActiveTrajectoryChanged();
@@ -50,16 +57,25 @@ public class Active {
      * @throws IllegalArgumentException if the corresponding trajectory is not found
      */
     public static void setActiveControlPoint(ControlPoint activeControlPoint) {
-        if(activeControlPoint != null){
-            Trajectory newTrajectory = TrajectoriesList.getTrajectoryByControlPoint(activeControlPoint);
-            Active.activeControlPoint = activeControlPoint;
-            Active.activeTrajectory = newTrajectory;
-            notifyActiveControlPointChanged();
-            notifyActiveTrajectoryChanged();
-        } else {
-            Active.activeControlPoint = activeControlPoint;
+        
+        if(activeControlPoint == null) {
+            Active.activeControlPoint = null;
             notifyActiveControlPointChanged();
         }
+
+        if(activeControlPoint.isLocked()) { return; }
+        
+        Trajectory newTrajectory = TrajectoriesList.getTrajectoryByControlPoint(activeControlPoint);
+
+        if(newTrajectory == null) { return; }
+
+        if(newTrajectory.isLocked()) { return; }
+
+        Active.activeControlPoint = activeControlPoint;
+        Active.activeTrajectory = newTrajectory;
+        notifyActiveControlPointChanged();
+        notifyActiveTrajectoryChanged();
+
     }
 
     /**

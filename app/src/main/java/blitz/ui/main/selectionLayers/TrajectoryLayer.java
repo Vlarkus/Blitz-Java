@@ -1,9 +1,6 @@
 package blitz.ui.main.selectionLayers;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -21,13 +18,13 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
+import blitz.servises.Utils;
 
 public class TrajectoryLayer extends JPanel {
 
@@ -84,6 +81,13 @@ public class TrajectoryLayer extends JPanel {
         configureLayerButton(activeButton, true);
         setLayerButtonImage(activeButton, relatedTrajectory == Active.getActiveTrajectory(), MainFrameConfig.PATH_TO_SELECTED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
         trajectoryPanelElements.add(activeButton, trLayerGBC);
+        activeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Active.setActiveTrajectory(relatedTrajectory);
+                Utils.requestFocusInWindowFor(activeButton);
+            }
+        });
 
         // Index
         trLayerGBC.gridx++;
@@ -112,10 +116,7 @@ public class TrajectoryLayer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switchToLabel();
-                Component window = SwingUtilities.getWindowAncestor(nameTextField);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
+                Utils.requestFocusInWindowFor(nameTextField);
             }
         });
 
@@ -124,10 +125,7 @@ public class TrajectoryLayer extends JPanel {
             @Override
             public void focusLost(FocusEvent e) {
                 switchToLabel();
-                Component window = SwingUtilities.getWindowAncestor(nameTextField);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
+                Utils.requestFocusInWindowFor(nameTextField);
             }
         });
         nameTextField.setVisible(false);
@@ -138,8 +136,16 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         visibilityButton = new JButton();
         configureLayerButton(visibilityButton, true);
-        setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(),MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
+        setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
         trajectoryPanelElements.add(visibilityButton, trLayerGBC);
+        visibilityButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                relatedTrajectory.setIsVisible(!relatedTrajectory.isVisible());
+                setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
+                Utils.requestFocusInWindowFor(visibilityButton);
+            }
+        });
     
         // Lock Button
         trLayerGBC.gridx++;
@@ -148,7 +154,17 @@ public class TrajectoryLayer extends JPanel {
         configureLayerButton(lockButton, true);
         setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
         trajectoryPanelElements.add(lockButton, trLayerGBC);
-    
+        lockButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                relatedTrajectory.setIsLocked(!relatedTrajectory.isLocked());
+                if(Active.getActiveTrajectory().equals(relatedTrajectory)){
+                    Active.setActiveTrajectory(null);
+                }
+                setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+                Utils.requestFocusInWindowFor(lockButton);
+            }
+        });
 
         // Move Up & Down
         trLayerGBC.gridx++;
@@ -156,13 +172,20 @@ public class TrajectoryLayer extends JPanel {
         JPanel movePanel = new JPanel();
         movePanel.setLayout(new BoxLayout(movePanel, BoxLayout.Y_AXIS));
         movePanel.setOpaque(false);
-        trajectoryPanelElements.add(movePanel);
+        trajectoryPanelElements.add(movePanel);        
 
         // Move Up
         moveUpButton = new JButton();
         configureLayerButton(moveUpButton, false);
         moveUpButton.setIcon(new ImageIcon(MainFrameConfig.PATH_TO_MOVE_UP_LAYER_SELECTION_ICON));
         movePanel.add(moveUpButton);
+        moveUpButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TrajectoriesList.moveTrajectoryUp(relatedTrajectory);
+                Utils.requestFocusInWindowFor(moveUpButton);
+            }
+        });
     
         // Move Down
         trLayerGBC.gridx++;
@@ -170,6 +193,13 @@ public class TrajectoryLayer extends JPanel {
         configureLayerButton(moveDownButton, false);
         moveDownButton.setIcon(new ImageIcon(MainFrameConfig.PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON));
         movePanel.add(moveDownButton);
+        moveDownButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                TrajectoriesList.moveTrajectoryDown(relatedTrajectory);
+                Utils.requestFocusInWindowFor(moveDownButton);
+            }
+        });
     
         // Collapse Button
         trLayerGBC.gridx++;
@@ -178,6 +208,14 @@ public class TrajectoryLayer extends JPanel {
         configureLayerButton(collapseButton, true);
         setLayerButtonImage(collapseButton, true, MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON, null);
         trajectoryPanelElements.add(collapseButton, trLayerGBC);
+        collapseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                isCollapsed = !isCollapsed;
+                setLayerButtonImage(collapseButton, true, MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON, null);
+                Utils.requestFocusInWindowFor(collapseButton);
+            }
+        });
     
     }
 
@@ -242,6 +280,7 @@ public class TrajectoryLayer extends JPanel {
         nameLabel.setText(relatedTrajectory.getName());
         nameLabel.setVisible(true);
         nameTextField.setVisible(false);
+        Utils.requestFocusInWindowFor(nameTextField);
     }
 
     public void setIndexLabel(int index) {

@@ -29,6 +29,7 @@ import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 import blitz.models.TrajectoriesListListener;
+import blitz.servises.Utils;
 import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
 public class SelectionPanel extends JPanel implements ActiveListener, TrajectoriesListListener{
@@ -116,7 +117,8 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
             if (i < trajectories.size() - 1) {
                 gbc.gridy++;
                 JPanel fillerPanel = new JPanel();
-                fillerPanel.setBackground(Color.BLACK);
+                fillerPanel.setOpaque(false);
+                fillerPanel.setBackground(null);
                 fillerPanel.setPreferredSize(MainFrameConfig.FILLER_BETWEEN_TRAJECTORY_LAYERS);
                 fillerPanel.setMaximumSize(MainFrameConfig.FILLER_BETWEEN_TRAJECTORY_LAYERS);
                 fillerPanel.setMinimumSize(MainFrameConfig.FILLER_BETWEEN_TRAJECTORY_LAYERS);
@@ -128,7 +130,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
         gbc.gridy++;
         gbc.weighty = 1.0; // Allows the filler panel to take up remaining space vertically
         JPanel fillerPanel = new JPanel();
-        fillerPanel.setBackground(Color.BLACK); // Adjust as needed
+        fillerPanel.setOpaque(false);
         selectionMenuPanel.add(fillerPanel, gbc);
     
         selectionMenuPanel.revalidate();
@@ -160,11 +162,8 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
                 TrajectoriesList.addTrajectory(tr);
                 Active.setActiveTrajectory(tr);
 
-                Component window = SwingUtilities.getWindowAncestor(addTrajectoryButton);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
-            
+                Utils.requestFocusInWindowFor(addTrajectoryButton);
+
             }
         });
         optionsBarPanel.add(addTrajectoryButton);
@@ -187,10 +186,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
                     Active.setActiveTrajectory(null);
                 }
 
-                Component window = SwingUtilities.getWindowAncestor(deleteButton);
-                if (window != null) {
-                    window.requestFocusInWindow();
-                }
+                Utils.requestFocusInWindowFor(deleteButton);
             
             }
         });
