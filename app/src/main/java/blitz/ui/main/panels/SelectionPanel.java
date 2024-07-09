@@ -32,6 +32,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
 
     private JPanel headerPanel, selectionMenuPanel, optionsBarPanel;
     private JScrollPane selectionMenuScrollPane;
+    GridBagConstraints gbc;
     
     public SelectionPanel(){
 
@@ -72,28 +73,32 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     }
       
 
-    private void constructSelectionMenuPanel(){
-
+    private void constructSelectionMenuPanel() {
+        gbc = new GridBagConstraints();
+        gbc.anchor = GridBagConstraints.NORTH; // Align components to the top
+    
         selectionMenuPanel = new JPanel();
         selectionMenuPanel.setLayout(new GridBagLayout());
         selectionMenuPanel.setBackground(MainFrameConfig.SELECTION_MENU_COLOR);
-
+    
         selectionMenuScrollPane = new JScrollPane(selectionMenuPanel);
         selectionMenuScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         selectionMenuScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
+    
+        // Ensure viewport is properly set
+        selectionMenuScrollPane.setViewportView(selectionMenuPanel);
+    
         renderSelectionMenuPanel();
-
+    
         add(selectionMenuScrollPane, BorderLayout.CENTER);
-
     }
+    
 
 
     private void renderSelectionMenuPanel() {
         
         selectionMenuPanel.removeAll();
 
-        GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(4, 4, 4, 4);
         gbc.gridx = 0;
         gbc.gridy = 0;

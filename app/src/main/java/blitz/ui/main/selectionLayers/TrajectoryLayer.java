@@ -1,6 +1,9 @@
 package blitz.ui.main.selectionLayers;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,17 +25,16 @@ import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
+import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 
 public class TrajectoryLayer extends JPanel {
 
     private Trajectory relatedTrajectory;
-    private GridBagConstraints panelGBC;
 
     private JPanel controlPointsPanel; // Stores ControlPointLayers
     private ArrayList<ControlPointLayer> controlPointLayers;
-    private GridBagConstraints cpGBC;
 
     private JPanel trajectoryPanelElements;
     private JButton activeButton; // Set/show active trajectory
@@ -51,15 +53,17 @@ public class TrajectoryLayer extends JPanel {
     private final int INSETS_DEFAULT = 4;
 
     public TrajectoryLayer(Trajectory tr) {
-        setLayout(new GridBagLayout());
-        panelGBC = new GridBagConstraints();
+        setLayout(new BorderLayout());
+    
         trLayerGBC = new GridBagConstraints();
-        cpGBC = new GridBagConstraints();
         relatedTrajectory = tr;
-
+    
+        isCollapsed = false;
+    
         constructTrajectoryPanelElements();
         constructControlPointsPanel();
     }
+    
 
     private void constructTrajectoryPanelElements() {
         trajectoryPanelElements = new JPanel(new GridBagLayout());
@@ -67,23 +71,30 @@ public class TrajectoryLayer extends JPanel {
         trajectoryPanelElements.setMinimumSize(MainFrameConfig.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
         trajectoryPanelElements.setMaximumSize(MainFrameConfig.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
         trajectoryPanelElements.setBackground(MainFrameConfig.TRAJECTORY_LAYER_BACKGROUND_COLOR);
-        add(trajectoryPanelElements);
+        add(trajectoryPanelElements, BorderLayout.NORTH);
 
-        panelGBC.anchor = GridBagConstraints.WEST;
-        panelGBC.weightx = 1.0;
+        trLayerGBC.anchor = GridBagConstraints.WEST;
+        trLayerGBC.weightx = 1.0;
 
         // Active Button
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
-        panelGBC.gridx = 0;
-        panelGBC.gridy = 0;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.gridx = 0;
+        trLayerGBC.gridy = 0;
         activeButton = new JButton();
         configureLayerButton(activeButton, true);
         setLayerButtonImage(activeButton, relatedTrajectory == Active.getActiveTrajectory(), MainFrameConfig.PATH_TO_SELECTED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
-        trajectoryPanelElements.add(activeButton, panelGBC);
+        trajectoryPanelElements.add(activeButton, trLayerGBC);
+
+        // Index
+        trLayerGBC.gridx++;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.insets = new Insets(5, 5, 5, 5);
+        indexLabel = new JLabel("" + (TrajectoriesList.getTrajectoryIndex(relatedTrajectory) + 1));
+        trajectoryPanelElements.add(indexLabel, trLayerGBC);
     
         // Name Label
-        panelGBC.gridx++;
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.gridx++;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         nameLabel = new JLabel(relatedTrajectory.getName());
         nameLabel.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
         nameLabel.addMouseListener(new MouseAdapter() {
@@ -92,7 +103,7 @@ public class TrajectoryLayer extends JPanel {
                 switchToTextField();
             }
         });
-        trajectoryPanelElements.add(nameLabel, panelGBC);
+        trajectoryPanelElements.add(nameLabel, trLayerGBC);
     
         // Name TextField
         nameTextField = new JTextField(relatedTrajectory.getName());
@@ -120,35 +131,28 @@ public class TrajectoryLayer extends JPanel {
             }
         });
         nameTextField.setVisible(false);
-        trajectoryPanelElements.add(nameTextField, panelGBC);
-
-        // Index
-        panelGBC.gridx++;
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
-        panelGBC.insets = new Insets(5, 5, 5, 5);
-        indexLabel = new JLabel("" + TrajectoriesList.getTrajectoryIndex(relatedTrajectory));
-        trajectoryPanelElements.add(indexLabel, panelGBC);
+        trajectoryPanelElements.add(nameTextField, trLayerGBC);
     
         // Visibility Button
-        panelGBC.gridx++;
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.gridx++;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         visibilityButton = new JButton();
         configureLayerButton(visibilityButton, true);
         setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(),MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
-        trajectoryPanelElements.add(visibilityButton, panelGBC);
+        trajectoryPanelElements.add(visibilityButton, trLayerGBC);
     
         // Lock Button
-        panelGBC.gridx++;
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.gridx++;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         lockButton = new JButton();
         configureLayerButton(lockButton, true);
         setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
-        trajectoryPanelElements.add(lockButton, panelGBC);
+        trajectoryPanelElements.add(lockButton, trLayerGBC);
     
 
         // Move Up & Down
-        panelGBC.gridx++;
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.gridx++;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         JPanel movePanel = new JPanel();
         movePanel.setLayout(new BoxLayout(movePanel, BoxLayout.Y_AXIS));
         movePanel.setOpaque(false);
@@ -161,19 +165,19 @@ public class TrajectoryLayer extends JPanel {
         movePanel.add(moveUpButton);
     
         // Move Down
-        panelGBC.gridx++;
+        trLayerGBC.gridx++;
         moveDownButton = new JButton();
         configureLayerButton(moveDownButton, false);
         moveDownButton.setIcon(new ImageIcon(MainFrameConfig.PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON));
         movePanel.add(moveDownButton);
     
         // Collapse Button
-        panelGBC.gridx++;
-        panelGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
+        trLayerGBC.gridx++;
+        trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         collapseButton = new JButton();
         configureLayerButton(collapseButton, true);
         setLayerButtonImage(collapseButton, true, MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON, null);
-        trajectoryPanelElements.add(collapseButton, panelGBC);
+        trajectoryPanelElements.add(collapseButton, trLayerGBC);
     
     }
 
@@ -201,18 +205,30 @@ public class TrajectoryLayer extends JPanel {
     }
     
     private void constructControlPointsPanel() {
-        
-        // controlPointsPanel = new JPanel(new GridBagLayout());
-        // controlPointsPanel.setBackground(Color.GREEN);
+        // Filler Panel
+        JPanel fillerPanel = new JPanel();
+        fillerPanel.setOpaque(false);
+        fillerPanel.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
+        fillerPanel.setMinimumSize(MainFrameConfig.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
+        fillerPanel.setMaximumSize(MainFrameConfig.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
+        add(fillerPanel, BorderLayout.WEST);
     
-        // cpGBC = new GridBagConstraints();
-        // cpGBC.gridx = 0;
-        // cpGBC.gridy = 1;
-        // cpGBC.weightx = 1.0;
-        // cpGBC.fill = GridBagConstraints.HORIZONTAL;
-        // add(controlPointsPanel, cpGBC);
-
-    }    
+        // Control Points Panel
+        controlPointsPanel = new JPanel();
+        controlPointsPanel.setLayout(new BoxLayout(controlPointsPanel, BoxLayout.Y_AXIS));
+        add(controlPointsPanel, BorderLayout.CENTER);
+    
+        controlPointLayers = new ArrayList<>();
+    
+        if (!isCollapsed) {
+            for (ControlPoint cp : relatedTrajectory.getAllControlPoints()) {
+                ControlPointLayer cpLayer = new ControlPointLayer(cp);
+                controlPointLayers.add(cpLayer);
+                controlPointsPanel.add(cpLayer);
+            }
+        }
+    }
+      
 
     private void switchToTextField() {
         nameLabel.setVisible(false);
@@ -229,6 +245,6 @@ public class TrajectoryLayer extends JPanel {
     }
 
     public void setIndexLabel(int index) {
-        indexLabel.setText("Index: " + index);
+        indexLabel.setText("" + index);
     }
 }

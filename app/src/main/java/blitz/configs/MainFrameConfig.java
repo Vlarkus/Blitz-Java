@@ -130,10 +130,14 @@ public class MainFrameConfig {
     public static final String PATH_TO_ADD_TRAJECTORY_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/add-trajectory-option.png";
 
     public static final HexColor TRAJECTORY_LAYER_BACKGROUND_COLOR = new HexColor("#fefefe");
-    public static final Dimension TRAJECTORY_LAYER_PREFERRED_DIMENSION = new Dimension(320, 40);
+    public static final Dimension TRAJECTORY_LAYER_PREFERRED_DIMENSION = new Dimension(300, 40);
+    public static final Dimension TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION = new Dimension((int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight(), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
     public static final Dimension TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION = new Dimension(16, 16);
     public static final Dimension TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION = new Dimension(10, 10);
     public static final Dimension TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION = new Dimension(110, 16);
+
+    public static final HexColor CONTROL_POINT_LAYER_BACKGROUND_COLOR = new HexColor("#dedede");
+    public static final Dimension CONTROL_POINT_LAYER_PREFERRED_DIMENSION = new Dimension((int)(TRAJECTORY_LAYER_PREFERRED_DIMENSION.getWidth() - TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight()), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
 
     public static final String PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/collapse-layers-selection-icon.png";
     public static final String PATH_TO_HIDDEN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/hidden-layer-selection-icon.png";

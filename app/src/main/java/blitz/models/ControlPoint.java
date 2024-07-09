@@ -325,7 +325,7 @@ public final class ControlPoint {
         return thetaEnd;
     }
 
-    public boolean isIsLocked() {
+    public boolean isLocked() {
         return isLocked;
     }
 
