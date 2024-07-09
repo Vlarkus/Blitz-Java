@@ -74,45 +74,30 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
       
 
     private void constructSelectionMenuPanel() {
-        gbc = new GridBagConstraints();
-        gbc.anchor = GridBagConstraints.NORTH; // Align components to the top
-    
         selectionMenuPanel = new JPanel();
-        selectionMenuPanel.setLayout(new GridBagLayout());
+        selectionMenuPanel.setLayout(new BoxLayout(selectionMenuPanel, BoxLayout.Y_AXIS));
         selectionMenuPanel.setBackground(MainFrameConfig.SELECTION_MENU_COLOR);
     
         selectionMenuScrollPane = new JScrollPane(selectionMenuPanel);
         selectionMenuScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         selectionMenuScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     
-        // Ensure viewport is properly set
-        selectionMenuScrollPane.setViewportView(selectionMenuPanel);
-    
         renderSelectionMenuPanel();
     
         add(selectionMenuScrollPane, BorderLayout.CENTER);
     }
     
-
-
     private void renderSelectionMenuPanel() {
-        
         selectionMenuPanel.removeAll();
-
-        gbc.insets = new Insets(4, 4, 4, 4);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-
-        for (Trajectory tr : TrajectoriesList.getTrajectoriesList()) {
-
-            selectionMenuPanel.add(new TrajectoryLayer(tr), gbc);
-            gbc.gridy++;
     
+        for (Trajectory tr : TrajectoriesList.getTrajectoriesList()) {
+            selectionMenuPanel.add(new TrajectoryLayer(tr));
         }
-        
+    
         selectionMenuPanel.revalidate();
         selectionMenuPanel.repaint();
     }
+    
 
 
 

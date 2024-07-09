@@ -130,7 +130,7 @@ public class MainFrameConfig {
     public static final String PATH_TO_ADD_TRAJECTORY_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/add-trajectory-option.png";
 
     public static final HexColor TRAJECTORY_LAYER_BACKGROUND_COLOR = new HexColor("#fefefe");
-    public static final Dimension TRAJECTORY_LAYER_PREFERRED_DIMENSION = new Dimension(300, 40);
+    public static final Dimension TRAJECTORY_LAYER_PREFERRED_DIMENSION = new Dimension((int)SELECTION_PANEL_PREFERRED_DIMENSIONS.getWidth(), 40);
     public static final Dimension TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION = new Dimension((int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight(), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
     public static final Dimension TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION = new Dimension(16, 16);
     public static final Dimension TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION = new Dimension(10, 10);
