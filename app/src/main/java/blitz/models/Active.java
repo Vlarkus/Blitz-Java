@@ -42,6 +42,7 @@ public class Active {
             Active.activeControlPoint = null;
             notifyActiveTrajectoryChanged();
             notifyActiveControlPointChanged();
+            return;
         }
         if(activeTrajectory.isLocked()) { return; }
         Active.activeTrajectory = activeTrajectory;

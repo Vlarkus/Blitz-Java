@@ -302,7 +302,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
             case ADD:
                 addControlPointToSelectedTrajectory(e.getX(), e.getY());
-                System.out.println(visibleTrajectories.size());
                 break;
             
             case INSERT:
@@ -586,7 +585,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void TrajectoryListChanged() {
-        
+        updateVisibleTrajectories();
     }
 
     public void updateVisibleTrajectories(){

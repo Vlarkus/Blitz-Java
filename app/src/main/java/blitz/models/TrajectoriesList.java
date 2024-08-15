@@ -157,6 +157,12 @@ public class TrajectoriesList {
         return trajectoriesList.indexOf(tr);
     }
 
+    public static void setTrajectoriesList(ArrayList<Trajectory> trajectories){
+        trajectoriesList = trajectories;
+        notifyTrajectoriesListListeners();
+        Active.setActiveTrajectory(null);
+    }
+
     public static void addTrajectory(Trajectory tr){
         if(tr == null){
             throw new NullPointerException("Trajectory cannot be null!");

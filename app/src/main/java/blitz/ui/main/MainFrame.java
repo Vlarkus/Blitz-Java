@@ -18,9 +18,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import blitz.configs.MainFrameConfig;
-import blitz.models.TrajectoriesList;
 import blitz.servises.FieldImage;
 import blitz.servises.Utils;
+import blitz.ui.main.menu.Open;
 import blitz.ui.main.menu.Save;
 import blitz.ui.main.panels.CanvasPanel;
 import blitz.ui.main.panels.InfoPanel;
@@ -53,7 +53,6 @@ public class MainFrame extends JFrame implements KeyListener{
         requestFocusInWindow();
         toFront();
         addKeyListener(this);
-        System.out.println(TrajectoriesList.getNextAvaliableName());
     }
 
 
@@ -71,12 +70,12 @@ public class MainFrame extends JFrame implements KeyListener{
 
         // Open
         JMenuItem openMenuItem = new JMenuItem("Open");
-        openMenuItem.addActionListener((ActionEvent e) -> {});
+        openMenuItem.addActionListener((ActionEvent e) -> {Open.open();});
         fileMenu.add(openMenuItem);
         
         // Save As
         JMenuItem saveAsMenuItem = new JMenuItem("Save As");
-        saveAsMenuItem.addActionListener((ActionEvent e) -> {Save.SaveAs();});
+        saveAsMenuItem.addActionListener((ActionEvent e) -> {Save.saveAs();});
         fileMenu.add(saveAsMenuItem);
 
         // Export

@@ -18,7 +18,7 @@ import blitz.models.Trajectory;
 
 public class Save {
     
-    public static void SaveAs(){
+    public static void saveAs(){
 
         // Create File Chooser
         JFileChooser fileChooser = new JFileChooser();
