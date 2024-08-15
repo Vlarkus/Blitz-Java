@@ -61,6 +61,7 @@ public class Active {
         if(activeControlPoint == null) {
             Active.activeControlPoint = null;
             notifyActiveControlPointChanged();
+            return;
         }
 
         if(activeControlPoint.isLocked()) { return; }

@@ -1,9 +1,6 @@
 package blitz.ui.main.panels;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -13,22 +10,21 @@ import java.util.ArrayList;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
-import blitz.models.Trajectory;
 import blitz.models.TrajectoriesListListener;
+import blitz.models.Trajectory;
+import blitz.models.VisibleTrajectories;
 import blitz.servises.Utils;
 import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
@@ -161,7 +157,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
                 Trajectory tr = new Trajectory(TrajectoriesList.getNextAvaliableName());
                 TrajectoriesList.addTrajectory(tr);
                 Active.setActiveTrajectory(tr);
-
+                VisibleTrajectories.notifyVisibleTrajectoriesChanged();
                 Utils.requestFocusInWindowFor(addTrajectoryButton);
 
             }
@@ -185,6 +181,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
                     TrajectoriesList.removeTrajectory(tr);
                     Active.setActiveTrajectory(null);
                 }
+                VisibleTrajectories.notifyVisibleTrajectoriesChanged();
 
                 Utils.requestFocusInWindowFor(deleteButton);
             

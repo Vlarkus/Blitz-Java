@@ -24,6 +24,7 @@ import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
+import blitz.models.VisibleTrajectories;
 import blitz.servises.Utils;
 
 public class TrajectoryLayer extends JPanel {
@@ -143,6 +144,7 @@ public class TrajectoryLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 relatedTrajectory.setIsVisible(!relatedTrajectory.isVisible());
                 setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
+                VisibleTrajectories.notifyVisibleTrajectoriesChanged();
                 Utils.requestFocusInWindowFor(visibilityButton);
             }
         });

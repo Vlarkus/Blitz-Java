@@ -1,5 +1,6 @@
 package blitz.models;
 
+import java.awt.TrayIcon;
 import java.util.ArrayList;
 
 import javax.sound.midi.Track;
@@ -15,6 +16,60 @@ public class TrajectoriesList {
 
 
     // -=-=-=- METHODS -=-=-=-
+
+    public static void cutTrajectoryAtControlPoint(ControlPoint cp) {
+
+        if(cp == null) {
+            return;
+        }
+        if(cp.isLocked()) {
+            return;
+        }
+    
+        Trajectory tr1 = getTrajectoryByControlPoint(cp);
+    
+        if(tr1 == null) {
+            return;
+        }
+        if(tr1.isLocked()) {
+            return;
+        }
+
+        if(tr1.getAllControlPoints().getLast() == cp) {
+            return;
+        }
+
+        if(tr1.getAllControlPoints().getFirst() == cp) {
+            return;
+        }
+    
+        int indexTR1 = trajectoriesList.indexOf(tr1);
+        Trajectory tr2 = new Trajectory(getNextAvaliableName());
+    
+        int indexOfCP = tr1.indexOf(cp);
+    
+        for (int i = 0; i < indexOfCP; i++) {
+            ControlPoint insertCP = tr1.getControlPoint(i);
+            tr2.addControlPoint(insertCP);
+        }
+    
+        ControlPoint copyOfCP = new ControlPoint(cp);
+        tr2.addControlPoint(copyOfCP);
+    
+        for (int i = indexOfCP; i >= 0; i--) {
+            tr1.removeControlPoint(tr1.getControlPoint(i));
+        }
+    
+        if (indexTR1 + 1 <= trajectoriesList.size()) {
+            trajectoriesList.add(indexTR1 + 1, tr2);
+        } else {
+            trajectoriesList.add(tr2);
+        }
+
+        notifyTrajectoriesListListeners();
+        
+    }
+    
 
     public static void moveTrajectoryDown(Trajectory tr) {
         if (!trajectoriesList.contains(tr)) {

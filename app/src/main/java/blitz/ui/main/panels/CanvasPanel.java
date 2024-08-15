@@ -22,6 +22,8 @@ import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
+import blitz.models.VisibleTrajectories;
+import blitz.models.VisibleTrajectoriesListener;
 import blitz.servises.CartesianCoordinate;
 import blitz.servises.FieldImage;
 import blitz.servises.Utils;
@@ -34,7 +36,7 @@ import blitz.ui.main.tools.Tool;
 import blitz.ui.main.tools.Tool.Tools;
 import blitz.ui.main.tools.ToolListener;
 
-public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener, TrajectoriesListListener{
+public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener, TrajectoriesListListener, VisibleTrajectoriesListener{
 
     private int mousePreviousX, mousePreviousY;
     private BufferedImage field;
@@ -73,6 +75,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         Active.addActiveListener(this);
         Tool.addToolListener(this);
         TrajectoriesList.addTrajecoriesListListener(this);
+        VisibleTrajectories.addVisibleTrajectoriesListener(this);
 
     }
 
@@ -299,6 +302,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
             case ADD:
                 addControlPointToSelectedTrajectory(e.getX(), e.getY());
+                System.out.println(visibleTrajectories.size());
                 break;
             
             case INSERT:
@@ -311,6 +315,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
             
             case CUT:
+                setSelectedControlPointer(e.getX(), e.getY());
+                TrajectoriesList.cutTrajectoryAtControlPoint(Active.getActiveControlPoint());
                 break;
             
             case SHOW_ROBOT:
@@ -580,6 +586,10 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void TrajectoryListChanged() {
+        
+    }
+
+    public void updateVisibleTrajectories(){
         ArrayList<Trajectory> newVisibleTrajectories = TrajectoriesList.getTrajectoriesList();
         for (Trajectory trajectory : newVisibleTrajectories) {
             if(!trajectory.isVisible()){
@@ -587,6 +597,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             }
         }
         setVisibleTrajectories(newVisibleTrajectories);
+    }
+
+    @Override
+    public void visibleTrajectoriesChanged() {
+        updateVisibleTrajectories();
     }
     
 }

@@ -1,4 +1,4 @@
-- CanvasPanel allows to zoom in/out.
+- CanvasPanel allows to zoom in/out. https://www.youtube.com/watch?v=ZQ8qtAizis4&t=859s
 - CanvasPanel displays mouse field position in bottom left corner.
 - When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
 - Add Help option in MenuBar containing Tutorials.
@@ -9,4 +9,9 @@
     add private boolean isCurved.
 
 - CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!
-- Use border for each panel instead of text.
+- Use border for each panel instead of saying what panel it is with a title text.
+
+- Additional functionality idea: Ability to change color of different trajectories
+- Another additional functionality idea: Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)
+
+- User is able to export their path in whatever format they chose. There should be a separate window that allows to make custom export types.

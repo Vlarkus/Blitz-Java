@@ -70,6 +70,10 @@ public final class ControlPoint {
         this(name, ModelsConfig.CONTROL_POINT_DEFAULT_X, ModelsConfig.CONTROL_POINT_DEFAULT_Y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
     }
 
+    public ControlPoint(ControlPoint cp) {
+        this(cp.getName(), cp.getX(), cp.getY(), cp.getRStart(), cp.getThetaStart(), cp.getREnd(), cp.getThetaEnd(), cp.getNumSegments(), cp.getTime());
+    }
+
     // -=-=-=- METHODS -=-=-=-
 
     // -=- Control Point -=-

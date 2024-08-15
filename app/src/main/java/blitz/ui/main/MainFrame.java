@@ -21,6 +21,7 @@ import blitz.configs.MainFrameConfig;
 import blitz.models.TrajectoriesList;
 import blitz.servises.FieldImage;
 import blitz.servises.Utils;
+import blitz.ui.main.menu.Save;
 import blitz.ui.main.panels.CanvasPanel;
 import blitz.ui.main.panels.InfoPanel;
 import blitz.ui.main.panels.SelectionPanel;
@@ -75,7 +76,7 @@ public class MainFrame extends JFrame implements KeyListener{
         
         // Save As
         JMenuItem saveAsMenuItem = new JMenuItem("Save As");
-        saveAsMenuItem.addActionListener((ActionEvent e) -> {});
+        saveAsMenuItem.addActionListener((ActionEvent e) -> {Save.SaveAs();});
         fileMenu.add(saveAsMenuItem);
 
         // Export
