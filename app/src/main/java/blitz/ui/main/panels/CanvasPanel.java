@@ -1,7 +1,11 @@
 package blitz.ui.main.panels;
 
+import java.awt.Cursor;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.MouseInfo;
 import java.awt.Point;
+import java.awt.Toolkit;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -9,11 +13,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
@@ -27,6 +33,7 @@ import blitz.models.VisibleTrajectoriesListener;
 import blitz.servises.CartesianCoordinate;
 import blitz.servises.FieldImage;
 import blitz.servises.Utils;
+import blitz.ui.main.panels.CanvasPanel.CURSOR;
 import blitz.ui.main.pointers.BezierPointer;
 import blitz.ui.main.pointers.ControlPointer;
 import blitz.ui.main.pointers.HelperLine;
@@ -51,6 +58,22 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     private HelperPointer selectedHelperPointer;
 
+    private HashMap<CURSOR, Cursor> cursorMap;
+
+    public static enum CURSOR{
+        SCISSORS,
+        MOVE,
+        HAND_OPEN,
+        HAND_GRABBING,
+        HAND_POINTING,
+        HELP,
+        NOT_ALLOWED,
+        PLUS,
+        MINUS,
+        EYE,
+        UNKNOWN
+    }
+
     public CanvasPanel(){
         
         setBackground(MainFrameConfig.CANVAS_PANEL_BACKGROUND_COLOR);
@@ -63,6 +86,34 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         helperPointers = new ArrayList<HelperPointer>();
 
         selectedHelperPointer = null;
+
+
+
+        cursorMap = new HashMap<CURSOR, Cursor>();
+        // PATH_TO_PLUS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/plus.png";
+        // public static final String PATH_TO_SCISSORS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/scissors.png";
+        // public static final String PATH_TO_MOVE_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/move.png";
+        // public static final String PATH_TO_HAND_OPEN_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/handopen.png";
+        // public static final String PATH_TO_HAND_GRABBING_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/handgrabbing.png";
+        // public static final String PATH_TO_HAND_POINTING_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/handpointing.png";
+        // public static final String PATH_TO_HELP_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/help.png";
+        // public static final String PATH_TO_MINUS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/minus.png";
+        // public static final String PATH_TO_EYE_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/eye.png";
+        // public static final String PATH_TO_NOT_ALLOWED_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/notallowed.png";
+        // public static final String PATH_TO_UNKNOWN_CURSOR_IMAGE
+       
+        addCursorToMap(MainFrameConfig.PATH_TO_PLUS_CURSOR_IMAGE, CURSOR.PLUS, "Plus", 8, 0);
+        addCursorToMap(MainFrameConfig.PATH_TO_SCISSORS_CURSOR_IMAGE, CURSOR.SCISSORS, "Scissors", 8, 0);
+        addCursorToMap(MainFrameConfig.PATH_TO_MOVE_CURSOR_IMAGE, CURSOR.MOVE, "Move", 16, 16);
+        addCursorToMap(MainFrameConfig.PATH_TO_HAND_GRABBING_CURSOR_IMAGE, CURSOR.HAND_GRABBING, "Grabbing hand", 16, 16);
+        addCursorToMap(MainFrameConfig.PATH_TO_HAND_OPEN_CURSOR_IMAGE, CURSOR.HAND_OPEN, "Open hand", 16, 16);
+        addCursorToMap(MainFrameConfig.PATH_TO_HAND_POINTING_CURSOR_IMAGE, CURSOR.HAND_POINTING, "Pointing hand", 16, 16);
+        addCursorToMap(MainFrameConfig.PATH_TO_MINUS_CURSOR_IMAGE, CURSOR.MINUS, "Minus", 8, 0);
+        addCursorToMap(MainFrameConfig.PATH_TO_EYE_CURSOR_IMAGE, CURSOR.EYE, "Eye", 8, 0);
+        addCursorToMap(MainFrameConfig.PATH_TO_NOT_ALLOWED_CURSOR_IMAGE, CURSOR.NOT_ALLOWED, "Not allowed", 8, 0);
+        addCursorToMap(MainFrameConfig.PATH_TO_UNKNOWN_CURSOR_IMAGE, CURSOR.UNKNOWN, "Unknown", 8, 0);
+        
+
 
         try {
             setFieldImage(new FieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD));
@@ -78,6 +129,20 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         VisibleTrajectories.addVisibleTrajectoriesListener(this);
 
     }
+
+
+
+    private void addCursorToMap(String path, CURSOR cursorType, String name, int x, int y) {
+        Image cursorImage = Toolkit.getDefaultToolkit().getImage(path);
+        Image scaledImage = cursorImage.getScaledInstance(32, 32, Image.SCALE_SMOOTH);
+        Point hotSpot = new Point(x, y); // Adjust if necessary depending on the new size
+        Cursor cursor = Toolkit.getDefaultToolkit().createCustomCursor(scaledImage, hotSpot, name);
+        
+        cursorMap.put(cursorType, cursor);
+    }
+    
+
+
 
     private void clearControlPointers(){
         controlPointers = new ArrayList<ControlPointer>();
@@ -345,6 +410,52 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         }
         Active.setActiveControlPoint(null);
     }
+    
+
+
+    private boolean isCursorWithinAnyControlPoint() {
+        Point cursorScreenPosition = MouseInfo.getPointerInfo().getLocation();
+        Point panelScreenPosition = this.getLocationOnScreen();
+    
+        // Convert screen position to field coordinates
+        CartesianCoordinate c =
+            new CartesianCoordinate(
+                cursorScreenPosition.x - panelScreenPosition.x, 
+                cursorScreenPosition.y - panelScreenPosition.y
+                );
+    
+        // Check if cursor is within any control pointer
+        for (ControlPointer p : controlPointers) {
+            if (p.isWithinPointer((int) c.getX(), (int) c.getY())) {
+                return true;
+            }
+        }
+    
+        return false;
+    }
+
+    
+    private boolean isCursorWithinAnyHelperPoint() {
+        Point cursorScreenPosition = MouseInfo.getPointerInfo().getLocation();
+        Point panelScreenPosition = this.getLocationOnScreen();
+    
+        // Convert screen position to field coordinates
+        CartesianCoordinate c =
+            new CartesianCoordinate(
+                cursorScreenPosition.x - panelScreenPosition.x, 
+                cursorScreenPosition.y - panelScreenPosition.y
+                );
+    
+        // Check if cursor is within any control pointer
+        for (HelperPointer p : helperPointers) {
+            if (p.isWithinPointer((int) c.getX(), (int) c.getY())) {
+                return true;
+            }
+        }
+    
+        return false;
+    }
+    
 
     private void setSelectedHelperPointer(int x, int y){
         for (HelperPointer p : helperPointers) {
@@ -434,6 +545,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
             case PAN:
                 calculatePanning(e);
+                this.setCursor(cursorMap.get(CURSOR.HAND_GRABBING));
                 break;
 
             case EDIT_TIME:
@@ -442,6 +554,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void moveSelectedControlPointer(int screenX, int screenY){
+        this.setCursor(cursorMap.get(CURSOR.HAND_GRABBING));
         CartesianCoordinate fieldCoordinate = convertScreenToFieldCoordinates(new CartesianCoordinate(screenX, screenY));
         ControlPoint cp = getSelectedControlPointer().getRelatedControlPoint();
         cp.setPosition(fieldCoordinate.getX(), fieldCoordinate.getY());
@@ -457,6 +570,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             cp.setAbsEndHelperPos(fieldCoordinate.getX(), fieldCoordinate.getY());
         }
         Active.notifyActiveControlPointStateEdited();
+        this.setCursor(cursorMap.get(CURSOR.HAND_GRABBING));
     }
 
     private void calculatePanning(MouseEvent e){
@@ -507,7 +621,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
 
             case PAN:
-
+                this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
                 break;
 
             case EDIT_TIME:
@@ -517,17 +631,92 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        switch (Tool.getSelectedTool()) {
+            case MOVE:
+                if(isCursorWithinAnyControlPoint() || isCursorWithinAnyHelperPoint()){
+                    this.setCursor(cursorMap.get(CURSOR.HAND_POINTING));
+                } else {
+                    this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
+                }
+                break;
 
+            case ADD:
+                break;
+            
+            case INSERT:
+                break;
+            
+            case REMOVE:
+                break;
+            
+            case CUT:
+                break;
+            
+            case SHOW_ROBOT:
+                break;
+            
+            case MERGE:
+                break;
+            
+            case RENDER_ALL:
+                break;
+
+            case PAN:
+                break;
+
+            case EDIT_TIME:
+                break;
+        }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
 
+        updateCursorDependingOnTool();
+
+    }
+
+
+
+    private void updateCursorDependingOnTool() {
+        switch (Tool.getSelectedTool()) {
+            case ADD:
+                this.setCursor(cursorMap.get(CURSOR.PLUS));
+                break;
+
+            case CUT:
+                this.setCursor(cursorMap.get(CURSOR.SCISSORS));
+                break;
+
+            case INSERT:
+                this.setCursor(cursorMap.get(CURSOR.PLUS));
+                break;
+
+            case MOVE:
+                this.setCursor(cursorMap.get(CURSOR.MOVE));
+                break;
+
+            case PAN:
+                this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
+                break;
+
+            case REMOVE:
+                this.setCursor(cursorMap.get(CURSOR.MINUS));
+                break;
+
+            case SHOW_ROBOT:
+                this.setCursor(cursorMap.get(CURSOR.EYE));
+                break;
+            
+            default:
+            this.setCursor(cursorMap.get(CURSOR.UNKNOWN));
+                break;
+        }
     }
 
     @Override
     public void mouseExited(MouseEvent e) {
-
+        this.setCursor(Cursor.getDefaultCursor());
     }
 
     public void setFieldImage(FieldImage fieldImage) {
@@ -571,6 +760,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void selectedToolChanged(Tools tool) {
+        updateCursorDependingOnTool();
         switch (tool) {
             case RENDER_ALL:
                 renderVisibleTrajectories();
