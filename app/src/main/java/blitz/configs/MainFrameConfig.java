@@ -11,7 +11,7 @@ public class MainFrameConfig {
     // MainFrame
 
     public static final String FRAME_TITLE = "Blitz";
-    public static final Dimension MINIMUM_FRAME_DIMENSIONS = new Dimension(1000, 600);
+    public static final Dimension MINIMUM_FRAME_DIMENSIONS = new Dimension(1000, 720);
     public static final Dimension DEFAULT_FRAME_DIMENSIONS = MINIMUM_FRAME_DIMENSIONS;
 
     public static final String SAVE_FILE_EXTENSION_TYPE = ".btz";
@@ -71,7 +71,7 @@ public class MainFrameConfig {
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
 
     public static final int PIXELS_IN_ONE_INCH = 36;
-    public static final double MIN_ZOOM_SCALE_VALUE = 0.5;
+    public static final double MIN_ZOOM_SCALE_VALUE = 0.4;
     public static final double MAX_ZOOM_SCALE_VALUE = 2;
     public static final double ZOOM_IN_COEFFICIENT = 1.05; // Must be >1
     public static final double ZOOM_OUT_COEFFICIENT = 0.95; // Must be <1
@@ -114,6 +114,12 @@ public class MainFrameConfig {
 
     public static final float HELPER_LINE_THICKNESS = 3f;
     public static final HexColor HELPER_LINE_COLOR = new HexColor("f57e1d");
+
+
+
+    // MouseInfoPanel
+
+    public static final HexColor MOUSE_INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
 
 

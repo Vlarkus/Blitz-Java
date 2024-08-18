@@ -24,6 +24,7 @@ import blitz.ui.main.menu.Open;
 import blitz.ui.main.menu.Save;
 import blitz.ui.main.panels.CanvasPanel;
 import blitz.ui.main.panels.InfoPanel;
+import blitz.ui.main.panels.MouseInfoPanel;
 import blitz.ui.main.panels.SelectionPanel;
 import blitz.ui.main.panels.ToolPanel;
 import blitz.ui.main.tools.Tool.Tools;
@@ -34,6 +35,7 @@ public class MainFrame extends JFrame implements KeyListener{
     private ToolPanel toolPanel;
     private CanvasPanel canvasPanel;
     private JPanel sidePanel;
+    private JPanel centerPanel;
     private InfoPanel infoPanel;
     private SelectionPanel SelectionPanel;
     private JScrollPane scrollPane;
@@ -153,7 +155,13 @@ public class MainFrame extends JFrame implements KeyListener{
         canvasPanel.setScrollPane(scrollPane);
         JViewport viewport = scrollPane.getViewport();
         viewport.setViewPosition(new Point( (int)(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.width/3), (int)(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.height/3)));
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        centerPanel = new JPanel(new BorderLayout());
+        centerPanel.add(scrollPane, BorderLayout.CENTER);
+        MouseInfoPanel mouseInfoPanel = new MouseInfoPanel(canvasPanel);
+        canvasPanel.setMouseInfoPanel(mouseInfoPanel);
+        centerPanel.add(mouseInfoPanel, BorderLayout.SOUTH);
+        mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         sidePanel = new JPanel();
         sidePanel.setPreferredSize(MainFrameConfig.SIDE_PANEL_PREFERRED_DIMENSIONS);
@@ -218,11 +226,11 @@ public class MainFrame extends JFrame implements KeyListener{
                 break;
 
             case KeyEvent.VK_EQUALS:
-                canvasPanel.zoomIn();
+                canvasPanel.zoomInMouse();
                 break;
 
             case KeyEvent.VK_MINUS:
-                canvasPanel.zoomOut();
+                canvasPanel.zoomOutMouse();
                 break;
         }
     }

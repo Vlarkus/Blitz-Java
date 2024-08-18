@@ -58,6 +58,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     private JScrollPane scrollPane;
 
+    private MouseInfoPanel mip;
+
     private ArrayList<Trajectory> visibleTrajectories;
     private ArrayList<ControlPointer> controlPointers;
     private ArrayList<HelperPointer> helperPointers;
@@ -315,7 +317,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         return new CartesianCoordinate(fieldX, fieldY);
     }
 
-    public void zoomBy(double zoomFactor) {
+    public void setMouseInfoPanel(MouseInfoPanel mip){
+        this.mip = mip;
+    }
+
+    public void zoomIntoMouseBy(double zoomFactor) {
         // Get the current mouse position relative to the panel
         Point mousePosition = MouseInfo.getPointerInfo().getLocation();
         Point panelPosition = getLocationOnScreen();
@@ -365,6 +371,54 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             repaint();
         }
     }
+
+    public void zoomIntoCenterBy(double zoomFactor) {
+
+        // Temporarily disable automatic updates
+        scrollPane.getViewport().setIgnoreRepaint(true);
+        this.setIgnoreRepaint(true);
+    
+        try {
+            // Get current view position and size
+            JViewport viewport = scrollPane.getViewport();
+            Point viewPosition = viewport.getViewPosition();
+            Dimension viewSize = viewport.getExtentSize();
+    
+            // Calculate the center point in the view before zooming
+            int viewCenterX = viewPosition.x + viewSize.width / 2;
+            int viewCenterY = viewPosition.y + viewSize.height / 2;
+    
+            // Adjust zoom scales
+            setZoomScaleX(getZoomScaleX() * zoomFactor);
+            setZoomScaleY(getZoomScaleY() * zoomFactor);
+    
+            // Update the scroll pane size based on the new zoom level
+            updateScrollPaneSize();
+    
+            // Calculate the new size of the viewport after zoom
+            int newViewWidth = (int) (viewSize.width * zoomFactor);
+            int newViewHeight = (int) (viewSize.height * zoomFactor);
+    
+            // Calculate the new view position to keep the center point in the same place
+            double dx = (viewCenterX * zoomFactor) - viewCenterX;
+            double dy = (viewCenterY * zoomFactor) - viewCenterY;
+    
+            // Adjust the view position to keep the zoom centered around the center point
+            viewPosition.translate((int) Math.round(dx), (int) Math.round(dy));
+            SwingUtilities.invokeLater(() -> {
+                viewport.setViewPosition(viewPosition); // TODO: Causes Update
+            });
+    
+        } finally {
+            // Resume updates and force a final update
+            scrollPane.getViewport().setIgnoreRepaint(false);
+            this.setIgnoreRepaint(false);
+            this.renderVisibleTrajectories();
+            revalidate();
+            repaint();
+        }
+    }
+    
     
     
     
@@ -379,12 +433,20 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     
 
-    public void zoomIn() {
-        zoomBy(MainFrameConfig.ZOOM_IN_COEFFICIENT);
+    public void zoomInMouse() {
+        zoomIntoMouseBy(MainFrameConfig.ZOOM_IN_COEFFICIENT);
     }
 
-    public void zoomOut() {
-        zoomBy(MainFrameConfig.ZOOM_OUT_COEFFICIENT);
+    public void zoomOutMouse() {
+        zoomIntoMouseBy(MainFrameConfig.ZOOM_OUT_COEFFICIENT);
+    }
+
+    public void zoomInCenter() {
+        zoomIntoCenterBy(MainFrameConfig.ZOOM_IN_COEFFICIENT);
+    }
+
+    public void zoomOutCenter() {
+        zoomIntoCenterBy(MainFrameConfig.ZOOM_OUT_COEFFICIENT);
     }
 
     public ArrayList<Trajectory> getVisibleTrajectories() {

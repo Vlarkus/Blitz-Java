@@ -1,4 +1,3 @@
-- CanvasPanel allows to zoom in/out. https://www.youtube.com/watch?v=ZQ8qtAizis4&t=859s
 - CanvasPanel displays mouse field position in bottom left corner.
 - When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
 - Add Help option in MenuBar containing Tutorials.
