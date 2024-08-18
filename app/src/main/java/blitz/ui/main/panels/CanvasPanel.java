@@ -348,7 +348,9 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             if (viewport != null) {
                 Point viewPosition = viewport.getViewPosition();
                 viewPosition.translate((int) Math.round(dx), (int) Math.round(dy));
-                viewport.setViewPosition(viewPosition); // TODO: Causes Update
+                SwingUtilities.invokeLater(() -> {
+                    viewport.setViewPosition(viewPosition); // TODO: Causes Update
+                });
             }
     
             mouseFieldPosBeforePanning = screenAfterZoom;
@@ -378,11 +380,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
 
     public void zoomIn() {
-        zoomBy(1.01);
+        zoomBy(MainFrameConfig.ZOOM_IN_COEFFICIENT);
     }
 
     public void zoomOut() {
-        zoomBy(0.99);
+        zoomBy(MainFrameConfig.ZOOM_OUT_COEFFICIENT);
     }
 
     public ArrayList<Trajectory> getVisibleTrajectories() {
@@ -719,6 +721,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mouseMoved(MouseEvent e) {
         // mouseScreenPosBeforeZoom = e.getPoint();
+        updateCursorDependingOnTool();
+
         switch (Tool.getSelectedTool()) {
             case MOVE:
                 if(isCursorWithinAnyControlPoint() || isCursorWithinAnyHelperPoint()){
@@ -759,9 +763,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
-        updateCursorDependingOnTool();
-
+        
     }
 
 
@@ -819,7 +821,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        System.out.println("paintComponent: " + System.currentTimeMillis());
     
         // Draw the image at the center of the panel
         if (fieldImage != null && fieldImage.getBufferedImage() != null) {
