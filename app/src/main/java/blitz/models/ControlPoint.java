@@ -1,9 +1,9 @@
 package blitz.models;
 
 import blitz.configs.ModelsConfig;
-import blitz.servises.CartesianCoordinate;
-import blitz.servises.PolarCoordinate;
-import blitz.servises.Utils;
+import blitz.services.CartesianCoordinate;
+import blitz.services.PolarCoordinate;
+import blitz.services.Utils;
 
 public final class ControlPoint {
     

@@ -11,6 +11,8 @@
 - CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!
 - Use border for each panel instead of saying what panel it is with a title text.
 
+- All pointers highlight if a tool can work with them and if a cursor is over the pointer.
+
 - Additional functionality idea: Ability to change color of different trajectories
 - Another additional functionality idea: Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)
 

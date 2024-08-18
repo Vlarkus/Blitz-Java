@@ -1,4 +1,4 @@
-package blitz.servises;
+package blitz.services;
 
 /**
  * CartesianCoordinate represents a single cartesian coordinate.

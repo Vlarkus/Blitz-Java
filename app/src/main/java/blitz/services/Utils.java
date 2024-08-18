@@ -1,4 +1,4 @@
-package blitz.servises;
+package blitz.services;
 
 import java.awt.Component;
 import java.awt.Graphics2D;

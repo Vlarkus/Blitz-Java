@@ -25,7 +25,7 @@ import blitz.models.TrajectoriesList;
 import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
 import blitz.models.VisibleTrajectories;
-import blitz.servises.Utils;
+import blitz.services.Utils;
 import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
 public class SelectionPanel extends JPanel implements ActiveListener, TrajectoriesListListener{

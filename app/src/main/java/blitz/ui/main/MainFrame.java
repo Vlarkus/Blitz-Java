@@ -18,8 +18,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 
 import blitz.configs.MainFrameConfig;
-import blitz.servises.FieldImage;
-import blitz.servises.Utils;
+import blitz.services.FieldImage;
+import blitz.services.Utils;
 import blitz.ui.main.menu.Open;
 import blitz.ui.main.menu.Save;
 import blitz.ui.main.panels.CanvasPanel;
@@ -215,6 +215,16 @@ public class MainFrame extends JFrame implements KeyListener{
 
             case KeyEvent.VK_T:
                 toolPanel.setActiveTool(Tools.EDIT_TIME);
+                break;
+
+            case KeyEvent.VK_EQUALS:
+                CanvasPanel.setScale(CanvasPanel.getZoomScale()*1.01);
+                canvasPanel.renderVisibleTrajectories();
+                break;
+
+            case KeyEvent.VK_MINUS:
+                CanvasPanel.setScale(CanvasPanel.getZoomScale()*0.99);
+                canvasPanel.renderVisibleTrajectories();
                 break;
         }
     }

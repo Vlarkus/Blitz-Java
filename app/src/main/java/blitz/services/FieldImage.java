@@ -1,4 +1,4 @@
-package blitz.servises;
+package blitz.services;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -7,20 +7,17 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import blitz.configs.ServicesConfig;
+import blitz.ui.main.panels.CanvasPanel;
 
-public class FieldImage{
+public class FieldImage {
 
     private BufferedImage fieldImage;
     private String path;
     private String fieldName;
+    private int originalWidth, originalHeight;
     private int width, height;
 
-    /**
-     * Constructs a FieldImage object and initializes its fields.
-     *
-     * @param path the path to the image file
-     * @throws IllegalArgumentException if any field is not correctly initialized
-     */
+    // Constructor
     public FieldImage(String path) throws IllegalArgumentException {
 
         File file = new File(path);
@@ -62,11 +59,16 @@ public class FieldImage{
             if (end == -1) {
                 throw new IllegalArgumentException("Invalid dimensions format: missing width.");
             }
-            this.width = Integer.parseInt(dimensions.substring(start, end));
+            this.originalWidth = Integer.parseInt(dimensions.substring(start, end));
 
             // Height
             start = end + 1;
-            this.height = Integer.parseInt(dimensions.substring(start));
+            this.originalHeight = Integer.parseInt(dimensions.substring(start));
+
+            // Initialize the scaled width and height
+            updateWidth();
+            updateHeight();
+
         } catch (Exception e) {
             throw new IllegalArgumentException("Error parsing the file name: " + e.getMessage());
         }
@@ -83,6 +85,17 @@ public class FieldImage{
         }
     }
 
+    // Method to update the width based on the current zoom scale
+    public void updateWidth() {
+        this.width = (int) (this.originalWidth * CanvasPanel.getZoomScaleX());
+    }
+
+    // Method to update the height based on the current zoom scale
+    public void updateHeight() {
+        this.height = (int) (this.originalHeight * CanvasPanel.getZoomScaleY());
+    }
+
+    // Getters
     public BufferedImage getFieldImage() {
         return fieldImage;
     }
@@ -107,5 +120,4 @@ public class FieldImage{
     public String toString() {
         return "FieldImage [fieldName=" + fieldName + ", width=" + width + ", height=" + height + "]";
     }
-    
 }

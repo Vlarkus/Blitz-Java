@@ -1,4 +1,4 @@
-package blitz.servises;
+package blitz.services;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

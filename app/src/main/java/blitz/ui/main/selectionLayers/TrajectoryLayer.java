@@ -25,7 +25,7 @@ import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 import blitz.models.VisibleTrajectories;
-import blitz.servises.Utils;
+import blitz.services.Utils;
 
 public class TrajectoryLayer extends JPanel {
 

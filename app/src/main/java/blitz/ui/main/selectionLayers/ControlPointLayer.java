@@ -20,7 +20,7 @@ import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
-import blitz.servises.Utils;
+import blitz.services.Utils;
 
 public class ControlPointLayer extends JPanel{
 

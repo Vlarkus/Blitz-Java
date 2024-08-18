@@ -30,9 +30,9 @@ import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
 import blitz.models.VisibleTrajectories;
 import blitz.models.VisibleTrajectoriesListener;
-import blitz.servises.CartesianCoordinate;
-import blitz.servises.FieldImage;
-import blitz.servises.Utils;
+import blitz.services.CartesianCoordinate;
+import blitz.services.FieldImage;
+import blitz.services.Utils;
 import blitz.ui.main.panels.CanvasPanel.CURSOR;
 import blitz.ui.main.pointers.BezierPointer;
 import blitz.ui.main.pointers.ControlPointer;
@@ -47,6 +47,9 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     private int mousePreviousX, mousePreviousY;
     private BufferedImage field;
+
+    private static double zoomScaleX = 1;
+    private static double zoomScaleY = 1;
 
     private JScrollPane scrollPane;
 
@@ -142,7 +145,35 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
     
 
+    public static double getZoomScaleX(){
+        return zoomScaleX; 
+    }
 
+    public static double getZoomScaleY(){
+        return zoomScaleY; 
+    }
+
+    public static double getZoomScale(){
+        return zoomScaleX;
+    }
+
+    private static void setZoomScaleX(double newZoomScale){
+        if(newZoomScale < MainFrameConfig.MIN_ZOOM_SCALE_VALUE) return;
+        if(newZoomScale > MainFrameConfig.MAX_ZOOM_SCALE_VALUE) return;
+        zoomScaleX = newZoomScale; 
+    }
+
+    private static void setZoomScaleY(double newZoomScale){
+        if(newZoomScale < MainFrameConfig.MIN_ZOOM_SCALE_VALUE) return;
+        if(newZoomScale > MainFrameConfig.MAX_ZOOM_SCALE_VALUE) return;
+        zoomScaleY= newZoomScale; 
+    }
+
+    public static void setScale(double newZoomScale){
+        setZoomScaleX(newZoomScale);
+        setZoomScaleY(newZoomScale);
+        System.out.println(getZoomScale());
+    }
 
     private void clearControlPointers(){
         controlPointers = new ArrayList<ControlPointer>();
@@ -279,16 +310,16 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         return selectedHelperPointer == null;
     }
 
-    public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate c) {
-        double x = (c.getX()  * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_X_OFFSET;
-        double y = (-c.getY() * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_Y_OFFSET;
-        return new CartesianCoordinate((int) x, (int) y);
+    public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate field) {
+        double screenX = ( (field.getX()  * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_X_OFFSET ) * getZoomScaleX();
+        double screenY = ( (-field.getY() * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_Y_OFFSET ) * getZoomScaleY();
+        return new CartesianCoordinate((int) screenX, (int) screenY);
     }
     
-    public CartesianCoordinate convertScreenToFieldCoordinates(CartesianCoordinate c) {
-        double x = (c.getX() - MainFrameConfig.CANVAS_PANEL_X_OFFSET) / MainFrameConfig.PIXELS_IN_ONE_INCH;
-        double y = (-(c.getY() - MainFrameConfig.CANVAS_PANEL_Y_OFFSET)) / MainFrameConfig.PIXELS_IN_ONE_INCH;
-        return new CartesianCoordinate(x, y);
+    public CartesianCoordinate convertScreenToFieldCoordinates(CartesianCoordinate screen) {
+        double fieldX = ( ( (screen.getX() / getZoomScaleX()) - MainFrameConfig.CANVAS_PANEL_X_OFFSET) / MainFrameConfig.PIXELS_IN_ONE_INCH );
+        double fieldY = ((-((screen.getY() / getZoomScaleY()) - MainFrameConfig.CANVAS_PANEL_Y_OFFSET)) / MainFrameConfig.PIXELS_IN_ONE_INCH) ;
+        return new CartesianCoordinate(fieldX, fieldY);
     }
 
     public ArrayList<Trajectory> getVisibleTrajectories() {

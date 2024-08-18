@@ -19,8 +19,8 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
-import blitz.servises.DecimalFilter;
-import blitz.servises.Utils;
+import blitz.services.DecimalFilter;
+import blitz.services.Utils;
 
 /**
  * A panel displaying information about an active control point, allowing for editing if the control point is active.

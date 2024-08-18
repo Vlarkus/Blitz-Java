@@ -2,7 +2,7 @@ package blitz.models;
 
 import java.util.ArrayList;
 
-import blitz.servises.CartesianCoordinate;
+import blitz.services.CartesianCoordinate;
 
 public class Trajectory {
 
