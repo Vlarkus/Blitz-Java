@@ -1,6 +1,7 @@
 package blitz.ui.main.panels;
 
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.MouseInfo;
@@ -20,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
+import javax.xml.stream.XMLOutputFactory;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
@@ -45,13 +47,14 @@ import blitz.ui.main.tools.ToolListener;
 
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener, TrajectoriesListListener, VisibleTrajectoriesListener{
 
-    private int mousePreviousX, mousePreviousY;
     // private BufferedImage field;
     private FieldImage fieldImage;
 
 
     private static double zoomScaleX = 1;
     private static double zoomScaleY = 1;
+    private Point mouseScreenPosBeforeZoom;
+    private CartesianCoordinate mouseFieldPosBeforePanning;
 
     private JScrollPane scrollPane;
 
@@ -163,12 +166,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         if(newZoomScale < MainFrameConfig.MIN_ZOOM_SCALE_VALUE) return;
         if(newZoomScale > MainFrameConfig.MAX_ZOOM_SCALE_VALUE) return;
         zoomScaleY= newZoomScale; 
-    }
-
-    public static void setScale(double newZoomScale){
-        setZoomScaleX(newZoomScale);
-        setZoomScaleY(newZoomScale);
-        System.out.println(getZoomScale());
     }
 
     private void clearControlPointers(){
@@ -318,6 +315,66 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         return new CartesianCoordinate(fieldX, fieldY);
     }
 
+    public void zoomBy(double zoomFactor) {
+        // Get the current mouse position relative to the panel
+        Point mousePosition = MouseInfo.getPointerInfo().getLocation();
+        Point panelPosition = getLocationOnScreen();
+        Point mouseScreenPosBeforeZoom = new Point(mousePosition.x - panelPosition.x, mousePosition.y - panelPosition.y);
+    
+        // Convert the mouse position from screen to field coordinates before resizing
+        CartesianCoordinate fieldBeforeZoom = convertScreenToFieldCoordinates(new CartesianCoordinate(mouseScreenPosBeforeZoom.getX(), mouseScreenPosBeforeZoom.getY()));
+    
+        // Adjust zoom scales
+        setZoomScaleX(getZoomScaleX() * zoomFactor);
+        setZoomScaleY(getZoomScaleY() * zoomFactor);
+    
+        // Update the scroll pane size based on the new zoom level
+        updateScrollPaneSize();
+    
+        // Convert the mouse position back to screen coordinates after the zoom
+        CartesianCoordinate screenAfterZoom = convertFieldToScreenCoordinates(fieldBeforeZoom);
+    
+        // Calculate the difference between the old and new mouse positions
+        double dx = screenAfterZoom.getX() - mouseScreenPosBeforeZoom.getX();
+        double dy = screenAfterZoom.getY() - mouseScreenPosBeforeZoom.getY();
+    
+        // Adjust the view position to keep the zoom centered around the mouse position
+        JViewport viewport = scrollPane.getViewport();
+        if (viewport != null) {
+            Point viewPosition = viewport.getViewPosition();
+            viewPosition.translate((int) Math.round(dx), (int) Math.round(dy));
+            viewport.setViewPosition(viewPosition);
+        }
+
+        mouseFieldPosBeforePanning = screenAfterZoom;
+    
+        // Force a layout update after setting the view position, but before repainting
+        revalidate();
+    
+        // Repaint the panel to reflect the zoom
+        repaint();
+    }    
+    
+    
+    private void updateScrollPaneSize() {
+        if (fieldImage != null) {
+            int newWidth = (int) (MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.getWidth() * getZoomScaleX());
+            int newHeight = (int) (MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.getHeight() * getZoomScaleY());
+    
+            this.setPreferredSize(new Dimension(newWidth, newHeight));
+        }
+    }
+    
+    
+
+    public void zoomIn() {
+        zoomBy(1.1);
+    }
+
+    public void zoomOut() {
+        zoomBy(0.9);
+    }
+
     public ArrayList<Trajectory> getVisibleTrajectories() {
         return visibleTrajectories;
     }
@@ -374,8 +431,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mousePressed(MouseEvent e) {
-        mousePreviousX = e.getX();
-        mousePreviousY = e.getY();
+        mouseFieldPosBeforePanning = (new CartesianCoordinate(e.getX(), e.getY()));
         switch (Tool.getSelectedTool()) {
             case MOVE:
                 setSelectedHelperPointer(e.getX(), e.getY());
@@ -594,11 +650,13 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     private void calculatePanning(MouseEvent e){
         JViewport viewport = scrollPane.getViewport();
+        CartesianCoordinate mouseFieldPos = (new CartesianCoordinate(e.getX(), e.getY()));
         if (viewport != null) {
-            int dx = e.getX() - mousePreviousX;
-            int dy = e.getY() - mousePreviousY;
+            double dx = (mouseFieldPos.getX() - mouseFieldPosBeforePanning.getX()) / getZoomScaleX();
+            double dy = (mouseFieldPos.getY() - mouseFieldPosBeforePanning.getY()) / getZoomScaleY();
             Point viewPos = viewport.getViewPosition();
-            viewPos.translate(-dx, -dy);
+            CartesianCoordinate translation = (new CartesianCoordinate(dx, dy));
+            viewPos.translate( (int) -translation.getX(), (int) -translation.getY());
 
             int maxX = Math.max(0, getWidth() - viewport.getWidth());
             int maxY = Math.max(0, getHeight() - viewport.getHeight());
@@ -650,6 +708,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void mouseMoved(MouseEvent e) {
+        // mouseScreenPosBeforeZoom = e.getPoint();
         switch (Tool.getSelectedTool()) {
             case MOVE:
                 if(isCursorWithinAnyControlPoint() || isCursorWithinAnyHelperPoint()){
@@ -750,13 +809,17 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
+    
         // Draw the image at the center of the panel
-        if (fieldImage != null || fieldImage.getBufferedImage() != null) {
+        if (fieldImage != null && fieldImage.getBufferedImage() != null) {
             BufferedImage field = fieldImage.getBufferedImage();
-            int imageX = (getWidth() - field.getWidth()) / 2;
-            int imageY = (getHeight() - field.getHeight()) / 2;
-            g.drawImage(field, imageX, imageY, this);
+            
+            // Use the scaled width and height from the FieldImage object
+            int imageX = (getWidth() - fieldImage.getWidth()) / 2;
+            int imageY = (getHeight() - fieldImage.getHeight()) / 2;
+            
+            // Draw the image at the calculated position
+            g.drawImage(field, imageX, imageY, fieldImage.getWidth(), fieldImage.getHeight(), this);
         }
     }
 

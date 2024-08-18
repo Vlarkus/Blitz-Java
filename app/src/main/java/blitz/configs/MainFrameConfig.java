@@ -64,8 +64,8 @@ public class MainFrameConfig {
     public static final Dimension CANVAS_PANEL_PREFERRED_DIMENSION = new Dimension(3000, 3000);
     public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#666666");
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
-    public static final int CANVAS_PANEL_X_OFFSET = ((int) CANVAS_PANEL_PREFERRED_DIMENSION.getWidth()) / 2;
-    public static final int CANVAS_PANEL_Y_OFFSET = ((int) CANVAS_PANEL_PREFERRED_DIMENSION.getHeight()) / 2;
+    public static final double CANVAS_PANEL_X_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSION.getWidth()) / 2;
+    public static final double CANVAS_PANEL_Y_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSION.getHeight()) / 2;
     public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-in.png";
     public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-out.png";
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";

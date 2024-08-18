@@ -218,12 +218,12 @@ public class MainFrame extends JFrame implements KeyListener{
                 break;
 
             case KeyEvent.VK_EQUALS:
-                CanvasPanel.setScale(CanvasPanel.getZoomScale()*1.01);
+                canvasPanel.zoomIn();
                 canvasPanel.renderVisibleTrajectories();
                 break;
 
             case KeyEvent.VK_MINUS:
-                CanvasPanel.setScale(CanvasPanel.getZoomScale()*0.99);
+                canvasPanel.zoomOut();
                 canvasPanel.renderVisibleTrajectories();
                 break;
         }
