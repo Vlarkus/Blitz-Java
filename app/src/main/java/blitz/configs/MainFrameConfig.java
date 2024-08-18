@@ -61,11 +61,11 @@ public class MainFrameConfig {
 
     // CanvasPanel
 
-    public static final Dimension CANVAS_PANEL_PREFERRED_DIMENSION = new Dimension(3000, 3000);
+    public static final Dimension CANVAS_PANEL_PREFERRED_DIMENSIONS = new Dimension(3000, 3000);
     public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#666666");
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
-    public static final double CANVAS_PANEL_X_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSION.getWidth()) / 2;
-    public static final double CANVAS_PANEL_Y_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSION.getHeight()) / 2;
+    public static final double CANVAS_PANEL_X_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSIONS.getWidth()) / 2;
+    public static final double CANVAS_PANEL_Y_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSIONS.getHeight()) / 2;
     public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-in.png";
     public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-out.png";
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
@@ -119,6 +119,7 @@ public class MainFrameConfig {
 
     // MouseInfoPanel
 
+    public static final Dimension  MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS = new Dimension(CANVAS_PANEL_PREFERRED_DIMENSIONS.width, 30);
     public static final HexColor MOUSE_INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
 
@@ -164,7 +165,7 @@ public class MainFrameConfig {
 
 
     public static final HexColor CONTROL_POINT_LAYER_BACKGROUND_COLOR = new HexColor("#dedede");
-    public static final Dimension CONTROL_POINT_LAYER_PREFERRED_DIMENSION = new Dimension((int)(TRAJECTORY_LAYER_PREFERRED_DIMENSION.getWidth() - TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight()), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
+    public static final Dimension CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS = new Dimension((int)(TRAJECTORY_LAYER_PREFERRED_DIMENSION.getWidth() - TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight()), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
 
     public static final String PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/collapse-layers-selection-icon.png";
     public static final String PATH_TO_HIDDEN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/hidden-layer-selection-icon.png";

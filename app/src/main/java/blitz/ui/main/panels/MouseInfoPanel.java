@@ -2,6 +2,7 @@ package blitz.ui.main.panels;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -22,20 +23,20 @@ public class MouseInfoPanel extends JPanel {
     private JButton plusButton;
     private JButton minusButton;
 
-    private static final int LABEL_WIDTH = 50;  // fixed width for labels
+    private static final int LABEL_WIDTH = 80;  // fixed width for labels
     private static final int LABEL_HEIGHT = 20; // fixed height for labels
 
     public MouseInfoPanel(CanvasPanel p) {
         canvasPanel = p;
         setBackground(MainFrameConfig.MOUSE_INFO_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(new Dimension(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSION.width, 30));
+        setPreferredSize(MainFrameConfig.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS);
         setMaximumSize(getPreferredSize());
         setMinimumSize(getPreferredSize());
         setLayout(new BorderLayout());
 
         // Create labels
-        xLabel = createFixedSizeLabel("x: 123");
-        yLabel = createFixedSizeLabel("y: 456");
+        xLabel = createFixedSizeLabel("");
+        yLabel = createFixedSizeLabel("");
 
         // Create a panel for the labels and add them
         JPanel labelPanel = new JPanel();
@@ -51,16 +52,21 @@ public class MouseInfoPanel extends JPanel {
         add(labelPanel, BorderLayout.WEST);
 
         // Create buttons
+        gbc.insets = new Insets(0, 0, 0, 0);
+        int size = MainFrameConfig.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS.height;
+        
         plusButton = new JButton("+");
-        minusButton = new JButton("-");
+        plusButton.setPreferredSize(new Dimension(size, size));        
 
-        // Add action listeners to buttons
         plusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 canvasPanel.zoomInCenter();
             }
         });
+        
+        minusButton = new JButton("-");
+        minusButton.setPreferredSize(new Dimension(size, size));        
 
         minusButton.addActionListener(new ActionListener() {
             @Override
@@ -71,6 +77,7 @@ public class MouseInfoPanel extends JPanel {
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
         buttonPanel.add(plusButton);
         buttonPanel.add(minusButton);
 
@@ -85,21 +92,29 @@ public class MouseInfoPanel extends JPanel {
         return label;
     }
 
-    public void setXValue(int x) {
+    public void setXValue(double x) {
         xLabel.setText(formatLabel("x: ", x));
     }
 
-    public void setYValue(int y) {
+    public void setYValue(double y) {
         yLabel.setText(formatLabel("y: ", y));
     }
 
-    private String formatLabel(String prefix, int value) {
-        String text = prefix + value;
-        if (text.length() > 5) {
-            return text.substring(0, 5) + "...";
+    private String formatLabel(String prefix, double value) {
+        // Format the value to show up to 3 decimal points
+        String formattedValue = String.format("%.4f", value);
+    
+        // Concatenate the prefix and formatted value
+        String text = prefix + formattedValue;
+    
+        // Check if the length exceeds 10 characters and truncate if necessary
+        if (text.length() > 11) {
+            return text.substring(0, 8) + "..."; // Adjust to ensure it shows up to 3 decimal points before truncating
         }
+        
         return text;
     }
+    
 
     public void hideLabels() {
         xLabel.setVisible(false);

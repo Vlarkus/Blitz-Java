@@ -35,9 +35,9 @@ public class ControlPointLayer extends JPanel{
     private final int INSETS_DEFAULT = 4;
 
     public ControlPointLayer(ControlPoint cp) {
-        setPreferredSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSION);
-        setMaximumSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSION);
-        setMinimumSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSION);
+        setPreferredSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
+        setMaximumSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
+        setMinimumSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
         setBackground(MainFrameConfig.CONTROL_POINT_LAYER_BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
 
