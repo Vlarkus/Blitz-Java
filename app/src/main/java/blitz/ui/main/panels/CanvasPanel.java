@@ -46,7 +46,9 @@ import blitz.ui.main.tools.ToolListener;
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveListener, ToolListener, TrajectoriesListListener, VisibleTrajectoriesListener{
 
     private int mousePreviousX, mousePreviousY;
-    private BufferedImage field;
+    // private BufferedImage field;
+    private FieldImage fieldImage;
+
 
     private static double zoomScaleX = 1;
     private static double zoomScaleY = 1;
@@ -116,13 +118,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         addCursorToMap(MainFrameConfig.PATH_TO_NOT_ALLOWED_CURSOR_IMAGE, CURSOR.NOT_ALLOWED, "Not allowed", 8, 0);
         addCursorToMap(MainFrameConfig.PATH_TO_UNKNOWN_CURSOR_IMAGE, CURSOR.UNKNOWN, "Unknown", 8, 0);
         
-
-
-        try {
-            setFieldImage(new FieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD));
-        } catch(Exception e){
-            setFieldImage(null);
-        }
+        setFieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -371,14 +367,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     public void setScrollPane(JScrollPane p){
         scrollPane = p;
-    }
-
-    public void setImageToRender(String path) {
-        try {
-            this.field = ImageIO.read(new File(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -750,23 +738,13 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         this.setCursor(Cursor.getDefaultCursor());
     }
 
-    public void setFieldImage(FieldImage fieldImage) {
-        try {
-            if(fieldImage == null){
-                field = null;
-                return;
-            }
-            field = ImageIO.read(new File(fieldImage.getPath()));
-            resizeFieldImage(fieldImage.getWidth() * MainFrameConfig.PIXELS_IN_ONE_INCH,
-                            fieldImage.getHeight() * MainFrameConfig.PIXELS_IN_ONE_INCH);
-            repaint();
-        } catch (IOException e) {
-
+    public void setFieldImage(String path) {
+        if(path == null){
+            fieldImage = null;
+            return;
         }
-    }
-
-    private void resizeFieldImage(int width, int height){
-        field = Utils.resizeImage(field, width, height);
+        fieldImage = new FieldImage(path);
+        repaint();
     }
 
     @Override
@@ -774,7 +752,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         super.paintComponent(g);
 
         // Draw the image at the center of the panel
-        if (field != null) {
+        if (fieldImage != null || fieldImage.getBufferedImage() != null) {
+            BufferedImage field = fieldImage.getBufferedImage();
             int imageX = (getWidth() - field.getWidth()) / 2;
             int imageY = (getHeight() - field.getHeight()) / 2;
             g.drawImage(field, imageX, imageY, this);

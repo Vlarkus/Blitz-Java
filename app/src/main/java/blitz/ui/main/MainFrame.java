@@ -110,7 +110,7 @@ public class MainFrame extends JFrame implements KeyListener{
 
         for (FieldImage fieldImage : fieldImages) {
             JMenuItem matchFieldOption = new JMenuItem(fieldImage.getFieldName());
-            matchFieldOption.addActionListener((ActionEvent e) -> {canvasPanel.setFieldImage(fieldImage);});
+            matchFieldOption.addActionListener((ActionEvent e) -> {canvasPanel.setFieldImage(fieldImage.getPath());});
             changeFieldMenu.add(matchFieldOption);
         }
 

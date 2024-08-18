@@ -6,12 +6,14 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import blitz.configs.MainFrameConfig;
 import blitz.configs.ServicesConfig;
 import blitz.ui.main.panels.CanvasPanel;
 
 public class FieldImage {
 
     private BufferedImage fieldImage;
+    private BufferedImage initialFieldImage;
     private String path;
     private String fieldName;
     private int originalWidth, originalHeight;
@@ -24,8 +26,8 @@ public class FieldImage {
         this.path = path;
 
         try {
-            this.fieldImage = ImageIO.read(file);
-            if (this.fieldImage == null) {
+            this.initialFieldImage = ImageIO.read(file);
+            if (this.initialFieldImage == null) {
                 throw new IllegalArgumentException("Failed to read image from file.");
             }
         } catch (IOException e) {
@@ -87,16 +89,27 @@ public class FieldImage {
 
     // Method to update the width based on the current zoom scale
     public void updateWidth() {
-        this.width = (int) (this.originalWidth * CanvasPanel.getZoomScaleX());
+        this.width = (int) (this.originalWidth * MainFrameConfig.PIXELS_IN_ONE_INCH * CanvasPanel.getZoomScaleX());
     }
 
     // Method to update the height based on the current zoom scale
     public void updateHeight() {
-        this.height = (int) (this.originalHeight * CanvasPanel.getZoomScaleY());
+        this.height = (int) (this.originalHeight * MainFrameConfig.PIXELS_IN_ONE_INCH * CanvasPanel.getZoomScaleY());
+    }
+
+    private void updateFieldImage() throws IOException{
+        updateWidth();
+        updateHeight();
+        fieldImage = Utils.resizeImage(initialFieldImage, getWidth(), getHeight());
     }
 
     // Getters
-    public BufferedImage getFieldImage() {
+    public BufferedImage getBufferedImage() {
+        try {
+            updateFieldImage();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return fieldImage;
     }
 
