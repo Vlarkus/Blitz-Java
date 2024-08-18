@@ -71,8 +71,8 @@ public class MainFrameConfig {
     public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
 
     public static final int PIXELS_IN_ONE_INCH = 36;
-    public static final double MIN_ZOOM_SCALE_VALUE = 0.1;
-    public static final double MAX_ZOOM_SCALE_VALUE = 20;
+    public static final double MIN_ZOOM_SCALE_VALUE = 0.5;
+    public static final double MAX_ZOOM_SCALE_VALUE = 2;
 
     public static final String PATH_TO_PLUS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/plus.png";
     public static final String PATH_TO_SCISSORS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/scissors.png";

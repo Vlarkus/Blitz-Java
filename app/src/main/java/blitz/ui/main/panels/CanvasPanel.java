@@ -324,36 +324,46 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         // Convert the mouse position from screen to field coordinates before resizing
         CartesianCoordinate fieldBeforeZoom = convertScreenToFieldCoordinates(new CartesianCoordinate(mouseScreenPosBeforeZoom.getX(), mouseScreenPosBeforeZoom.getY()));
     
-        // Adjust zoom scales
-        setZoomScaleX(getZoomScaleX() * zoomFactor);
-        setZoomScaleY(getZoomScaleY() * zoomFactor);
+        // Temporarily disable automatic updates
+        scrollPane.getViewport().setIgnoreRepaint(true);
+        this.setIgnoreRepaint(true);
     
-        // Update the scroll pane size based on the new zoom level
-        updateScrollPaneSize();
+        try {
+            // Adjust zoom scales
+            setZoomScaleX(getZoomScaleX() * zoomFactor);
+            setZoomScaleY(getZoomScaleY() * zoomFactor);
     
-        // Convert the mouse position back to screen coordinates after the zoom
-        CartesianCoordinate screenAfterZoom = convertFieldToScreenCoordinates(fieldBeforeZoom);
+            // Update the scroll pane size based on the new zoom level
+            updateScrollPaneSize();
     
-        // Calculate the difference between the old and new mouse positions
-        double dx = screenAfterZoom.getX() - mouseScreenPosBeforeZoom.getX();
-        double dy = screenAfterZoom.getY() - mouseScreenPosBeforeZoom.getY();
+            // Convert the mouse position back to screen coordinates after the zoom
+            CartesianCoordinate screenAfterZoom = convertFieldToScreenCoordinates(fieldBeforeZoom);
     
-        // Adjust the view position to keep the zoom centered around the mouse position
-        JViewport viewport = scrollPane.getViewport();
-        if (viewport != null) {
-            Point viewPosition = viewport.getViewPosition();
-            viewPosition.translate((int) Math.round(dx), (int) Math.round(dy));
-            viewport.setViewPosition(viewPosition);
-        }
+            // Calculate the difference between the old and new mouse positions
+            double dx = screenAfterZoom.getX() - mouseScreenPosBeforeZoom.getX();
+            double dy = screenAfterZoom.getY() - mouseScreenPosBeforeZoom.getY();
+            
+            // Adjust the view position to keep the zoom centered around the mouse position
+            JViewport viewport = scrollPane.getViewport();
+            if (viewport != null) {
+                Point viewPosition = viewport.getViewPosition();
+                viewPosition.translate((int) Math.round(dx), (int) Math.round(dy));
+                viewport.setViewPosition(viewPosition); // TODO: Causes Update
+            }
+    
+            mouseFieldPosBeforePanning = screenAfterZoom;
 
-        mouseFieldPosBeforePanning = screenAfterZoom;
     
-        // Force a layout update after setting the view position, but before repainting
-        revalidate();
+        } finally {
+            // Resume updates and force a final update
+            scrollPane.getViewport().setIgnoreRepaint(false);
+            this.setIgnoreRepaint(false);
+            this.renderVisibleTrajectories();
+            revalidate();
+            repaint();
+        }
+    }
     
-        // Repaint the panel to reflect the zoom
-        repaint();
-    }    
     
     
     private void updateScrollPaneSize() {
@@ -368,11 +378,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
 
     public void zoomIn() {
-        zoomBy(1.1);
+        zoomBy(1.01);
     }
 
     public void zoomOut() {
-        zoomBy(0.9);
+        zoomBy(0.99);
     }
 
     public ArrayList<Trajectory> getVisibleTrajectories() {
@@ -809,6 +819,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        System.out.println("paintComponent: " + System.currentTimeMillis());
     
         // Draw the image at the center of the panel
         if (fieldImage != null && fieldImage.getBufferedImage() != null) {
