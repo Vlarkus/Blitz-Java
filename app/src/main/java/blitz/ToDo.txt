@@ -14,3 +14,7 @@
 - User is able to export their path in whatever format they chose. There should be a separate window that allows to make custom export types.
 
 - When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
+
+- Use triangles for bezier pointers to show direction.
+
+- Add ability for user to choose between G0 (straight line), Separated Bezier, G1(Continuous Bezier), G2, etc.
