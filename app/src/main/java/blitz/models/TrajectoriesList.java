@@ -19,28 +19,28 @@ public class TrajectoriesList {
 
     public static void cutTrajectoryAtControlPoint(ControlPoint cp) {
 
-        if(cp == null) {
+        if (cp == null) {
             return;
         }
-        if(cp.isLocked()) {
+        if (cp.isLocked()) {
             return;
         }
     
         Trajectory tr1 = getTrajectoryByControlPoint(cp);
     
-        if(tr1 == null) {
+        if (tr1 == null) {
             return;
         }
-        if(tr1.isLocked()) {
+        if (tr1.isLocked()) {
             return;
         }
-
-        if(tr1.getAllControlPoints().getLast() == cp) {
-            return;
+    
+        if (tr1.getAllControlPoints().getLast() == cp) {
+            return; // cp is the last point, nothing to cut
         }
-
-        if(tr1.getAllControlPoints().getFirst() == cp) {
-            return;
+    
+        if (tr1.getAllControlPoints().getFirst() == cp) {
+            return; // cp is the first point, nothing to cut
         }
     
         int indexTR1 = trajectoriesList.indexOf(tr1);
@@ -48,27 +48,23 @@ public class TrajectoriesList {
     
         int indexOfCP = tr1.indexOf(cp);
     
-        for (int i = 0; i < indexOfCP; i++) {
+        // Add all control points after cp to tr2 (including a copy of cp)
+        for (int i = indexOfCP; i < tr1.getAllControlPoints().size(); i++) {
             ControlPoint insertCP = tr1.getControlPoint(i);
-            tr2.addControlPoint(insertCP);
+            tr2.addControlPoint(new ControlPoint(insertCP));
         }
     
-        ControlPoint copyOfCP = new ControlPoint(cp);
-        tr2.addControlPoint(copyOfCP);
-    
-        for (int i = indexOfCP; i >= 0; i--) {
+        // Remove all control points after cp from tr1
+        for (int i = tr1.getAllControlPoints().size() - 1; i > indexOfCP; i--) {
             tr1.removeControlPoint(tr1.getControlPoint(i));
         }
     
-        if (indexTR1 + 1 <= trajectoriesList.size()) {
-            trajectoriesList.add(indexTR1 + 1, tr2);
-        } else {
-            trajectoriesList.add(tr2);
-        }
-
+        // Insert the new trajectory after tr1 in the list
+        trajectoriesList.add(indexTR1 + 1, tr2);
+    
         notifyTrajectoriesListListeners();
-        
     }
+    
     
 
     public static void moveTrajectoryDown(Trajectory tr) {

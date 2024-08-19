@@ -1,5 +1,3 @@
-- Use InputMap and Actions instead of KeyListeners
-- When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
 - Add Help option in MenuBar containing Tutorials.
 
 - ControlPoint can be continuous or not. isContinuous()? thetaEnd = thetaStart + 180; Add option to turn it on an off in InfoPanel.
@@ -11,7 +9,9 @@
 
 - Pointers highlight if a tool can work with them and if a cursor is over the pointer.
 
-- Additional functionality idea: Ability to change color of different trajectories
-- Another additional functionality idea: Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)
+- Ability to change color of different trajectories
+- Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)
 
 - User is able to export their path in whatever format they chose. There should be a separate window that allows to make custom export types.
+
+- When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
