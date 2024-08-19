@@ -222,6 +222,8 @@ public class MainFrame extends JFrame {
         menuBar = new JMenuBar();
         setJMenuBar(menuBar);
 
+
+
         // -=- File Menu -=-
         JMenu fileMenu = new JMenu("File");
         menuBar.add(fileMenu);
@@ -241,6 +243,8 @@ public class MainFrame extends JFrame {
         exportAsMenuItem.addActionListener((ActionEvent e) -> {});
         fileMenu.add(exportAsMenuItem);
 
+
+
         // -=- View Menu -=-
         JMenu viewMenu = new JMenu("View");
         menuBar.add(viewMenu);
@@ -255,6 +259,39 @@ public class MainFrame extends JFrame {
         JMenuItem viewSettingsMenu = new JMenuItem("View Options");
         viewMenu.add(viewSettingsMenu);
         viewSettingsMenu.addActionListener((ActionEvent e) -> {});
+
+
+
+        // -=- Preferences Menu -=-
+        JMenu preferencesMenu = new JMenu("Preferences");
+        menuBar.add(preferencesMenu);
+
+        // Units
+        JMenuItem unitsMenuItem = new JMenuItem("Units");
+        unitsMenuItem.addActionListener((ActionEvent e) -> {});
+        preferencesMenu.add(unitsMenuItem);
+
+        // Theme
+        JMenuItem themeMenuItem = new JMenuItem("Theme");
+        themeMenuItem.addActionListener((ActionEvent e) -> {});
+        preferencesMenu.add(themeMenuItem);
+
+
+
+        // -=- Preferences Menu -=-
+        JMenu helpMenu = new JMenu("Help");
+        menuBar.add(helpMenu);
+
+        // Tutorials
+        JMenuItem tutorialsMenu = new JMenuItem("Tutorials");
+        tutorialsMenu.addActionListener((ActionEvent e) -> {});
+        helpMenu.add(tutorialsMenu);
+
+        // About
+        JMenuItem aboutMenu = new JMenuItem("About");
+        aboutMenu.addActionListener((ActionEvent e) -> {});
+        helpMenu.add(aboutMenu);
+
     }
 
     private void fillChangeFieldMenu(JMenu changeFieldMenu) {
