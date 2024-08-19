@@ -2,6 +2,8 @@ package blitz.ui.main.menu;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -10,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 import blitz.configs.MainFrameConfig;
 import blitz.models.TrajectoriesList;
@@ -39,28 +42,24 @@ public class Open {
             }
 
             // Opening file
-            ArrayList<String> trajectoriesJSON = new ArrayList<String>();
-            try (Scanner in = new Scanner(new File(path));) {
-                
-                in.useDelimiter(";"); // Each Trajectory is separated with ';'
-
-                while (in.hasNext()) {
-                    trajectoriesJSON.add(in.next());
+             ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
+                Gson gson = new Gson();
+                try (JsonReader jsonReader = new JsonReader(new FileReader(path))) {
+                    jsonReader.beginArray(); // Begin reading the array of JSON objects
+                    while (jsonReader.hasNext()) {
+                        Trajectory trajectory = gson.fromJson(jsonReader, Trajectory.class);
+                        trajectories.add(trajectory);
+                    }
+                    jsonReader.endArray(); // End reading the array of JSON objects
+                } catch (FileNotFoundException e) {
+                    JOptionPane.showMessageDialog(null, "File not found!", "Opening Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                } catch (IOException e) { // Handle IOException
+                    JOptionPane.showMessageDialog(null, "Error reading the file!", "Opening Error", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
 
-            } catch (FileNotFoundException e) {
-                JOptionPane.showMessageDialog(null, "File not found!", "Opening Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Filling ArrayList of unadjusted Trajectories
-            ArrayList<Trajectory> trajectories = new ArrayList<Trajectory>();
-            Gson gson = new Gson();
-            for (String trajectoryJSON : trajectoriesJSON) {
-                Trajectory trajectory = gson.fromJson(trajectoryJSON, Trajectory.class);
-                trajectories.add(trajectory);
-            }
-            TrajectoriesList.setTrajectoriesList(trajectories);
+                TrajectoriesList.setTrajectoriesList(trajectories);
 
         }
     }

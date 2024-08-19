@@ -1,7 +1,6 @@
-- CanvasPanel displays mouse field position in bottom left corner.
+- Use InputMap and Actions instead of KeyListeners
 - When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
 - Add Help option in MenuBar containing Tutorials.
-- Mouse changes cursor depending on the tool inside CanvasPanel.
 
 - ControlPoint can be continuous or not. isContinuous()? thetaEnd = thetaStart + 180; Add option to turn it on an off in InfoPanel.
 - Add button to InfoPanel to turn helper points off: set rStart and rEnd to 0 and not show text fields for them.
@@ -10,7 +9,7 @@
 - CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!
 - Use border for each panel instead of saying what panel it is with a title text.
 
-- All pointers highlight if a tool can work with them and if a cursor is over the pointer.
+- Pointers highlight if a tool can work with them and if a cursor is over the pointer.
 
 - Additional functionality idea: Ability to change color of different trajectories
 - Another additional functionality idea: Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)

@@ -14,8 +14,8 @@ public class MainFrameConfig {
     public static final Dimension MINIMUM_FRAME_DIMENSIONS = new Dimension(1000, 720);
     public static final Dimension DEFAULT_FRAME_DIMENSIONS = MINIMUM_FRAME_DIMENSIONS;
 
-    public static final String SAVE_FILE_EXTENSION_TYPE = ".btz";
-    public static final String SAVE_FILE_EXTENSION_TYPE_DESCRIPTION = "BLITZ Save File";
+    public static final String SAVE_FILE_EXTENSION_TYPE = ".json";
+    public static final String SAVE_FILE_EXTENSION_TYPE_DESCRIPTION = "BLITZ JSON";
     public static final String EXPORT_FILE_EXTENSION_TYPE = ".txt";
 
 

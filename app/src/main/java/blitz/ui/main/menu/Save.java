@@ -66,33 +66,22 @@ public class Save {
 
 
     // Fill saving file
-    private static void fillSavingFile(String path, ArrayList<Trajectory> trajectories){
+    private static void fillSavingFile(String path, ArrayList<Trajectory> trajectories) {
 
-        if(!trajectories.isEmpty()) {
+        if (!trajectories.isEmpty()) {
             try (var in = new BufferedWriter(new FileWriter(path))) {
-                
-                String output = new String();
+    
                 Gson gson = new Gson();
-
-                int i = 0;
-                while(i < trajectories.size()) {
-                    
-                    Trajectory trajectory = trajectories.get(i);
-                    output += gson.toJson(trajectory); 
-                    
-                    if(i < trajectories.size() - 1) {
-                        output += ";"; // End of Trajectory
-                    }
-                    i++;
-                }
-
+                // Use gson.toJson to convert the entire list into a JSON array
+                String output = gson.toJson(trajectories); 
+    
                 in.write(output);
-            
+    
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "An error has occured while saving the file.", "Saving Error!", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "An error has occurred while saving the file.", "Saving Error!", JOptionPane.ERROR_MESSAGE);
             }
         }
-        
+    
     }
 
 }
