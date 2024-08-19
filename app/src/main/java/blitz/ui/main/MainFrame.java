@@ -23,7 +23,6 @@ import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
 import blitz.configs.MainFrameConfig;
-import blitz.models.TrajectoriesList;
 import blitz.services.FieldImage;
 import blitz.services.Utils;
 import blitz.ui.main.menu.Open;
@@ -195,17 +194,26 @@ public class MainFrame extends JFrame {
             }
         });
 
-        // DEBUGGING
-
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_0, 0), "debug");
-        actionMap.put("debug", new AbstractAction() {
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_N, 0), "newTrajectory");
+        actionMap.put("newTrajectory", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!isFocusOnTextField.getAsBoolean()) {
-                    System.out.println(TrajectoriesList.getTrajectoriesList().size());
+                    selectionPanel.createEmptyTrajectory();
                 }
             }
         });
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "deleteActive");
+        actionMap.put("deleteActive", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isFocusOnTextField.getAsBoolean()) {
+                    selectionPanel.removeActiveElement();
+                }
+            }
+        });
+
     }
     
     

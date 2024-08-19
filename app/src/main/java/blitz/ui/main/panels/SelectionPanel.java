@@ -25,7 +25,6 @@ import blitz.models.TrajectoriesList;
 import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
 import blitz.models.VisibleTrajectories;
-import blitz.services.Utils;
 import blitz.ui.main.selectionLayers.TrajectoryLayer;
 
 public class SelectionPanel extends JPanel implements ActiveListener, TrajectoriesListListener{
@@ -89,40 +88,53 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     }
     
     private void renderSelectionMenuPanel() {
-        selectionMenuPanel.removeAll();
-        
+        // Store the collapsed states of existing TrajectoryLayers
         ArrayList<Trajectory> trajectories = TrajectoriesList.getTrajectoriesList();
-        selectionMenuPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        
-        gbc.gridx = 0;
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.weightx = 1.0;
-        
-        for (int i = 0; i < trajectories.size(); i++) {
-            Trajectory tr = trajectories.get(i);
-            TrajectoryLayer layer = new TrajectoryLayer(tr);
-    
-            gbc.gridy = i * 2;
-            selectionMenuPanel.add(layer, gbc);
-    
-            // Add space between layers only if the current or next layer is not empty
-            if (i < trajectories.size() - 1) {
-                Trajectory nextTrajectory = trajectories.get(i + 1);
-                TrajectoryLayer nextLayer = new TrajectoryLayer(nextTrajectory);
-    
-                if (!layer.isEmpty() || !nextLayer.isEmpty()) {
-                    gbc.gridy = i * 2 + 1;
-                    gbc.insets = new Insets(0, 0, MainFrameConfig.SPACING_BETWEEN_TRAJECTORY_LAYERS, 0);
-                    JPanel spacer = new JPanel();
-                    spacer.setOpaque(false);
-                    selectionMenuPanel.add(spacer, gbc);
+        ArrayList<Boolean> collapsedStates = new ArrayList<>();
+        for (Trajectory tr : trajectories) {
+            for (int i = 0; i < selectionMenuPanel.getComponentCount(); i++) {
+                if (selectionMenuPanel.getComponent(i) instanceof TrajectoryLayer) {
+                    TrajectoryLayer layer = (TrajectoryLayer) selectionMenuPanel.getComponent(i);
+                    if (layer.getRelatedTrajectory().equals(tr)) {
+                        collapsedStates.add(layer.isCollapsed());
+                        break;
+                    }
                 }
             }
         }
     
-        // Add vertical glue at the end to push all elements up and leave space at the bottom
+        selectionMenuPanel.removeAll();
+        selectionMenuPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+    
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.anchor = GridBagConstraints.NORTHWEST;
+        gbc.weightx = 1.0;
+    
+        for (int i = 0; i < trajectories.size(); i++) {
+            Trajectory tr = trajectories.get(i);
+            TrajectoryLayer layer = new TrajectoryLayer(tr);
+    
+            // Restore the collapsed state
+            if (i < collapsedStates.size()) {
+                if (collapsedStates.get(i)) {
+                    layer.collapse(); // Assuming you have a collapse() method to collapse the layer
+                }
+            }
+    
+            gbc.gridy = i * 2;
+            selectionMenuPanel.add(layer, gbc);
+    
+            if (!layer.isEmpty() && i < trajectories.size() - 1) {
+                gbc.gridy = i * 2 + 1;
+                gbc.insets = new Insets(0, 0, MainFrameConfig.SPACING_BETWEEN_TRAJECTORY_LAYERS, 0);
+                JPanel spacer = new JPanel();
+                spacer.setOpaque(false);
+                selectionMenuPanel.add(spacer, gbc);
+            }
+        }
+    
         gbc.gridy = trajectories.size() * 2;
         gbc.weighty = 1.0;
         JPanel gluePanel = new JPanel();
@@ -156,11 +168,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
             @Override
             public void actionPerformed(ActionEvent e) {
 
-                Trajectory tr = new Trajectory(TrajectoriesList.getNextAvaliableName());
-                TrajectoriesList.addTrajectory(tr);
-                Active.setActiveTrajectory(tr);
-                VisibleTrajectories.notifyVisibleTrajectoriesChanged();
-                Utils.requestFocusInWindowFor(addTrajectoryButton);
+                createEmptyTrajectory();
 
             }
         });
@@ -173,26 +181,33 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                ControlPoint cp = Active.getActiveControlPoint();
-                Trajectory tr = Active.getActiveTrajectory();
-                if(cp != null){
-                    tr.removeControlPoint(cp);
-                    Active.setActiveControlPoint(null);
-                } else if(tr != null) {
-                    TrajectoriesList.removeTrajectory(tr);
-                    Active.setActiveTrajectory(null);
-                }
-                VisibleTrajectories.notifyVisibleTrajectoriesChanged();
-
-                Utils.requestFocusInWindowFor(deleteButton);
-            
+                removeActiveElement();
             }
         });
         optionsBarPanel.add(deleteButton);
         optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
     
         add(optionsBarPanel, BorderLayout.SOUTH);
+    }
+
+    public void createEmptyTrajectory(){
+        Trajectory tr = new Trajectory(TrajectoriesList.getNextAvaliableName());
+        TrajectoriesList.addTrajectory(tr);
+        Active.setActiveTrajectory(tr);
+        VisibleTrajectories.notifyVisibleTrajectoriesChanged();
+    }
+
+    public void removeActiveElement(){
+        ControlPoint cp = Active.getActiveControlPoint();
+        Trajectory tr = Active.getActiveTrajectory();
+        if(cp != null){
+            tr.removeControlPoint(cp);
+            Active.setActiveControlPoint(null);
+        } else if(tr != null) {
+            TrajectoriesList.removeTrajectory(tr);
+            Active.setActiveTrajectory(null);
+        }
+        VisibleTrajectories.notifyVisibleTrajectoriesChanged();
     }
 
     private void configureOptionButton(JButton b){

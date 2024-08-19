@@ -240,6 +240,10 @@ public class TrajectoryLayer extends JPanel {
     
     }
 
+    public boolean isCollapsed() {
+        return isCollapsed;
+    }
+
     private void configureLayerButton(JButton b, boolean isRegular){
         if(isRegular){
             b.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION);
@@ -308,8 +312,31 @@ public class TrajectoryLayer extends JPanel {
         indexLabel.setText("" + index);
     }
 
+    public Trajectory getRelatedTrajectory(){
+        return relatedTrajectory;
+    }
+
     public boolean isEmpty() {
         return controlPointLayers.isEmpty();
     }
+
+    public void collapse() {
+        isCollapsed = true;
+        controlPointsPanel.setVisible(false);
+        String iconPath = MainFrameConfig.PATH_TO_EXPAND_LAYERS_SELECTION_ICON;
+        setLayerButtonImage(collapseButton, true, iconPath, null);
+        revalidate();
+        repaint();
+    }
+    
+    public void expand() {
+        isCollapsed = false;
+        controlPointsPanel.setVisible(true);
+        String iconPath = MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON;
+        setLayerButtonImage(collapseButton, true, iconPath, null);
+        revalidate();
+        repaint();
+    }
+    
     
 }
