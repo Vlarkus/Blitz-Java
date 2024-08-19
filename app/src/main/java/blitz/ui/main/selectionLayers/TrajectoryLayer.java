@@ -48,6 +48,7 @@ public class TrajectoryLayer extends JPanel {
 
     private boolean isCollapsed;
 
+
     private final int INSETS_DEFAULT = 4;
 
     public TrajectoryLayer(Trajectory tr) {
@@ -223,7 +224,16 @@ public class TrajectoryLayer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 isCollapsed = !isCollapsed;
-                setLayerButtonImage(collapseButton, true, MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON, null);
+                
+                // Toggle visibility of controlPointsPanel
+                controlPointsPanel.setVisible(!isCollapsed);
+                
+                // Optionally change the icon to indicate expanded/collapsed state
+                String iconPath = isCollapsed ? MainFrameConfig.PATH_TO_EXPAND_LAYERS_SELECTION_ICON : MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON;
+                setLayerButtonImage(collapseButton, true, iconPath, null);
+        
+                revalidate();
+                repaint();
                 Utils.requestFocusInWindowFor(collapseButton);
             }
         });
@@ -297,4 +307,9 @@ public class TrajectoryLayer extends JPanel {
     public void setIndexLabel(int index) {
         indexLabel.setText("" + index);
     }
+
+    public boolean isEmpty() {
+        return controlPointLayers.isEmpty();
+    }
+    
 }

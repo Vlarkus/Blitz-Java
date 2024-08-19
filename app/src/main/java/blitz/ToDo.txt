@@ -4,7 +4,6 @@
 - Add button to InfoPanel to turn helper points off: set rStart and rEnd to 0 and not show text fields for them.
     add private boolean isCurved.
 
-- CanvasPanel add check for selected pointer if its relatedControlPoint is not locked!!!
 - Use border for each panel instead of saying what panel it is with a title text.
 
 - Pointers highlight if a tool can work with them and if a cursor is over the pointer.

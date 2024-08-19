@@ -121,10 +121,10 @@ public class ControlPointLayer extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 relatedControlPoint.setIsLocked(!relatedControlPoint.isLocked());
+                setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
                 if(Active.getActiveControlPoint().equals(relatedControlPoint)){
                     Active.setActiveControlPoint(null);
                 }
-                setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
                 Utils.requestFocusInWindowFor(lockButton);
             }
         });

@@ -90,47 +90,50 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     
     private void renderSelectionMenuPanel() {
         selectionMenuPanel.removeAll();
-    
+        
         ArrayList<Trajectory> trajectories = TrajectoriesList.getTrajectoriesList();
+        selectionMenuPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        
         gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.weightx = 1.0;
-        gbc.insets = new Insets(5, 5, 5, 5); // Adjust as needed for your spacing
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-    
+        gbc.weightx = 1.0;
+        
         for (int i = 0; i < trajectories.size(); i++) {
             Trajectory tr = trajectories.get(i);
             TrajectoryLayer layer = new TrajectoryLayer(tr);
     
-            // Add the layer for each trajectory, regardless of visibility
-            gbc.gridy++;
+            gbc.gridy = i * 2;
             selectionMenuPanel.add(layer, gbc);
     
-            // Add filler between layers (except after the last one)
+            // Add space between layers only if the current or next layer is not empty
             if (i < trajectories.size() - 1) {
-                gbc.gridy++;
-                JPanel fillerPanel = new JPanel();
-                fillerPanel.setOpaque(false);
-                fillerPanel.setBackground(null);
-                fillerPanel.setPreferredSize(MainFrameConfig.FILLER_BETWEEN_TRAJECTORY_LAYERS);
-                fillerPanel.setMaximumSize(MainFrameConfig.FILLER_BETWEEN_TRAJECTORY_LAYERS);
-                fillerPanel.setMinimumSize(MainFrameConfig.FILLER_BETWEEN_TRAJECTORY_LAYERS);
-                selectionMenuPanel.add(fillerPanel, gbc); // Adjust the height as needed
+                Trajectory nextTrajectory = trajectories.get(i + 1);
+                TrajectoryLayer nextLayer = new TrajectoryLayer(nextTrajectory);
+    
+                if (!layer.isEmpty() || !nextLayer.isEmpty()) {
+                    gbc.gridy = i * 2 + 1;
+                    gbc.insets = new Insets(0, 0, MainFrameConfig.SPACING_BETWEEN_TRAJECTORY_LAYERS, 0);
+                    JPanel spacer = new JPanel();
+                    spacer.setOpaque(false);
+                    selectionMenuPanel.add(spacer, gbc);
+                }
             }
         }
     
-        // Add a last filler panel to take up remaining vertical space
-        gbc.gridy++;
-        gbc.weighty = 1.0; // Allows the filler panel to take up remaining space vertically
-        JPanel fillerPanel = new JPanel();
-        fillerPanel.setOpaque(false);
-        selectionMenuPanel.add(fillerPanel, gbc);
+        // Add vertical glue at the end to push all elements up and leave space at the bottom
+        gbc.gridy = trajectories.size() * 2;
+        gbc.weighty = 1.0;
+        JPanel gluePanel = new JPanel();
+        gluePanel.setOpaque(false);
+        selectionMenuPanel.add(gluePanel, gbc);
     
         selectionMenuPanel.revalidate();
         selectionMenuPanel.repaint();
     }
+    
+    
     
     
 

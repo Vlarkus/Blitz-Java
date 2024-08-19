@@ -143,6 +143,8 @@ public class MainFrameConfig {
     public static final Dimension OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS = new Dimension(16, 16);
     public static final Dimension OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS = new Dimension(8, 0);
     
+    public static final int SPACING_BETWEEN_TRAJECTORY_LAYERS = 8;
+    
     public static final HexColor SELECTION_PANEL_BACKGROUND_COLOR = new HexColor("#999999");
     public static final HexColor HEADER_PANEL_COLOR = new HexColor("#eeeeee");
     public static final HexColor SELECTION_MENU_COLOR = new HexColor("#eeeeee");
@@ -168,6 +170,7 @@ public class MainFrameConfig {
     public static final Dimension CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS = new Dimension((int)(TRAJECTORY_LAYER_PREFERRED_DIMENSION.getWidth() - TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight()), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
 
     public static final String PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/collapse-layers-selection-icon.png";
+    public static final String PATH_TO_EXPAND_LAYERS_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/expand-layers-selection-icon.png";
     public static final String PATH_TO_HIDDEN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/hidden-layer-selection-icon.png";
     public static final String PATH_TO_LOCKED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/locked-layer-selection-icon.png";
     public static final String PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/move-down-layer-selection-icon.png";
