@@ -791,8 +791,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         mip.setXValue(mousePos.getX());
         mip.setYValue(mousePos.getY());
 
-        updateCursorDependingOnTool();
-
         switch (Tool.getSelectedTool()) {
             case MOVE:
                 if(isCursorWithinAnyControlPoint() || isCursorWithinAnyHelperPoint()){
@@ -803,18 +801,23 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
 
             case ADD:
+                this.setCursor(cursorMap.get(CURSOR.PLUS));
                 break;
             
             case INSERT:
+                this.setCursor(cursorMap.get(CURSOR.PLUS));
                 break;
             
             case REMOVE:
+                this.setCursor(cursorMap.get(CURSOR.MINUS));
                 break;
             
             case CUT:
+                this.setCursor(cursorMap.get(CURSOR.SCISSORS));
                 break;
             
             case SHOW_ROBOT:
+                this.setCursor(cursorMap.get(CURSOR.EYE));
                 break;
             
             case MERGE:
@@ -824,9 +827,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
 
             case PAN:
+                this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
                 break;
 
             case EDIT_TIME:
+                break;
+            
+            default:
+                this.setCursor(cursorMap.get(CURSOR.UNKNOWN));
                 break;
         }
     }
@@ -834,44 +842,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mouseEntered(MouseEvent e) {
         mip.showLabels();
-    }
-
-
-
-    private void updateCursorDependingOnTool() {
-        switch (Tool.getSelectedTool()) {
-            case ADD:
-                this.setCursor(cursorMap.get(CURSOR.PLUS));
-                break;
-
-            case CUT:
-                this.setCursor(cursorMap.get(CURSOR.SCISSORS));
-                break;
-
-            case INSERT:
-                this.setCursor(cursorMap.get(CURSOR.PLUS));
-                break;
-
-            case MOVE:
-                this.setCursor(cursorMap.get(CURSOR.MOVE));
-                break;
-
-            case PAN:
-                this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
-                break;
-
-            case REMOVE:
-                this.setCursor(cursorMap.get(CURSOR.MINUS));
-                break;
-
-            case SHOW_ROBOT:
-                this.setCursor(cursorMap.get(CURSOR.EYE));
-                break;
-            
-            default:
-            this.setCursor(cursorMap.get(CURSOR.UNKNOWN));
-                break;
-        }
     }
 
     @Override
@@ -916,7 +886,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void selectedToolChanged(Tools tool) {
-        updateCursorDependingOnTool();
         switch (tool) {
             case RENDER_ALL:
                 renderVisibleTrajectories();
