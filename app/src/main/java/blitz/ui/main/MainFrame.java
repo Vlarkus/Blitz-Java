@@ -23,6 +23,7 @@ import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
 import blitz.configs.MainFrameConfig;
+import blitz.models.TrajectoriesList;
 import blitz.services.FieldImage;
 import blitz.services.Utils;
 import blitz.ui.main.menu.Open;
@@ -190,6 +191,18 @@ public class MainFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (!isFocusOnTextField.getAsBoolean()) {
                     canvasPanel.zoomOutMouse();
+                }
+            }
+        });
+
+        // DEBUGGING
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_0, 0), "debug");
+        actionMap.put("debug", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isFocusOnTextField.getAsBoolean()) {
+                    System.out.println(TrajectoriesList.getTrajectoriesList().size());
                 }
             }
         });

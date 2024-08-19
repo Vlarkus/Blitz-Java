@@ -142,7 +142,15 @@ public class TrajectoryLayer extends JPanel {
         visibilityButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                // Debug: Print size of TrajectoriesList before visibility toggle
+                System.out.println("Before visibility toggle: " + TrajectoriesList.getTrajectoriesList().size());
+                
                 relatedTrajectory.setIsVisible(!relatedTrajectory.isVisible());
+                Active.setActiveTrajectory(null);
+                
+                // Debug: Print size of TrajectoriesList after visibility toggle
+                System.out.println("After visibility toggle: " + TrajectoriesList.getTrajectoriesList().size());
+                
                 setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
                 VisibleTrajectories.notifyVisibleTrajectoriesChanged();
                 Utils.requestFocusInWindowFor(visibilityButton);
@@ -160,13 +168,14 @@ public class TrajectoryLayer extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 relatedTrajectory.setIsLocked(!relatedTrajectory.isLocked());
-                if(Active.getActiveTrajectory().equals(relatedTrajectory)){
+                setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+                if (Active.getActiveTrajectory().equals(relatedTrajectory)) {
                     Active.setActiveTrajectory(null);
                 }
-                setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
                 Utils.requestFocusInWindowFor(lockButton);
             }
         });
+
 
         // Move Up & Down
         trLayerGBC.gridx++;

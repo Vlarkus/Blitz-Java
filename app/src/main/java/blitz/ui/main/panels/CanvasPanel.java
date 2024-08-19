@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -566,7 +567,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
 
 
-    private boolean isCursorWithinAnyControlPoint() {
+    private boolean isCursorWithinAnyFreeControlPoint() {
         Point cursorScreenPosition = MouseInfo.getPointerInfo().getLocation();
         Point panelScreenPosition = this.getLocationOnScreen();
     
@@ -579,7 +580,9 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
         // Check if cursor is within any control pointer
         for (ControlPointer p : controlPointers) {
-            if (p.isWithinPointer((int) c.getX(), (int) c.getY())) {
+            boolean isCPLocked = p.getRelatedControlPoint().isLocked();
+            boolean isTrLocked = TrajectoriesList.getTrajectoryByControlPoint(p.getRelatedControlPoint()).isLocked();
+            if (p.isWithinPointer((int) c.getX(), (int) c.getY()) && !isCPLocked && !isTrLocked) {
                 return true;
             }
         }
@@ -793,7 +796,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
         switch (Tool.getSelectedTool()) {
             case MOVE:
-                if(isCursorWithinAnyControlPoint() || isCursorWithinAnyHelperPoint()){
+                if(isCursorWithinAnyFreeControlPoint() || isCursorWithinAnyHelperPoint()){
                     this.setCursor(cursorMap.get(CURSOR.HAND_POINTING));
                 } else {
                     this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
@@ -904,14 +907,21 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void updateVisibleTrajectories(){
-        ArrayList<Trajectory> newVisibleTrajectories = TrajectoriesList.getTrajectoriesList();
-        for (Trajectory trajectory : newVisibleTrajectories) {
-            if(!trajectory.isVisible()){
-                newVisibleTrajectories.remove(trajectory);
+        visibleTrajectories = new ArrayList<>();
+        ArrayList<Trajectory> allTrajectories = TrajectoriesList.getTrajectoriesList();
+        
+        // Iterate through all trajectories and add visible ones to visibleTrajectories
+        for (Trajectory trajectory : allTrajectories) {
+            if (trajectory.isVisible()) {
+                visibleTrajectories.add(trajectory);
             }
         }
-        setVisibleTrajectories(newVisibleTrajectories);
+        
+        // Now set only the visible trajectories
+        setVisibleTrajectories(visibleTrajectories);
     }
+    
+    
 
     @Override
     public void visibleTrajectoriesChanged() {

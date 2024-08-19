@@ -96,16 +96,15 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 1.0;
-        gbc.insets = new Insets(0, 0, 0, 0);
+        gbc.insets = new Insets(5, 5, 5, 5); // Adjust as needed for your spacing
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.NORTHWEST;
-        gbc.insets = new Insets(5, 5, 5, 5); // Adjust as needed for your spacing
     
         for (int i = 0; i < trajectories.size(); i++) {
             Trajectory tr = trajectories.get(i);
             TrajectoryLayer layer = new TrajectoryLayer(tr);
     
-            // Add the layer
+            // Add the layer for each trajectory, regardless of visibility
             gbc.gridy++;
             selectionMenuPanel.add(layer, gbc);
     
