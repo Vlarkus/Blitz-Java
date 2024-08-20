@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
@@ -25,6 +26,7 @@ import javax.swing.text.JTextComponent;
 import blitz.configs.MainFrameConfig;
 import blitz.services.FieldImage;
 import blitz.services.Utils;
+import blitz.ui.main.menu.Export;
 import blitz.ui.main.menu.Open;
 import blitz.ui.main.menu.Save;
 import blitz.ui.main.panels.CanvasPanel;
@@ -204,7 +206,8 @@ public class MainFrame extends JFrame {
             }
         });
 
-        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, 0), "deleteActive");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.SHIFT_DOWN_MASK), "deleteActive");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_BACK_SPACE, InputEvent.META_DOWN_MASK), "deleteActive");
         actionMap.put("deleteActive", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -213,6 +216,18 @@ public class MainFrame extends JFrame {
                 }
             }
         });
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.SHIFT_DOWN_MASK), "Export");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_E, InputEvent.META_DOWN_MASK), "Export");
+        actionMap.put("Export", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!isFocusOnTextField.getAsBoolean()) {
+                    Export.createExportDialogue();
+                }
+            }
+        });
+
 
     }
     
@@ -240,7 +255,7 @@ public class MainFrame extends JFrame {
 
         // Export
         JMenuItem exportAsMenuItem = new JMenuItem("Export");
-        exportAsMenuItem.addActionListener((ActionEvent e) -> {});
+        exportAsMenuItem.addActionListener((ActionEvent e) -> {Export.createExportDialogue();});
         fileMenu.add(exportAsMenuItem);
 
 

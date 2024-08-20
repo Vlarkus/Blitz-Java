@@ -30,7 +30,7 @@ public class Save {
         // Creating new file
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             String path = fileChooser.getSelectedFile().getAbsolutePath();
-            String fileName = (new File(path).getName());
+            String fileName = new File(path).getName();
 
             // Incorect File Name Check
             if(fileName == null || fileName.equals(MainFrameConfig.SAVE_FILE_EXTENSION_TYPE)){

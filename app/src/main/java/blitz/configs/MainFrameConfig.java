@@ -24,6 +24,10 @@ public class MainFrameConfig {
 
     public static final String PATH_TO_FIELDS_DIRECTORY = "app/src/main/java/blitz/resources/images/fields";
     
+    // Export Dialogue
+
+    public static final Dimension EXPORT_DIALOGUE_DIMENSIONS = new Dimension(300, 140);
+
 
 
     // ToolPanel

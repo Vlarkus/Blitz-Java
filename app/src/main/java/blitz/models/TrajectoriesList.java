@@ -125,9 +125,25 @@ public class TrajectoriesList {
         return trajectoriesList;
     }
 
-    public static Trajectory getTrajectory(int index) {
+    public static Trajectory getTrajectoryByIndex(int index) {
         return trajectoriesList.get(index);
     }
+
+    public static Trajectory getTrajectoryByName(String name){
+        for (Trajectory tr : trajectoriesList) {
+            if(tr.getName().equals(name)) return tr;
+        }
+        return null;
+    }
+
+    public static String[] getAllTrajectoriesNames() {
+        ArrayList<String> names = new ArrayList<>();
+        for (Trajectory tr : trajectoriesList) {
+            names.add(tr.getName());
+        }
+        return names.toArray(new String[0]);
+    }
+    
 
     public static ArrayList<Trajectory> copyTrajectoriesList() {
         return new ArrayList<Trajectory>(trajectoriesList);
