@@ -188,5 +188,8 @@ public class Trajectory {
         this.isLocked = isLocked;
     }
 
+    public int size(){
+        return controlPoints.size();
+    }
     
 }

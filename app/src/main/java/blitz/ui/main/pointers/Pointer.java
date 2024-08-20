@@ -10,9 +10,9 @@ import blitz.models.ControlPoint;
 
 public abstract class Pointer extends JComponent{
 
-    private int diameter;
-    private Color color;
-    private ControlPoint relatedControlPoint;
+    protected int diameter;
+    protected Color color;
+    protected ControlPoint relatedControlPoint;
 
     public enum State{
         UNSELECTED,
@@ -36,6 +36,10 @@ public abstract class Pointer extends JComponent{
         super.paintComponent(g);
         g.setColor(color);
         g.fillOval(0, 0, diameter, diameter);
+    }
+
+    public void callSuperPaintComponent(Graphics g){
+        super.paintComponent(g);
     }
 
     @Override

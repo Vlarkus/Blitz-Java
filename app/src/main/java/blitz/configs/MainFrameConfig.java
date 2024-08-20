@@ -99,11 +99,11 @@ public class MainFrameConfig {
     public static final HexColor SELECTED_CONTROL_POINTER_COLOR = new HexColor("#43aef0");
     public  static final int CONTROL_POINTER_DIAMETER = 20;
 
-    // BezierPointer
+    // Follow Pointer
 
-    public static final HexColor DEFAULT_BEZIER_POINTER_COLOR = new HexColor("#33ff1c");
-    public static final HexColor HIGHLIGHTED_BEZIER_POINTER_COLOR = new HexColor("#fcdf3a");
-    public  static final int BEZIER_POINTER_DIAMETER = 8;
+    public static final HexColor DEFAULT_FOLLOW_POINTER_COLOR = new HexColor("#33ff1c");
+    public static final HexColor HIGHLIGHTED_FOLLOW_POINTER_COLOR = new HexColor("#fcdf3a");
+    public  static final int FOLLOW_POINTER_DIAMETER = 8;
 
     // HelperPointer
 

@@ -1,3 +1,6 @@
+- ADD VOLTAGE CALCULATOR TO TRAJECTORY FOR BEZIER POINTS!!!!
+- Add more options to choose between different curve types.
+
 - Add Help option in MenuBar containing Tutorials.
 
 - ControlPoint can be continuous or not. isContinuous()? thetaEnd = thetaStart + 180; Add option to turn it on an off in InfoPanel.

@@ -37,7 +37,7 @@ import blitz.services.CartesianCoordinate;
 import blitz.services.FieldImage;
 import blitz.services.Utils;
 import blitz.ui.main.panels.CanvasPanel.CURSOR;
-import blitz.ui.main.pointers.BezierPointer;
+import blitz.ui.main.pointers.FollowPointer;
 import blitz.ui.main.pointers.ControlPointer;
 import blitz.ui.main.pointers.HelperLine;
 import blitz.ui.main.pointers.HelperPointer;
@@ -65,7 +65,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     private ArrayList<ControlPointer> controlPointers;
     private ArrayList<HelperPointer> helperPointers;
     private ArrayList<HelperLine> helperLines;
-    private ArrayList<BezierPointer> bezierPointers;
+    private ArrayList<FollowPointer> followPointers;
 
     private HelperPointer selectedHelperPointer;
 
@@ -93,7 +93,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
         visibleTrajectories = new ArrayList<Trajectory>();
         controlPointers = new ArrayList<ControlPointer>();
-        bezierPointers = new ArrayList<BezierPointer>();
+        followPointers = new ArrayList<FollowPointer>();
         helperPointers = new ArrayList<HelperPointer>();
 
         selectedHelperPointer = null;
@@ -177,8 +177,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         controlPointers = new ArrayList<ControlPointer>();
     }
 
-    private void clearBezierPointers(){
-        bezierPointers = new ArrayList<BezierPointer>();
+    private void clearFollowPointers(){
+        followPointers = new ArrayList<FollowPointer>();
     }
 
     private void clearHelperPointers(){
@@ -210,23 +210,23 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     }
 
-    private void populateBezierPointers(){
+    private void populateFollowPointers(){
 
-        clearBezierPointers();
+        clearFollowPointers();
 
         for (Trajectory tr : visibleTrajectories) {
             for (ControlPoint cp : tr.getAllControlPoints()) {
                 
-                ArrayList<CartesianCoordinate> bezierCoordinates = tr.calculateBezierCurveFrom(cp);
-                if(bezierCoordinates == null){
+                ArrayList<CartesianCoordinate> followCoordinates = tr.calculateBezierCurveFrom(cp);
+                if(followCoordinates == null){
                     continue;
                 }
 
-                for (CartesianCoordinate cartesianCoordinate : bezierCoordinates) {
+                for (CartesianCoordinate cartesianCoordinate : followCoordinates) {
                     CartesianCoordinate coordinate = convertFieldToScreenCoordinates(cartesianCoordinate);
                     int x = (int) coordinate.getX();
                     int y = (int) coordinate.getY();
-                    bezierPointers.add(new BezierPointer(x, y, cp));
+                    followPointers.add(new FollowPointer(x, y, cp));
                 }
 
 
@@ -285,7 +285,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
         
     
-        for (BezierPointer p : bezierPointers) {
+        for (FollowPointer p : followPointers) {
             add(p);
         }
         repaint();
@@ -465,7 +465,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     public void renderVisibleTrajectories(){
         populateControlPointers();
-        populateBezierPointers();
+        populateFollowPointers();
         populateHelperPointers();
         addAllComponents();
         repaint();
@@ -493,12 +493,12 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         this.helperPointers = helperPointers;
     }
 
-    private ArrayList<BezierPointer> getBezierPointers() {
-        return bezierPointers;
+    private ArrayList<FollowPointer> getFollowPointers() {
+        return followPointers;
     }
 
-    private void setBezierPointers(ArrayList<BezierPointer> bezierPointers) {
-        this.bezierPointers = bezierPointers;
+    private void setFollowPointers(ArrayList<FollowPointer> followPointers) {
+        this.followPointers = followPointers;
     }
 
     public void setScrollPane(JScrollPane p){
@@ -524,7 +524,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 break;
             
             case INSERT:
-                insertControlPointFromBezierPointer(e.getX(), e.getY());
+                insertControlPointFromFollowPointer(e.getX(), e.getY());
                 break;
             
             case REMOVE:
@@ -633,8 +633,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-    public void insertControlPointFromBezierPointer(int x, int y){
-        BezierPointer p = getSelectedBezierPointer(x, y);
+    public void insertControlPointFromFollowPointer(int x, int y){
+        FollowPointer p = getSelectedFollowPointer(x, y);
         if(p != null){
             ControlPoint relatedCP = p.getRelatedControlPoint();
             Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(relatedCP);
@@ -649,8 +649,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         }
     }
 
-    private BezierPointer getSelectedBezierPointer(int x, int y){
-        for (BezierPointer p : bezierPointers) {
+    private FollowPointer getSelectedFollowPointer(int x, int y){
+        for (FollowPointer p : followPointers) {
             if(p.isWithinPointer(x, y)){
                 return p;
             }
