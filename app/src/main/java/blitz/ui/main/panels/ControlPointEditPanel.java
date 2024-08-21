@@ -34,8 +34,8 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
      * Constructs an ControlPointEditPanel with a default layout and appearance.
      */
     public ControlPointEditPanel() {
-        setBackground(MainFrameConfig.INFO_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.INFO_PANEL_PREFERRED_DIMENSIONS);
+        setBackground(MainFrameConfig.CP_EDIT_PANEL_BACKGROUND_COLOR);
+        setPreferredSize(MainFrameConfig.CP_EDIT_PANEL_PREFERRED_DIMENSIONS);
         setMinimumSize(getPreferredSize());
         setMaximumSize(getPreferredSize());
         setLayout(new GridBagLayout());
@@ -197,7 +197,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
         textField.putClientProperty("ValueSetter", setter);
 
         AbstractDocument doc = (AbstractDocument) textField.getDocument();
-        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.INFO_PANEL_TEXT_FIELD_REGEX));
+        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.STANDART_TEXT_FIELD_REGEX));
 
         if (activeControlPoint != null) {
             textField.setText(getter.getValue());

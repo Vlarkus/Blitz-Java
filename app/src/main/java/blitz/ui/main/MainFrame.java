@@ -2,12 +2,17 @@ package blitz.ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Point;
+import java.awt.Taskbar;
 import java.awt.event.ActionEvent;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.ActionMap;
 import javax.swing.BoxLayout;
@@ -34,6 +39,7 @@ import blitz.ui.main.panels.ControlPointEditPanel;
 import blitz.ui.main.panels.MouseInfoPanel;
 import blitz.ui.main.panels.SelectionPanel;
 import blitz.ui.main.panels.ToolPanel;
+import blitz.ui.main.panels.TrajectoryEditPanel;
 import blitz.ui.main.tools.Tool.Tools;
 
 public class MainFrame extends JFrame {
@@ -43,7 +49,8 @@ public class MainFrame extends JFrame {
     private CanvasPanel canvasPanel;
     private JPanel sidePanel;
     private JPanel centerPanel;
-    private ControlPointEditPanel ControlPointEditPanel;
+    private ControlPointEditPanel controlPointEditPanel;
+    private TrajectoryEditPanel trajectoryEditPanel;
     private SelectionPanel selectionPanel;
     private JScrollPane scrollPane;
     
@@ -340,6 +347,19 @@ public class MainFrame extends JFrame {
         fillMainPanelWithContent();
         add(mainPanel);
 
+        Image icon = null;
+        try {
+            icon = ImageIO.read(new File(MainFrameConfig.PATH_TO_APP_ICON));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // Set the icon for the application
+        if (icon != null) {
+            Taskbar.getTaskbar().setIconImage(icon);
+            this.setIconImage(icon);
+        }
+
         pack();
         setVisible(true);
     }
@@ -368,8 +388,11 @@ public class MainFrame extends JFrame {
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
         mainPanel.add(sidePanel, BorderLayout.EAST);
 
-        ControlPointEditPanel = new ControlPointEditPanel();
-        sidePanel.add(ControlPointEditPanel);
+        controlPointEditPanel = new ControlPointEditPanel();
+        sidePanel.add(controlPointEditPanel);
+
+        trajectoryEditPanel = new TrajectoryEditPanel();
+        sidePanel.add(trajectoryEditPanel);
 
         selectionPanel = new SelectionPanel();
         sidePanel.add(selectionPanel);

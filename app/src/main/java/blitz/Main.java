@@ -17,6 +17,7 @@ public class Main {
     private static void setupMacOS() {
         if (isMac()) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
+            System.setProperty("apple.awt.application.name", "Blitz");
         }
     }
 

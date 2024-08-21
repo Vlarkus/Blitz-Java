@@ -18,6 +18,8 @@ public class MainFrameConfig {
     public static final String SAVE_FILE_EXTENSION_TYPE_DESCRIPTION = "BLITZ JSON";
     public static final String EXPORT_FILE_EXTENSION_TYPE = ".txt";
 
+    public static final String PATH_TO_APP_ICON = "app/src/main/java/blitz/resources/images/icons/app/Blitz App Icon.png";
+
 
 
     // MenuBar
@@ -130,12 +132,18 @@ public class MainFrameConfig {
 
     // ControlPointEditPanel
 
-    public static final Dimension INFO_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 250);
-    public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    public static final Dimension CP_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 250);
+    public static final HexColor CP_EDIT_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final Font TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
     public static final Font NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
-    public static final String INFO_PANEL_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
+    public static final String STANDART_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
 
+
+
+    // TrajectoryEditPanel
+
+    public static final Dimension TR_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 100);
+    public static final HexColor TR_EDIT_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
 
    // SelectionPanel
