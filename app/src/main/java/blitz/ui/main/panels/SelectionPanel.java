@@ -40,7 +40,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
 
         setLayout(new BorderLayout());
 
-        constructHeaderPanel();
+        // constructHeaderPanel();
         constructSelectionMenuPanel();
         constructOptionsBar();
 

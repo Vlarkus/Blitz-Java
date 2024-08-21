@@ -94,7 +94,7 @@ public class ToolPanel extends JPanel implements ToolListener{
         addTool(new InsertTool());
         addTool(new RemoveTool());
         addTool(new CutTool());
-        addTool(new MergeTool());
+        // addTool(new MergeTool());
         addTool(new ShowRobotTool());
         // addTool(new RenderAllTool());
         addTool(new PanTool());

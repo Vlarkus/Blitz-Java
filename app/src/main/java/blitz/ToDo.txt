@@ -1,23 +1,20 @@
 - ADD VOLTAGE CALCULATOR TO TRAJECTORY FOR BEZIER POINTS!!!!
 - Add more options to choose between different curve types.
 
+- Use triangles for bezier pointers to show direction.
+
+- Add ability for user to choose between G0 (straight line), Separated Bezier, G1(Continuous Bezier), G2, etc.
+- Ad ability for control points to be continuous or abrupt (theta is the opposite or same);
+
 - Add Help option in MenuBar containing Tutorials.
 
-- ControlPoint can be continuous or not. isContinuous()? thetaEnd = thetaStart + 180; Add option to turn it on an off in InfoPanel.
-- Add button to InfoPanel to turn helper points off: set rStart and rEnd to 0 and not show text fields for them.
+- ControlPoint can be continuous or not. isContinuous()? thetaEnd = thetaStart + 180; Add option to turn it on an off in ControlPointEditPanel.
+- Add button to ControlPointEditPanel to turn helper points off: set rStart and rEnd to 0 and not show text fields for them.
     add private boolean isCurved.
-
-- Use border for each panel instead of saying what panel it is with a title text.
 
 - Pointers highlight if a tool can work with them and if a cursor is over the pointer.
 
 - Ability to change color of different trajectories
 - Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)
 
-- User is able to export their path in whatever format they chose. There should be a separate window that allows to make custom export types.
-
 - When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
-
-- Use triangles for bezier pointers to show direction.
-
-- Add ability for user to choose between G0 (straight line), Separated Bezier, G1(Continuous Bezier), G2, etc.

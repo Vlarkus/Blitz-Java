@@ -44,7 +44,7 @@ public class Export {
 
         // Main content panel with GridBagLayout
         JPanel contentPanel = new JPanel(new GridBagLayout());
-        contentPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Add padding around the content
+        contentPanel.setBorder(BorderFactory.createEmptyBorder(20, 10, 20, 10)); // Add padding around the content, with extra space at the top
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
@@ -60,9 +60,7 @@ public class Export {
         JComboBox<String> trajectoryComboBox = new JComboBox<>(
             TrajectoriesList.getAllTrajectoriesNames()
         );
-        trajectoryComboBox.setPreferredSize(new Dimension(200, 20));
-        trajectoryComboBox.setMinimumSize(new Dimension(200, 20)); 
-        trajectoryComboBox.setMaximumSize(new Dimension(200, 20)); 
+        trajectoryComboBox.setPreferredSize(new Dimension(200, 25)); // Adjust height to make it more accessible
         gbc.gridx = 1;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -94,7 +92,7 @@ public class Export {
         gbc.anchor = GridBagConstraints.EAST;
         gbc.weightx = 0;
         gbc.gridwidth = 1;
-        gbc.insets = new Insets(5, 5, 0, 5); // Set padding between components
+        gbc.insets = new Insets(10, 5, 0, 5); // Set padding between components
         contentPanel.add(exportButton, gbc);
 
         exportDialogue.add(contentPanel, BorderLayout.CENTER);
@@ -149,7 +147,7 @@ public class Export {
             String data = FormatManager.formatTrajectory(tr, format);
             in.write(data);
         } catch (IOException e) {
-
+            e.printStackTrace();
             System.out.println("An error occurred while writing the file.");
         }
     }

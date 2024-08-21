@@ -25,15 +25,15 @@ import blitz.services.Utils;
 /**
  * A panel displaying information about an active control point, allowing for editing if the control point is active.
  */
-public class InfoPanel extends JPanel implements ActiveListener{
+public class ControlPointEditPanel extends JPanel implements ActiveListener{
 
     private ControlPoint activeControlPoint;
     private ArrayList<JTextField> textFields;
 
     /**
-     * Constructs an InfoPanel with a default layout and appearance.
+     * Constructs an ControlPointEditPanel with a default layout and appearance.
      */
-    public InfoPanel() {
+    public ControlPointEditPanel() {
         setBackground(MainFrameConfig.INFO_PANEL_BACKGROUND_COLOR);
         setPreferredSize(MainFrameConfig.INFO_PANEL_PREFERRED_DIMENSIONS);
         setMinimumSize(getPreferredSize());
@@ -56,11 +56,11 @@ public class InfoPanel extends JPanel implements ActiveListener{
         gbc.insets = new Insets(5, 10, 5, 10);
 
         JLabel infoLabel = new JLabel("Info Menu", SwingConstants.CENTER);
-        infoLabel.setFont(MainFrameConfig.INFO_PANEL_TITLE_LABEL_FONT);
+        infoLabel.setFont(MainFrameConfig.TITLE_LABEL_FONT);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
-        add(infoLabel, gbc);
+        // add(infoLabel, gbc);
 
         gbc.gridwidth = 1;
         gbc.gridy++;
@@ -187,7 +187,7 @@ public class InfoPanel extends JPanel implements ActiveListener{
      */
     private void addField(GridBagConstraints gbc, String labelText, ValueGetter getter, ValueSetter setter) {
         JLabel label = new JLabel(labelText, SwingConstants.LEFT);
-        label.setFont(MainFrameConfig.INFO_PANEL_NORMAL_LABEL_FONT);
+        label.setFont(MainFrameConfig.NORMAL_LABEL_FONT);
         gbc.gridy++;
         gbc.insets = new Insets(10, 10, 1, 10);
         add(label, gbc);
