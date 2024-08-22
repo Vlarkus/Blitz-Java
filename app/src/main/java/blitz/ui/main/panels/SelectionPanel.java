@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -37,7 +38,6 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
 
         setBackground(MainFrameConfig.SELECTION_PANEL_BACKGROUND_COLOR);
         setPreferredSize(MainFrameConfig.SELECTION_PANEL_PREFERRED_DIMENSIONS);
-
         setLayout(new BorderLayout());
 
         // constructHeaderPanel();

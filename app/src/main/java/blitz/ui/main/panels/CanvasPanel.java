@@ -669,6 +669,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     @Override
     public void mouseDragged(MouseEvent e) {
+        updateMIP(e);
         switch (Tool.getSelectedTool()) {
             case MOVE:
                 if(!isSelectedHelperPointerEmpty()){
@@ -750,6 +751,12 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
             viewport.setViewPosition(viewPos);
         }
     }
+
+    private void updateMIP(MouseEvent e){
+        CartesianCoordinate mousePos = convertScreenToFieldCoordinates(new CartesianCoordinate(e.getX(), e.getY()));
+        mip.setXValue(mousePos.getX());
+        mip.setYValue(mousePos.getY());
+    }
     
     @Override
     public void mouseReleased(MouseEvent e) {
@@ -790,9 +797,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     @Override
     public void mouseMoved(MouseEvent e) {
 
-        CartesianCoordinate mousePos = convertScreenToFieldCoordinates(new CartesianCoordinate(e.getX(), e.getY()));
-        mip.setXValue(mousePos.getX());
-        mip.setYValue(mousePos.getY());
+        updateMIP(e);
 
         switch (Tool.getSelectedTool()) {
             case MOVE:

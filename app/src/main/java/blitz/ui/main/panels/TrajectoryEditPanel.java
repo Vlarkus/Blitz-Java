@@ -1,11 +1,13 @@
 package blitz.ui.main.panels;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -28,6 +30,7 @@ public class TrajectoryEditPanel extends JPanel implements ActiveListener {
         setMinimumSize(getPreferredSize());
         setMaximumSize(getPreferredSize());
         setLayout(new GridBagLayout());
+        setBorder(BorderFactory.createLineBorder(MainFrameConfig.PANEL_BORDER_COLOR));
 
         fillWithContent();
 

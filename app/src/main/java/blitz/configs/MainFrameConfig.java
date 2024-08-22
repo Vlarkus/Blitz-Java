@@ -19,6 +19,8 @@ public class MainFrameConfig {
     public static final String EXPORT_FILE_EXTENSION_TYPE = ".txt";
 
     public static final String PATH_TO_APP_ICON = "app/src/main/java/blitz/resources/images/icons/app/Blitz App Icon.png";
+    
+    public static final HexColor PANEL_BORDER_COLOR = new HexColor("#dddddd");
 
 
 
