@@ -1,6 +1,5 @@
 package blitz.ui.main.panels;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,8 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.JComboBox;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -22,7 +21,7 @@ import blitz.models.Trajectory;
 public class TrajectoryEditPanel extends JPanel implements ActiveListener {
 
     private JComboBox<String> curveTypeDropdown;
-    private JCheckBox generatePointsContinuouslyCheckbox;
+    private JCheckBox continuetyCheckbox;
 
     public TrajectoryEditPanel() {
         setBackground(MainFrameConfig.TR_EDIT_PANEL_BACKGROUND_COLOR);
@@ -49,7 +48,7 @@ public class TrajectoryEditPanel extends JPanel implements ActiveListener {
         gbc.gridy = 0;
         add(curveTypeLabel, gbc);
 
-        curveTypeDropdown = new JComboBox<>(new String[]{"Bezier", "Hermite", "Catmull-Rom", "B-spline", "Linear"});
+        curveTypeDropdown = new JComboBox<>(Trajectory.getAllSplineNames());
         gbc.gridx = 1;
         add(curveTypeDropdown, gbc);
 
@@ -63,35 +62,18 @@ public class TrajectoryEditPanel extends JPanel implements ActiveListener {
         });
 
         // Row 2: Checkbox and Label "Generate points continuously"
-        generatePointsContinuouslyCheckbox = new JCheckBox();
-        gbc.gridx = 0;
-        gbc.gridy = 1;
-        add(generatePointsContinuouslyCheckbox, gbc);
-
-        JLabel generatePointsLabel = new JLabel("Generate points continuously:");
+        continuetyCheckbox = new JCheckBox();
         gbc.gridx = 1;
+        gbc.gridy = 1;
+        add(continuetyCheckbox, gbc);
+
+        JLabel generatePointsLabel = new JLabel("Continuity:");
+        gbc.gridx = 0;
         add(generatePointsLabel, gbc);
     }
 
-    private void handleCurveTypeSelection(String curveType) {
-        // Call different methods based on the selected curve type
-        switch (curveType) {
-            case "Bezier":
-                handleBezierSelection();
-                break;
-            case "Hermite":
-                handleHermiteSelection();
-                break;
-            case "Catmull-Rom":
-                handleCatmullRomSelection();
-                break;
-            case "B-spline":
-                handleBSplineSelection();
-                break;
-            case "Linear":
-                handleLinearSelection();
-                break;
-        }
+    private void handleCurveTypeSelection(String splineType) {
+        
     }
 
     private void handleBezierSelection() {

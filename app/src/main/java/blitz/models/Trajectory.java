@@ -1,6 +1,10 @@
 package blitz.models;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import blitz.services.CartesianCoordinate;
 
@@ -12,7 +16,22 @@ public class Trajectory {
     private ArrayList<ControlPoint> controlPoints;
     private boolean isVisible, isLocked;
 
+    private static Map<String, Method> splineCalculationMap = new HashMap<>();
+    private Method splineCalculationMethod;
+    private boolean isContinuous;
+    private double distance;
+    
 
+    static {
+        try {
+    //         splineCalculationMap.put("Linear", MethodMapExample.class.getMethod("method1", String.class));
+            splineCalculationMap.put("Beziér", Trajectory.class.getMethod("bezierInterpolation", ArrayList.class, int.class));
+    //         splineCalculationMap.put("Catmul-Rom", MethodMapExample.class.getMethod("method3", int.class));
+    //         splineCalculationMap.put("NURB", MethodMapExample.class.getMethod("method3", int.class));
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+    }
 
 
 
@@ -28,6 +47,9 @@ public class Trajectory {
         controlPoints = new ArrayList<ControlPoint>();
         setIsVisible(true);
         setIsLocked(false);
+        setSplineType("Beziér");
+        setIsContinuous(false);
+        setDistance(0.75);
     }
 
     /**
@@ -47,6 +69,34 @@ public class Trajectory {
 
 
     // -=-=-=- METHODS -=-=-=-
+
+    public static String[] getAllSplineNames() {
+        return splineCalculationMap.keySet().toArray(new String[0]);
+    }
+    
+    public void setSplineType(String type){
+        splineCalculationMethod = splineCalculationMap.get(type);
+    }
+
+    public void setIsContinuous(boolean b){
+        isContinuous = b;
+    }
+
+    public boolean getIsContinuous(){
+        return isContinuous;
+    }
+
+    public void setDistance(double d){
+        if(d < 0.5 || 10 < d){
+            distance = 0.75;
+        } else {
+            distance = d;
+        }
+    }
+
+    public double getDistance(){
+        return distance;
+    }
 
     public void setName(String name){
         this.name = name;
@@ -114,47 +164,54 @@ public class Trajectory {
         return null;
     }
 
-    /**
-     * Calculates points on a Bezier curve starting from the given ControlPoint.
-     * 
-     * @param cp The starting ControlPoint of the Bezier curve.
-     * @return An ArrayList of CartesianCoordinate points on the Bezier curve.
-     * @throws NullPointerException if the trajectory does not contain the given ControlPoint.
-     * @throws IndexOutOfBoundsException if the given ControlPoint is the last in the list.
-     */
-    public ArrayList<CartesianCoordinate> calculateBezierCurveFrom(ControlPoint cp) {
-        // Validation
-        if (cp == null) {
-            throw new NullPointerException("ControlPoint cannot be null!");
+
+
+    public ArrayList<CartesianCoordinate> calculateFollowPoints() {
+        try {
+            return (ArrayList<CartesianCoordinate>) splineCalculationMethod.invoke(null, controlPoints, 20);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
         }
-        if (!controlPoints.contains(cp)) {
-            throw new NullPointerException("Trajectory does not contain this ControlPoint!");
+        return new ArrayList<>();
+    }
+    
+
+    public static ArrayList<CartesianCoordinate> bezierInterpolation(ArrayList<ControlPoint> controlPoints, int numInterpolatedPoints) {
+        ArrayList<CartesianCoordinate> interpolatedPoints = new ArrayList<>();
+    
+        for (int i = 0; i < controlPoints.size() - 1; i++) {
+            ControlPoint p0 = controlPoints.get(i);
+            ControlPoint p1 = controlPoints.get(i + 1);
+    
+            // Calculate the Bézier curve between p0 and p1
+            for (int j = 0; j <= numInterpolatedPoints; j++) {
+                double t = (double) j / numInterpolatedPoints;
+                interpolatedPoints.add(calculateBezierPoint(t, p0, p1));
+            }
         }
-        if (controlPoints.get(controlPoints.size() - 1).equals(cp)) {
-            return null;
-        }
-
-        // Presets
-        int index = controlPoints.indexOf(cp);
-        ControlPoint nextCP = controlPoints.get(index + 1);
-
-        CartesianCoordinate strt = new CartesianCoordinate(cp.getX(), cp.getY());
-        CartesianCoordinate h1 = cp.getAbsStartHelperPos();
-        CartesianCoordinate h2 = nextCP.getAbsEndHelperPos();
-        CartesianCoordinate end = new CartesianCoordinate(nextCP.getX(), nextCP.getY());
-
-        int numSeg = cp.getNumSegments();
-        ArrayList<CartesianCoordinate> bezierCoordinates = new ArrayList<>(numSeg + 1);
-
-        // Calculations
-        for (double i = 0; i <= numSeg; i++) {
-            double t = i / numSeg;
-            double x = Math.pow(1 - t, 3) * strt.getX() + 3 * Math.pow(1 - t, 2) * t * h1.getX() + 3 * (1 - t) * Math.pow(t, 2) * h2.getX() + Math.pow(t, 3) * end.getX();
-            double y = Math.pow(1 - t, 3) * strt.getY() + 3 * Math.pow(1 - t, 2) * t * h1.getY() + 3 * (1 - t) * Math.pow(t, 2) * h2.getY() + Math.pow(t, 3) * end.getY();
-            bezierCoordinates.add(new CartesianCoordinate(x, y));
-        }
-
-        return bezierCoordinates;
+    
+        return interpolatedPoints;
+    }
+    
+    private static CartesianCoordinate calculateBezierPoint(double t, ControlPoint p0, ControlPoint p1) {
+        // Control points and helper points
+        CartesianCoordinate startPoint = p0.getPosition();
+        CartesianCoordinate controlPoint1 = p0.getAbsStartHelperPos(); // End helper point of p0
+        CartesianCoordinate controlPoint2 = p1.getAbsEndHelperPos(); // Start helper point of p1
+        CartesianCoordinate endPoint = p1.getPosition();
+    
+        // Bézier formula using the four points
+        double x = Math.pow(1 - t, 3) * startPoint.getX() +
+                   3 * Math.pow(1 - t, 2) * t * controlPoint1.getX() +
+                   3 * (1 - t) * Math.pow(t, 2) * controlPoint2.getX() +
+                   Math.pow(t, 3) * endPoint.getX();
+    
+        double y = Math.pow(1 - t, 3) * startPoint.getY() +
+                   3 * Math.pow(1 - t, 2) * t * controlPoint1.getY() +
+                   3 * (1 - t) * Math.pow(t, 2) * controlPoint2.getY() +
+                   Math.pow(t, 3) * endPoint.getY();
+    
+        return new CartesianCoordinate(x, y);
     }
 
     public String getNextAvaliableName(){

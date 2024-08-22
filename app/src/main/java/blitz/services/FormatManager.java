@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
-import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 
 public class FormatManager {
@@ -49,14 +48,24 @@ public class FormatManager {
         StringBuilder result = new StringBuilder();
 
         // Point+
-        for (int i = 0; i < tr.size() - 1; i++) {
-            ControlPoint cp = tr.getControlPoint(i);
-            ArrayList<CartesianCoordinate> points = tr.calculateBezierCurveFrom(cp);
-            // Assuming the loop should include all points
-            for (CartesianCoordinate p : points) {
-                result.append(point.apply(p)).append("\n");
+        ArrayList<CartesianCoordinate> points = tr.calculateFollowPoints();
+        for (CartesianCoordinate c : points) {
+            result.append(point.apply(c));
+            if(points.getLast() != c){
+                result.append(",");
             }
+            result.append("\n");
         }
+
+
+        // for (int i = 0; i < tr.size() - 1; i++) {
+        //     ControlPoint cp = tr.getControlPoint(i);
+        //     ArrayList<CartesianCoordinate> points = tr.calculateBezierCurveFrom(cp);
+        //     // Assuming the loop should include all points
+        //     for (CartesianCoordinate p : points) {
+        //         result.append(point.apply(p)).append("\n");
+        //     }
+        // }
 
         // EndData
         result.append("endData\n");

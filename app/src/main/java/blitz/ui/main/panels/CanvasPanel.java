@@ -215,22 +215,20 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         clearFollowPointers();
 
         for (Trajectory tr : visibleTrajectories) {
-            for (ControlPoint cp : tr.getAllControlPoints()) {
-                
-                ArrayList<CartesianCoordinate> followCoordinates = tr.calculateBezierCurveFrom(cp);
-                if(followCoordinates == null){
-                    continue;
-                }
-
-                for (CartesianCoordinate cartesianCoordinate : followCoordinates) {
-                    CartesianCoordinate coordinate = convertFieldToScreenCoordinates(cartesianCoordinate);
-                    int x = (int) coordinate.getX();
-                    int y = (int) coordinate.getY();
-                    followPointers.add(new FollowPointer(x, y, cp));
-                }
-
-
+            
+            ArrayList<CartesianCoordinate> followCoordinates = tr.calculateFollowPoints();
+            
+            if(followCoordinates == null){
+                continue;
             }
+
+            for (CartesianCoordinate cartesianCoordinate : followCoordinates) {
+                CartesianCoordinate coordinate = convertFieldToScreenCoordinates(cartesianCoordinate);
+                int x = (int) coordinate.getX();
+                int y = (int) coordinate.getY();
+                followPointers.add(new FollowPointer(x, y, null));
+            }
+
         }
 
     }
@@ -637,6 +635,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         FollowPointer p = getSelectedFollowPointer(x, y);
         if(p != null){
             ControlPoint relatedCP = p.getRelatedControlPoint();
+            if(relatedCP == null) return;
             Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(relatedCP);
             int index = tr.indexOf(relatedCP);
             int numSeg;

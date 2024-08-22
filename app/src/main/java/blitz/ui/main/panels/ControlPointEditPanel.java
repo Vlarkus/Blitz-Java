@@ -106,7 +106,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "num segments:", () -> {
+        addField(gbc, "Distance:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getNumSegments());
             }
