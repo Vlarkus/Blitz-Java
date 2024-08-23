@@ -21,7 +21,9 @@ import blitz.models.Trajectory;
 public class TrajectoryEditPanel extends JPanel implements ActiveListener {
 
     private JComboBox<String> curveTypeDropdown;
-    private JCheckBox continuetyCheckbox;
+    private JCheckBox fixedDistanceCheckbox;
+    private JLabel curveTypeLabel;
+    private JLabel fixedDistanceLabel;
 
     public TrajectoryEditPanel() {
         setBackground(MainFrameConfig.TR_EDIT_PANEL_BACKGROUND_COLOR);
@@ -37,18 +39,22 @@ public class TrajectoryEditPanel extends JPanel implements ActiveListener {
     }
 
     private void fillWithContent() {
+        removeAll();
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.WEST;
         gbc.insets = new Insets(5, 10, 5, 10);
 
         // Row 1: Label "Curve type:" and Dropdown Menu
-        JLabel curveTypeLabel = new JLabel("Curve type:");
+        curveTypeLabel = new JLabel("Curve type:");
         gbc.gridx = 0;
         gbc.gridy = 0;
         add(curveTypeLabel, gbc);
 
         curveTypeDropdown = new JComboBox<>(Trajectory.getAllSplineNames());
+        if(Active.getActiveTrajectory() != null){
+            curveTypeDropdown.setSelectedItem(Active.getActiveTrajectory().getSplineType());
+        }
         gbc.gridx = 1;
         add(curveTypeDropdown, gbc);
 
@@ -57,52 +63,40 @@ public class TrajectoryEditPanel extends JPanel implements ActiveListener {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String selectedCurve = (String) curveTypeDropdown.getSelectedItem();
-                handleCurveTypeSelection(selectedCurve);
+                Active.getActiveTrajectory().setSplineType(selectedCurve);
+                Active.notifyActiveTrajectoryStateEdited();
             }
         });
 
         // Row 2: Checkbox and Label "Generate points continuously"
-        continuetyCheckbox = new JCheckBox();
+        fixedDistanceCheckbox = new JCheckBox();
+        fixedDistanceCheckbox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Active.getActiveTrajectory().setIsContinuous(fixedDistanceCheckbox.isSelected());
+                Active.notifyActiveTrajectoryStateEdited();
+            }
+        });
         gbc.gridx = 1;
         gbc.gridy = 1;
-        add(continuetyCheckbox, gbc);
+        add(fixedDistanceCheckbox, gbc);
 
-        JLabel generatePointsLabel = new JLabel("Continuity:");
+        fixedDistanceLabel = new JLabel("Fixed Distance:");
         gbc.gridx = 0;
-        add(generatePointsLabel, gbc);
+        add(fixedDistanceLabel, gbc);
     }
 
-    private void handleCurveTypeSelection(String splineType) {
-        
-    }
-
-    private void handleBezierSelection() {
-        // Implement Bezier curve handling here
-        System.out.println("Bezier curve selected.");
-    }
-
-    private void handleHermiteSelection() {
-        // Implement Hermite curve handling here
-        System.out.println("Hermite curve selected.");
-    }
-
-    private void handleCatmullRomSelection() {
-        // Implement Catmull-Rom curve handling here
-        System.out.println("Catmull-Rom curve selected.");
-    }
-
-    private void handleBSplineSelection() {
-        // Implement B-spline curve handling here
-        System.out.println("B-spline curve selected.");
-    }
-
-    private void handleLinearSelection() {
-        // Implement Linear curve handling here
-        System.out.println("Linear curve selected.");
+    private void updateElementsInfo(){
+        Trajectory tr = Active.getActiveTrajectory();
+        if(tr != null){
+            curveTypeDropdown.setSelectedItem(tr.getSplineType());
+            fixedDistanceCheckbox.setSelected(tr.isContinuous());
+        }
     }
 
     @Override
     public void activeTrajectoryChanged(Trajectory tr) {
+        updateElementsInfo();
     }
 
     @Override
@@ -111,5 +105,10 @@ public class TrajectoryEditPanel extends JPanel implements ActiveListener {
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
+    }
+
+    @Override
+    public void activeTrajectoryStateEdited(ControlPoint cp) {
+        updateElementsInfo();
     }
 }

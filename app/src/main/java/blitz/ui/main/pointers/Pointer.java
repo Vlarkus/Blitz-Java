@@ -2,7 +2,6 @@ package blitz.ui.main.pointers;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 
 import javax.swing.JComponent;
 
@@ -31,16 +30,16 @@ public abstract class Pointer extends JComponent{
         this.color = color;
     }
     
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        g.setColor(color);
-        g.fillOval(0, 0, diameter, diameter);
-    }
+    // @Override
+    // public void paintComponent(Graphics g) {
+    //     super.paintComponent(g);
+    //     g.setColor(color);
+    //     g.fillOval(0, 0, diameter, diameter);
+    // }
 
-    public void callSuperPaintComponent(Graphics g){
-        super.paintComponent(g);
-    }
+    // public void callSuperPaintComponent(Graphics g){
+    //     super.paintComponent(g);
+    // }
 
     @Override
     public Dimension getPreferredSize() {

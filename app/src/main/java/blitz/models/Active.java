@@ -115,4 +115,10 @@ public class Active {
             listener.activeControlPointStateEdited(activeControlPoint);
         }
     }
+
+    public static void notifyActiveTrajectoryStateEdited(){
+        for (ActiveListener listener : listeners) {
+            listener.activeTrajectoryStateEdited(activeControlPoint);
+        }
+    }
 }

@@ -36,4 +36,10 @@ public class CartesianCoordinate {
         return y;
     } 
 
+    public double distanceTo(CartesianCoordinate other) {
+        double deltaX = this.x - other.getX();
+        double deltaY = this.y - other.getY();
+        return Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+    }
+
 }

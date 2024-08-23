@@ -238,4 +238,9 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
         renderSelectionMenuPanel();
     }
 
+    @Override
+    public void activeTrajectoryStateEdited(ControlPoint cp) {
+
+    }
+
 }

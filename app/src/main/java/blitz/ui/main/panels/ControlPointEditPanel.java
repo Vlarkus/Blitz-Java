@@ -333,4 +333,9 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
     public void activeControlPointStateEdited(ControlPoint cp) {
         updateTextFields();
     }
+
+    @Override
+    public void activeTrajectoryStateEdited(ControlPoint cp) {
+        
+    }
 }

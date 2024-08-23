@@ -238,22 +238,50 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         clearHelperLines();
     
         for (ControlPointer p : controlPointers) {
-            if (p.getState() == State.SELECTED) {
-                ControlPoint cp = p.getRelatedControlPoint();
-    
-                CartesianCoordinate helperStartCoord = convertFieldToScreenCoordinates(cp.getAbsStartHelperPos());
-                HelperPointer helperStartPointer = new HelperPointer((int) helperStartCoord.getX(), (int) helperStartCoord.getY(), cp, true);
-                helperPointers.add(helperStartPointer);
-                createHelperLine(helperStartPointer);
-    
-                CartesianCoordinate endStartCoord = convertFieldToScreenCoordinates(cp.getAbsEndHelperPos());
-                HelperPointer helperEndPointer = new HelperPointer((int) endStartCoord.getX(), (int) endStartCoord.getY(), cp, false);
-                helperPointers.add(helperEndPointer);
-                createHelperLine(helperEndPointer);
+            if (p.getState() == State.SELECTED){
+                Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(p.getRelatedControlPoint());
+                if(!tr.isTypeLinear())
+                if(tr.size() > 1){
+                    ControlPoint cp = p.getRelatedControlPoint();
+        
+                    if(!isControlPointerFirst(p)){
+                        CartesianCoordinate helperStartCoord = convertFieldToScreenCoordinates(cp.getAbsStartHelperPos());
+                        HelperPointer helperStartPointer = new HelperPointer((int) helperStartCoord.getX(), (int) helperStartCoord.getY(), cp, true);
+                        helperPointers.add(helperStartPointer);
+                        createHelperLine(helperStartPointer);
+                    }
+        
+                    if(!isControlPointerLast(p)){
+                        CartesianCoordinate endStartCoord = convertFieldToScreenCoordinates(cp.getAbsEndHelperPos());
+                        HelperPointer helperEndPointer = new HelperPointer((int) endStartCoord.getX(), (int) endStartCoord.getY(), cp, false);
+                        helperPointers.add(helperEndPointer);
+                        createHelperLine(helperEndPointer);
+                    }
+
+                }
             }
         }
     }
-    
+
+    private boolean isControlPointerFirst(ControlPointer p){
+        ControlPoint cp = p.getRelatedControlPoint();
+        Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(cp);
+
+        if(tr.size() <= 1) return false;
+
+        return cp == tr.getControlPoint(0);
+    }
+
+    private boolean isControlPointerLast(ControlPointer p){
+        ControlPoint cp = p.getRelatedControlPoint();
+        Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(cp);
+
+        if(tr.size() <= 1) return false;
+
+        return cp == tr.getControlPoint(tr.size()-1);
+    }
+
+
     private void createHelperLine(HelperPointer p) {
         int x1 = p.getCenterX();
         int y1 = p.getCenterY();
@@ -929,6 +957,11 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void visibleTrajectoriesChanged() {
+        updateVisibleTrajectories();
+    }
+
+    @Override
+    public void activeTrajectoryStateEdited(ControlPoint cp) {
         updateVisibleTrajectories();
     }
     
