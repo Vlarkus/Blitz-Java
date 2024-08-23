@@ -168,7 +168,7 @@ public class TrajectoryLayer extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 relatedTrajectory.setIsLocked(!relatedTrajectory.isLocked());
                 setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
-                if (Active.getActiveTrajectory().equals(relatedTrajectory)) {
+                if (Active.getActiveTrajectory() == relatedTrajectory) {
                     Active.setActiveTrajectory(null);
                 }
                 Utils.requestFocusInWindowFor(lockButton);
