@@ -90,4 +90,12 @@ public class Utils {
                 }
     }
 
+    public static double normalizeAngle(double theta){
+        theta = theta % 360;
+        if (theta < 0) {
+            theta += 360;
+        }
+        return theta;   
+    }
+
 }

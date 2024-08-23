@@ -1,6 +1,7 @@
 package blitz.models;
 
 import blitz.configs.ModelsConfig;
+import blitz.models.ControlPoint.SYMMETRY;
 import blitz.services.CartesianCoordinate;
 import blitz.services.PolarCoordinate;
 import blitz.services.Utils;
@@ -25,6 +26,13 @@ public final class ControlPoint {
 
     private boolean isLocked;
 
+    private SYMMETRY symmetry;
+    public enum SYMMETRY{
+        BROKEN,
+        ALIGNED,
+        MIRRORED
+    }
+
     // -=-=-=- CONSTRUCTORS -=-=-=-
 
     /**
@@ -48,6 +56,7 @@ public final class ControlPoint {
         setNumSegments(isValidNumSegments(numSegments)? numSegments : ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS);
         setTime(isValidTime(time)? time : ModelsConfig.CONTROL_POINT_MIN_TIME);
         setIsLocked(false);
+        setSymmetry(SYMMETRY.MIRRORED);
     }
 
     public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
@@ -102,6 +111,16 @@ public final class ControlPoint {
             return true;
         }
         return false;
+    }
+
+    public SYMMETRY getSymmetry(){
+        return symmetry;
+    }
+
+    public void setSymmetry(SYMMETRY symmetry){
+        this.symmetry = symmetry;
+        setRStart(getRStart());
+        setThetaStart(getThetaStart());
     }
 
     public int getNumSegments() {
@@ -196,6 +215,9 @@ public final class ControlPoint {
      */
     public void setRStart(double r) {
         this.rStart = r;
+        if(symmetry == SYMMETRY.MIRRORED){
+            rEnd = r;
+        }
     }
 
     /**
@@ -204,7 +226,10 @@ public final class ControlPoint {
      * @param theta angular position
      */
     public void setThetaStart(double theta) {
-        this.thetaStart = theta;
+        this.thetaStart = Utils.normalizeAngle(theta);
+        if(symmetry == SYMMETRY.ALIGNED || symmetry == SYMMETRY.MIRRORED){
+            thetaEnd = Utils.normalizeAngle(theta+180);
+        }
     }
 
     /**
@@ -215,8 +240,8 @@ public final class ControlPoint {
      */
     public void setRelStartHelperPos(double x, double y) {
         PolarCoordinate p = Utils.cartesianToPolar(x, y);
-        this.rStart = p.getR();
-        this.thetaStart = p.getTheta();
+        setRStart(p.getR());
+        setThetaStart(p.getTheta());
     }
 
     /**
@@ -259,6 +284,9 @@ public final class ControlPoint {
      */
     public void setREnd(double r) {
         this.rEnd = r;
+        if(symmetry == SYMMETRY.MIRRORED){
+            rStart = r;
+        }
     }
 
     /**
@@ -267,7 +295,10 @@ public final class ControlPoint {
      * @param theta angular position
      */
     public void setThetaEnd(double theta) {
-        this.thetaEnd = theta;
+        this.thetaEnd = Utils.normalizeAngle(theta);
+        if(symmetry == SYMMETRY.ALIGNED || symmetry == SYMMETRY.MIRRORED){
+            thetaStart = Utils.normalizeAngle(theta+180);
+        }
     }
 
     /**
@@ -278,8 +309,8 @@ public final class ControlPoint {
      */
     public void setRelEndHelperPos(double x, double y) {
         PolarCoordinate p = Utils.cartesianToPolar(x, y);
-        this.rEnd = p.getR();
-        this.thetaEnd = p.getTheta();
+        setREnd(p.getR());
+        setThetaEnd(p.getTheta());
     }
 
     /**
