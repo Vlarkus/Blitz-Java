@@ -1008,7 +1008,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     @Override
-    public void activeTrajectoryStateEdited(ControlPoint cp) {
+    public void activeTrajectoryStateEdited(Trajectory tr) {
         updateVisibleTrajectories();
     }
     

@@ -84,6 +84,9 @@ public class Trajectory {
     
     public void setSplineType(String type){
         splineCalculationMethod = splineCalculationMap.get(type);
+        if(Active.getActiveTrajectory() == this){
+            Active.notifyActiveTrajectoryStateEdited();
+        }
     }
 
     public String getSplineType(){
@@ -104,9 +107,7 @@ public class Trajectory {
     }
 
     public void setDistance(double d){
-        if(d < 0.5 || 10 < d){
-            distance = 0.75;
-        } else {
+        if(0.1 <= d && d < 12){
             distance = d;
         }
     }
