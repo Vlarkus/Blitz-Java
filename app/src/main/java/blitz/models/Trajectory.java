@@ -25,7 +25,7 @@ public class Trajectory {
     private boolean isContinuous;
     private double distance;
 
-    private final int PRECISION = 15;
+    private final int PRECISION = 16;
     
 
     static {
@@ -214,40 +214,38 @@ public class Trajectory {
     
     public ArrayList<FollowPoint> bezierInterpolation() {
         ArrayList<FollowPoint> interpolatedPoints = new ArrayList<>();
-        
+    
         if(controlPoints.size() <= 1) return interpolatedPoints; 
     
         if(isContinuous) {
-        
-            if (isContinuous) {
-                ControlPoint first = controlPoints.get(0);
-                interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
-
-                double offset = 0.0;
-                double accumulatedDistance = 0.0;
-
-                for (int i = 0; i < controlPoints.size() - 1; i++) {
-                    ControlPoint p0 = controlPoints.get(i);
-                    ControlPoint p1 = controlPoints.get(i + 1);
-                    double curveLength = calculateBezierLength(p0, p1, 1.0);
-
-                    for (double d = offset; d <= curveLength; d += distance) {
-                        double t = bezierTFromDistance(p0, p1, d);
-                        CartesianCoordinate currentPoint = interpolateBezierPoint(t, p0, p1);
-                        interpolatedPoints.add(new FollowPoint(currentPoint, p0));
-                        accumulatedDistance += distance;
-                    }
-
-                    offset = Math.max((accumulatedDistance - curveLength), 0);
-                    accumulatedDistance = 0;
+            ControlPoint first = controlPoints.get(0);
+            interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
+    
+            double offset = 0.0; // Initialize offset
+            double accumulatedDistance = 0.0; // Initialize accumulatedDistance
+    
+            for (int i = 0; i < controlPoints.size() - 1; i++) {
+                ControlPoint p0 = controlPoints.get(i);
+                ControlPoint p1 = controlPoints.get(i + 1);
+                double curveLength = calculateBezierLength(p0, p1, 1.0);
+    
+                for (double d = offset; d <= curveLength; d += distance) {
+                    double t = bezierTFromDistance(p0, p1, d);
+                    CartesianCoordinate currentPoint = interpolateBezierPoint(t, p0, p1);
+                    interpolatedPoints.add(new FollowPoint(currentPoint, p0));
+                    accumulatedDistance += distance;
                 }
-
-                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
-                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
+    
+                // Calculate the correct offset for the next iteration
+                offset = accumulatedDistance - curveLength;
+                accumulatedDistance = offset;
             }
-
+    
+            ControlPoint last = controlPoints.get(controlPoints.size() - 1);
+            interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
     
         } else {
+            // Unchanged else logic
             for (int i = 0; i < controlPoints.size() - 1; i++) {
                 ControlPoint p0 = controlPoints.get(i);
                 ControlPoint p1 = controlPoints.get(i + 1);
@@ -264,11 +262,11 @@ public class Trajectory {
                 ControlPoint last = controlPoints.get(controlPoints.size() - 1);
                 interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
             }
-
         }
     
         return interpolatedPoints;
     }
+    
 
     public double bezierTFromDistance(ControlPoint p0, ControlPoint p1, double distFromStart) {
         double t = 0.0;
@@ -295,8 +293,8 @@ public class Trajectory {
     
     private static CartesianCoordinate interpolateBezierPoint(double t, ControlPoint p0, ControlPoint p1) {
         CartesianCoordinate startPoint = p0.getPosition();
-        CartesianCoordinate controlPoint1 = p0.getAbsEndHelperPos(); // End helper point of p0
-        CartesianCoordinate controlPoint2 = p1.getAbsStartHelperPos(); // Start helper point of p1
+        CartesianCoordinate controlPoint1 = p0.getAbsStartHelperPos(); // End helper point of p0
+        CartesianCoordinate controlPoint2 = p1.getAbsEndHelperPos(); // Start helper point of p1
         CartesianCoordinate endPoint = p1.getPosition();
     
         double x = Math.pow(1 - t, 3) * startPoint.getX() +
@@ -356,7 +354,7 @@ public class Trajectory {
                     }
 
                     offset = Math.max((accumulatedDistance - curveLength), 0);
-                    accumulatedDistance = 0;
+                    accumulatedDistance = offset;
 
                 }
 

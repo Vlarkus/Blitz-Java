@@ -245,14 +245,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 if(tr.size() > 1){
                     ControlPoint cp = p.getRelatedControlPoint();
         
-                    if(!isControlPointerFirst(p)){
+                    if(!isControlPointerLast(p)){
                         CartesianCoordinate helperStartCoord = convertFieldToScreenCoordinates(cp.getAbsStartHelperPos());
                         HelperPointer helperStartPointer = new HelperPointer((int) helperStartCoord.getX(), (int) helperStartCoord.getY(), cp, true);
                         helperPointers.add(helperStartPointer);
                         createHelperLine(helperStartPointer);
                     }
         
-                    if(!isControlPointerLast(p)){
+                    if(!isControlPointerFirst(p)){
                         CartesianCoordinate endStartCoord = convertFieldToScreenCoordinates(cp.getAbsEndHelperPos());
                         HelperPointer helperEndPointer = new HelperPointer((int) endStartCoord.getX(), (int) endStartCoord.getY(), cp, false);
                         helperPointers.add(helperEndPointer);

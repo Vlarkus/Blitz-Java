@@ -143,15 +143,13 @@ public class TrajectoryLayer extends JPanel {
         visibilityButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Debug: Print size of TrajectoriesList before visibility toggle
-                System.out.println("Before visibility toggle: " + TrajectoriesList.getTrajectoriesList().size());
                 
                 relatedTrajectory.setIsVisible(!relatedTrajectory.isVisible());
-                Active.setActiveTrajectory(null);
                 
-                // Debug: Print size of TrajectoriesList after visibility toggle
-                System.out.println("After visibility toggle: " + TrajectoriesList.getTrajectoriesList().size());
-                
+                if (Active.getActiveTrajectory() == getRelatedTrajectory()) {
+                    Active.setActiveTrajectory(null);
+                }
+                    
                 setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
                 VisibleTrajectories.notifyVisibleTrajectoriesChanged();
                 Utils.requestFocusInWindowFor(visibilityButton);
