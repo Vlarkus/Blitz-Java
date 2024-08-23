@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 
+import blitz.models.FollowPoint;
 import blitz.models.Trajectory;
 
 public class FormatManager {
@@ -37,8 +38,8 @@ public class FormatManager {
 
         Function<Trajectory, Boolean> isValid = (Trajectory t) -> t != null && t.size() >= 2;
 
-        Function<CartesianCoordinate, String> point = (CartesianCoordinate p) -> {
-            return p.getX() + ", " + p.getY();
+        Function<FollowPoint, String> point = (FollowPoint fp) -> {
+            return fp.getX() + ", " + fp.getY();
         };
 
         // Validation
@@ -48,10 +49,10 @@ public class FormatManager {
         StringBuilder result = new StringBuilder();
 
         // Point+
-        ArrayList<CartesianCoordinate> points = tr.calculateFollowPoints();
-        for (CartesianCoordinate c : points) {
-            result.append(point.apply(c));
-            if(points.getLast() != c){
+        ArrayList<FollowPoint> followPoints = tr.calculateFollowPoints();
+        for (FollowPoint fp : followPoints) {
+            result.append(point.apply(fp));
+            if(followPoints.getLast() != fp){
                 result.append(",");
             }
             result.append("\n");

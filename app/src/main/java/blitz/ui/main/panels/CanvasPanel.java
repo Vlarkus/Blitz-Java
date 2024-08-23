@@ -28,6 +28,7 @@ import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
+import blitz.models.FollowPoint;
 import blitz.models.TrajectoriesList;
 import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
@@ -216,17 +217,17 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
         for (Trajectory tr : visibleTrajectories) {
             
-            ArrayList<CartesianCoordinate> followCoordinates = tr.calculateFollowPoints();
+            ArrayList<FollowPoint> followPoints = tr.calculateFollowPoints();
             
-            if(followCoordinates == null){
+            if(followPoints == null){
                 continue;
             }
 
-            for (CartesianCoordinate cartesianCoordinate : followCoordinates) {
-                CartesianCoordinate coordinate = convertFieldToScreenCoordinates(cartesianCoordinate);
+            for (FollowPoint fp : followPoints) {
+                CartesianCoordinate coordinate = convertFieldToScreenCoordinates(fp.getPosition());
                 int x = (int) coordinate.getX();
                 int y = (int) coordinate.getY();
-                followPointers.add(new FollowPointer(x, y, null));
+                followPointers.add(new FollowPointer(x, y, fp.getRelatedControlPoint()));
             }
 
         }
@@ -661,19 +662,23 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     public void insertControlPointFromFollowPointer(int x, int y){
         FollowPointer p = getSelectedFollowPointer(x, y);
-        if(p != null){
-            ControlPoint relatedCP = p.getRelatedControlPoint();
-            if(relatedCP == null) return;
-            Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(relatedCP);
-            int index = tr.indexOf(relatedCP);
-            int numSeg;
-            CartesianCoordinate c = convertScreenToFieldCoordinates(new CartesianCoordinate(p.getCenterX(), p.getCenterY()));
-            ControlPoint cp = new ControlPoint(tr.getNextAvaliableName(), c.getX(), c.getY());
-            cp.setNumSegments(relatedCP.getNumSegments()/2);
-            relatedCP.setNumSegments(relatedCP.getNumSegments()/2);
-            tr.insertControlPoint(index+1, cp);
-            Active.setActiveControlPoint(cp);
-        }
+
+        if(p == null) return;
+
+        ControlPoint relatedCP = p.getRelatedControlPoint();
+        if(relatedCP == null) return;
+        
+        Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(relatedCP);
+
+        int index = tr.indexOf(relatedCP);
+        int numSeg;
+        CartesianCoordinate c = convertScreenToFieldCoordinates(new CartesianCoordinate(p.getCenterX(), p.getCenterY()));
+        ControlPoint cp = new ControlPoint(tr.getNextAvaliableName(), c.getX(), c.getY());
+        cp.setNumSegments(relatedCP.getNumSegments()/2);
+        relatedCP.setNumSegments(relatedCP.getNumSegments()/2);
+        tr.insertControlPoint(index+1, cp);
+        Active.setActiveControlPoint(cp);
+        
     }
 
     private FollowPointer getSelectedFollowPointer(int x, int y){
@@ -921,9 +926,51 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     @Override
     public void selectedToolChanged(Tools tool) {
-        switch (tool) {
+        switch (Tool.getSelectedTool()) {
+            case MOVE:
+                if(isCursorWithinAnyFreeControlPoint() || isCursorWithinAnyHelperPoint()){
+                    this.setCursor(cursorMap.get(CURSOR.HAND_POINTING));
+                } else {
+                    this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
+                }
+                break;
+
+            case ADD:
+                this.setCursor(cursorMap.get(CURSOR.PLUS));
+                break;
+            
+            case INSERT:
+                this.setCursor(cursorMap.get(CURSOR.PLUS));
+                break;
+            
+            case REMOVE:
+                this.setCursor(cursorMap.get(CURSOR.MINUS));
+                break;
+            
+            case CUT:
+                this.setCursor(cursorMap.get(CURSOR.SCISSORS));
+                break;
+            
+            case SHOW_ROBOT:
+                this.setCursor(cursorMap.get(CURSOR.EYE));
+                break;
+            
+            case MERGE:
+                break;
+            
             case RENDER_ALL:
                 renderVisibleTrajectories();
+                break;
+
+            case PAN:
+                this.setCursor(cursorMap.get(CURSOR.HAND_OPEN));
+                break;
+
+            case EDIT_TIME:
+                break;
+            
+            default:
+                this.setCursor(cursorMap.get(CURSOR.UNKNOWN));
                 break;
         }
     }

@@ -194,9 +194,9 @@ public class Trajectory {
 
     
     @SuppressWarnings("unchecked")
-    public ArrayList<CartesianCoordinate> calculateFollowPoints() {
+    public ArrayList<FollowPoint> calculateFollowPoints() {
         try {
-            return (ArrayList<CartesianCoordinate>) splineCalculationMethod.invoke(this);
+            return (ArrayList<FollowPoint>) splineCalculationMethod.invoke(this);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             if (e.getCause() != null) {
@@ -212,15 +212,16 @@ public class Trajectory {
     
     // Beziér Spline
     
-    public ArrayList<CartesianCoordinate> bezierInterpolation() {
-        ArrayList<CartesianCoordinate> interpolatedPoints = new ArrayList<>();
+    public ArrayList<FollowPoint> bezierInterpolation() {
+        ArrayList<FollowPoint> interpolatedPoints = new ArrayList<>();
         
         if(controlPoints.size() <= 1) return interpolatedPoints; 
     
         if(isContinuous) {
         
             if (isContinuous) {
-                interpolatedPoints.add(controlPoints.get(0).getPosition());
+                ControlPoint first = controlPoints.get(0);
+                interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
 
                 double offset = 0.0;
                 double accumulatedDistance = 0.0;
@@ -233,14 +234,16 @@ public class Trajectory {
                     for (double d = offset; d <= curveLength; d += distance) {
                         double t = bezierTFromDistance(p0, p1, d);
                         CartesianCoordinate currentPoint = interpolateBezierPoint(t, p0, p1);
-                        interpolatedPoints.add(currentPoint);
+                        interpolatedPoints.add(new FollowPoint(currentPoint, p0));
                         accumulatedDistance += distance;
                     }
 
                     offset = Math.max((accumulatedDistance - curveLength), 0);
+                    accumulatedDistance = 0;
                 }
 
-                interpolatedPoints.add(controlPoints.get(controlPoints.size() - 1).getPosition());
+                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
+                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
             }
 
     
@@ -252,13 +255,14 @@ public class Trajectory {
     
                 for (int j = 0; j < numSegments; j++) {
                     double t = (double) j / numSegments;
-                    interpolatedPoints.add(interpolateBezierPoint(t, p0, p1));
+                    interpolatedPoints.add(new FollowPoint(interpolateBezierPoint(t, p0, p1), p0));
                 }
             }
     
             // Manually add the last control point
             if(controlPoints.size() >= 2){
-                interpolatedPoints.add(controlPoints.get(controlPoints.size() - 1).getPosition());
+                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
+                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
             }
 
         }
@@ -327,13 +331,14 @@ public class Trajectory {
     
     // Linear Spline
 
-    public ArrayList<CartesianCoordinate> linearInterpolation(){
-        ArrayList<CartesianCoordinate> interpolatedPoints = new ArrayList<>();
+    public ArrayList<FollowPoint> linearInterpolation(){
+        ArrayList<FollowPoint> interpolatedPoints = new ArrayList<>();
         
         if(controlPoints.size() <= 1) return interpolatedPoints; 
     
         if(isContinuous) {
-            interpolatedPoints.add(controlPoints.get(0).getPosition());
+            ControlPoint first = controlPoints.get(0);
+            interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
 
                 double offset = 0.0;
                 double accumulatedDistance = 0.0;
@@ -346,14 +351,17 @@ public class Trajectory {
                     for (double d = offset; d <= curveLength; d += distance) {
                         double t = linearTFromDistance(p0, p1, d);
                         CartesianCoordinate currentPoint = interpolateLinearPoint(t, p0, p1);
-                        interpolatedPoints.add(currentPoint);
+                        interpolatedPoints.add(new FollowPoint(currentPoint, p0));
                         accumulatedDistance += distance;
                     }
 
                     offset = Math.max((accumulatedDistance - curveLength), 0);
+                    accumulatedDistance = 0;
+
                 }
 
-                interpolatedPoints.add(controlPoints.get(controlPoints.size() - 1).getPosition());
+                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
+                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
 
         } else {
             for (int i = 0; i < controlPoints.size() - 1; i++) {
@@ -363,13 +371,14 @@ public class Trajectory {
     
                 for (int j = 0; j < numSegments; j++) {
                     double t = (double) j / numSegments;
-                    interpolatedPoints.add(interpolateLinearPoint(t, p0, p1));
+                    interpolatedPoints.add(new FollowPoint(interpolateLinearPoint(t, p0, p1), p0));
                 }
             }
     
             // Manually add the last control point
             if(controlPoints.size() >= 2){
-                interpolatedPoints.add(controlPoints.get(controlPoints.size() - 1).getPosition());
+                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
+                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
             }
         }
 
