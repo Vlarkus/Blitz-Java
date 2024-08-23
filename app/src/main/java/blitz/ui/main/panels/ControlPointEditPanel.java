@@ -1,5 +1,6 @@
 package blitz.ui.main.panels;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -8,6 +9,7 @@ import java.awt.event.FocusEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -50,23 +52,15 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
      * Fills the panel with labels and text fields for displaying and editing control point details.
      */
     private void fillWithContent() {
+
+        
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.anchor = GridBagConstraints.CENTER;
+        gbc.fill = GridBagConstraints.NONE;
         gbc.insets = new Insets(5, 10, 5, 10);
-
-        JLabel infoLabel = new JLabel("Info Menu", SwingConstants.CENTER);
-        infoLabel.setFont(MainFrameConfig.TITLE_LABEL_FONT);
-        gbc.gridx = 0;
-        gbc.gridy = 0;
-        gbc.gridwidth = 2;
-        // add(infoLabel, gbc);
-
-        gbc.gridwidth = 1;
-        gbc.gridy++;
 
         // Left column fields
         gbc.gridx = 0;
+        gbc.gridy = 1;
         addField(gbc, "x:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getX());
@@ -80,7 +74,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "r start:", () -> {
+        addField(gbc, "rS:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getRStart());
             }
@@ -93,7 +87,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "r end:", () -> {
+        addField(gbc, "rE:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getREnd());
             }
@@ -106,7 +100,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "Distance:", () -> {
+        addField(gbc, "Dist:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getNumSegments());
             }
@@ -120,7 +114,9 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
         });
 
         // Right column fields
-        gbc.gridx = 1;
+        gbc.gridx = 2;
+        add(Box.createRigidArea(new Dimension(10, 0)), gbc);
+        gbc.gridx = 3;
         gbc.gridy = 1;
 
         addField(gbc, "y:", () -> {
@@ -136,7 +132,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "theta start:", () -> {
+        addField(gbc, "θS:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getThetaStart());
             }
@@ -149,7 +145,7 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "theta end:", () -> {
+        addField(gbc, "θE:", () -> {
             if (activeControlPoint != null) {
                 return String.valueOf(activeControlPoint.getThetaEnd());
             }
@@ -162,18 +158,18 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
             }
         });
 
-        addField(gbc, "time:", () -> {
-            if (activeControlPoint != null) {
-                return String.valueOf(activeControlPoint.getTime());
-            }
-            return "";
-        }, (value) -> {
-            if (activeControlPoint != null) {
-                double parsedValue = parseDouble(value, activeControlPoint.getTime());
-                activeControlPoint.setTime(parsedValue);
-                Active.notifyActiveControlPointStateEdited();
-            }
-        });
+        // addField(gbc, "time:", () -> {
+        //     if (activeControlPoint != null) {
+        //         return String.valueOf(activeControlPoint.getTime());
+        //     }
+        //     return "";
+        // }, (value) -> {
+        //     if (activeControlPoint != null) {
+        //         double parsedValue = parseDouble(value, activeControlPoint.getTime());
+        //         activeControlPoint.setTime(parsedValue);
+        //         Active.notifyActiveControlPointStateEdited();
+        //     }
+        // });
 
     }
 
@@ -188,11 +184,16 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
     private void addField(GridBagConstraints gbc, String labelText, ValueGetter getter, ValueSetter setter) {
         JLabel label = new JLabel(labelText, SwingConstants.LEFT);
         label.setFont(MainFrameConfig.NORMAL_LABEL_FONT);
-        gbc.gridy++;
-        gbc.insets = new Insets(10, 10, 1, 10);
+
+        gbc.insets = new Insets(5, 5, 1, 5);
+        gbc.anchor = GridBagConstraints.EAST;
         add(label, gbc);
 
         JTextField textField = new JTextField(5);
+        Dimension d = new Dimension(30, 20);
+        textField.setPreferredSize(d);
+        textField.setMaximumSize(d);
+        textField.setMinimumSize(d);
         textField.putClientProperty("ValueGetter", getter);
         textField.putClientProperty("ValueSetter", setter);
 
@@ -242,11 +243,13 @@ public class ControlPointEditPanel extends JPanel implements ActiveListener{
         });
 
 
-        gbc.gridy++;
-        gbc.insets = new Insets(1, 10, 10, 10);
+        gbc.gridx++;
+        gbc.insets = new Insets(1, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
         textFields.add(textField);
         add(textField, gbc);
-        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridy++;
+        gbc.gridx--;
 
     }
 

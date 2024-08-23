@@ -134,7 +134,7 @@ public class MainFrameConfig {
 
     // ControlPointEditPanel
 
-    public static final Dimension CP_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 250);
+    public static final Dimension CP_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 150);
     public static final HexColor CP_EDIT_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final Font TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
     public static final Font NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
