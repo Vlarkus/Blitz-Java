@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import blitz.models.ControlPoint;
+import blitz.models.FollowPoint;
+import blitz.models.Trajectory.INTERPOLATION_TYPE;
 import blitz.services.CartesianCoordinate;
 
 public class Trajectory {
@@ -16,28 +19,45 @@ public class Trajectory {
     private ArrayList<ControlPoint> controlPoints;
     private boolean isVisible, isLocked;
 
-    private static Map<String, Method> splineCalculationMap = new HashMap<>();
-    private static final String BEZIER_KEY = "Beziér";
-    private static final String LINEAR_KEY = "Linear";
+    private Method splineMethod;
+
+    private static Map<String, Method> splineMap = new HashMap<>();
+    public static final String BEZIER_SPLINE_KEY = "Beziér";
+    public static final String LINEAR_SPLINE_KEY = "Linear";
+    public static final String[] ALL_SPLINE_TYPES = new String[]{BEZIER_SPLINE_KEY, LINEAR_SPLINE_KEY};
     
-    private Method splineCalculationMethod;
-    
-    private boolean isContinuous;
+
+    private INTERPOLATION_TYPE interpolationType;
+    private static Map<String, INTERPOLATION_TYPE> interpolationMap = new HashMap<>();
+    public static final String EQUIDISTANT_INTERPOLATION_KEY = "Equidistant";
+    public static final String UNIFORM_INTERPOLATION_KEY = "Uniform";
+    public static final String[] ALL_INTERPOLATION_TYPES = new String[]{EQUIDISTANT_INTERPOLATION_KEY, UNIFORM_INTERPOLATION_KEY};
+    public static enum INTERPOLATION_TYPE{
+        EQUIDISTANT,
+        UNIFORM
+    }
+
     private double distance;
 
-    private final int PRECISION = 16;
+    private final int PRECISION_STEPS = 15;
+    private final int LENGTH_PRECISION = 100;
+    private final double PRECISION_ACCURACY = 0.001;
     
 
     static {
+        // Spline Method
         try {
-            splineCalculationMap.put(LINEAR_KEY, Trajectory.class.getMethod("linearInterpolation"));
-            splineCalculationMap.put(BEZIER_KEY, Trajectory.class.getMethod("bezierInterpolation"));
-            // Example for method with parameters:
+            splineMap.put(LINEAR_SPLINE_KEY, Trajectory.class.getMethod("linearInterpolation"));
+            splineMap.put(BEZIER_SPLINE_KEY, Trajectory.class.getMethod("bezierInterpolation"));
             // splineCalculationMap.put("Catmul-Rom", Trajectory.class.getMethod("catmullRomInterpolation", ParameterType.class));
             // splineCalculationMap.put("NURB", Trajectory.class.getMethod("nurbInterpolation", ParameterType.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
+
+        // Interpolation Type
+        interpolationMap.put(EQUIDISTANT_INTERPOLATION_KEY, INTERPOLATION_TYPE.EQUIDISTANT);
+        interpolationMap.put(UNIFORM_INTERPOLATION_KEY, INTERPOLATION_TYPE.UNIFORM);
     }
     
 
@@ -56,7 +76,7 @@ public class Trajectory {
         setIsVisible(true);
         setIsLocked(false);
         setSplineType("Beziér");
-        setIsContinuous(true);
+        setInterpolationType(EQUIDISTANT_INTERPOLATION_KEY);
         setDistance(0.5);
     }
 
@@ -78,32 +98,29 @@ public class Trajectory {
 
     // -=-=-=- METHODS -=-=-=-
 
-    public static String[] getAllSplineNames() {
-        return splineCalculationMap.keySet().toArray(new String[0]);
+    public void setInterpolationType(String type){
+        if(interpolationMap.containsKey(type)){
+            interpolationType = interpolationMap.get(type);
+        }
+    }
+
+    public boolean isInterpolationEquidistant(){
+        return interpolationType == INTERPOLATION_TYPE.EQUIDISTANT;
+    }
+
+    public boolean isInterpolationUniform(){
+        return interpolationType == INTERPOLATION_TYPE.UNIFORM;
+    }
+
+    public INTERPOLATION_TYPE getIntrInterpolationType(){
+        return interpolationType;
     }
     
     public void setSplineType(String type){
-        splineCalculationMethod = splineCalculationMap.get(type);
+        splineMethod = splineMap.get(type);
         if(Active.getActiveTrajectory() == this){
             Active.notifyActiveTrajectoryStateEdited();
         }
-    }
-
-    public String getSplineType(){
-        for (String key : getAllSplineNames()) {
-            if(splineCalculationMap.get(key).equals(splineCalculationMethod)){
-                return key;
-            }
-        }
-        return null;
-    }
-
-    public void setIsContinuous(boolean b){
-        isContinuous = b;
-    }
-
-    public boolean isContinuous(){
-        return isContinuous;
     }
 
     public void setDistance(double d){
@@ -122,6 +139,20 @@ public class Trajectory {
 
     public String getName(){
         return name;
+    }
+
+    public ControlPoint getFirst(){
+        if(controlPoints.isEmpty()) return null;
+        return controlPoints.getFirst();
+    }
+
+    public ControlPoint getLast(){
+        if(controlPoints.isEmpty()) return null;
+        return controlPoints.getLast();
+    }
+
+    public boolean isEmpty(){
+        return controlPoints.isEmpty();
     }
 
     public void addControlPoint(ControlPoint cp){
@@ -183,11 +214,11 @@ public class Trajectory {
     }
 
     public boolean isTypeBezier(){
-        return splineCalculationMethod == splineCalculationMap.get(BEZIER_KEY);
+        return splineMethod == splineMap.get(BEZIER_SPLINE_KEY);
     }
 
     public boolean isTypeLinear(){
-        return splineCalculationMethod == splineCalculationMap.get(LINEAR_KEY);
+        return splineMethod == splineMap.get(LINEAR_SPLINE_KEY);
     }
 
 
@@ -197,7 +228,7 @@ public class Trajectory {
     @SuppressWarnings("unchecked")
     public ArrayList<FollowPoint> calculateFollowPoints() {
         try {
-            return (ArrayList<FollowPoint>) splineCalculationMethod.invoke(this);
+            return (ArrayList<FollowPoint>) splineMethod.invoke(this);
         } catch (IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             if (e.getCause() != null) {
@@ -218,51 +249,63 @@ public class Trajectory {
     
         if(controlPoints.size() <= 1) return interpolatedPoints; 
     
-        if(isContinuous) {
-            ControlPoint first = controlPoints.get(0);
-            interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
-    
-            double offset = 0.0; // Initialize offset
-            double accumulatedDistance = 0.0; // Initialize accumulatedDistance
-    
-            for (int i = 0; i < controlPoints.size() - 1; i++) {
-                ControlPoint p0 = controlPoints.get(i);
-                ControlPoint p1 = controlPoints.get(i + 1);
-                double curveLength = calculateBezierLength(p0, p1, 1.0);
-    
-                for (double d = offset; d <= curveLength; d += distance) {
-                    double t = bezierTFromDistance(p0, p1, d);
-                    CartesianCoordinate currentPoint = interpolateBezierPoint(t, p0, p1);
-                    interpolatedPoints.add(new FollowPoint(currentPoint, p0));
-                    accumulatedDistance += distance;
+        switch (interpolationType) {
+            case EQUIDISTANT:
+
+
+
+                ControlPoint first = controlPoints.get(0);
+                interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
+        
+                double offset = 0.0; // Initialize offset
+                double accumulatedDistance = 0.0; // Initialize accumulatedDistance
+        
+                for (int i = 0; i < controlPoints.size() - 1; i++) {
+                    ControlPoint p0 = controlPoints.get(i);
+                    ControlPoint p1 = controlPoints.get(i + 1);
+                    double curveLength = calculateBezierLength(p0, p1, 1.0);
+        
+                    for (double d = offset; d <= curveLength; d += distance) {
+                        double t = bezierTFromDistance(p0, p1, d);
+                        CartesianCoordinate currentPoint = interpolateBezierPoint(t, p0, p1);
+                        interpolatedPoints.add(new FollowPoint(currentPoint, p0));
+                        accumulatedDistance += distance;
+                    }
+        
+                    // Calculate the correct offset for the next iteration
+                    offset = accumulatedDistance - curveLength;
+                    accumulatedDistance = offset;
                 }
-    
-                // Calculate the correct offset for the next iteration
-                offset = accumulatedDistance - curveLength;
-                accumulatedDistance = offset;
-            }
-    
-            ControlPoint last = controlPoints.get(controlPoints.size() - 1);
-            interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
-    
-        } else {
-            // Unchanged else logic
-            for (int i = 0; i < controlPoints.size() - 1; i++) {
-                ControlPoint p0 = controlPoints.get(i);
-                ControlPoint p1 = controlPoints.get(i + 1);
-                int numSegments = p0.getNumSegments();
-    
-                for (int j = 0; j < numSegments; j++) {
-                    double t = (double) j / numSegments;
-                    interpolatedPoints.add(new FollowPoint(interpolateBezierPoint(t, p0, p1), p0));
+        
+                ControlPoint lastEquidistant = controlPoints.get(controlPoints.size() - 1);
+                interpolatedPoints.add(new FollowPoint(lastEquidistant.getPosition(), lastEquidistant));
+
+                break;
+
+
+
+            case UNIFORM:
+
+
+
+                for (int i = 0; i < controlPoints.size() - 1; i++) {
+                    ControlPoint p0 = controlPoints.get(i);
+                    ControlPoint p1 = controlPoints.get(i + 1);
+                    int numSegments = p0.getNumSegments();
+        
+                    for (int j = 0; j < numSegments; j++) {
+                        double t = (double) j / numSegments;
+                        interpolatedPoints.add(new FollowPoint(interpolateBezierPoint(t, p0, p1), p0));
+                    }
                 }
-            }
-    
-            // Manually add the last control point
-            if(controlPoints.size() >= 2){
-                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
-                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
-            }
+        
+                // Manually add the last control point
+                if(controlPoints.size() >= 2){
+                    ControlPoint lastUniform = controlPoints.get(controlPoints.size() - 1);
+                    interpolatedPoints.add(new FollowPoint(lastUniform.getPosition(), lastUniform));
+                }
+
+                break;
         }
     
         return interpolatedPoints;
@@ -274,7 +317,7 @@ public class Trajectory {
         double delta = 0.5;
         CartesianCoordinate prevPoint = interpolateBezierPoint(0, p0, p1);
     
-        for (int i = 0; i < PRECISION; i++) {
+        for (int i = 0; i < PRECISION_STEPS; i++) {
             double length = calculateBezierLength(p0, p1, t);
 
             if( Math.abs(distFromStart-length) < 0.001)
@@ -312,7 +355,7 @@ public class Trajectory {
     }
         
     public double calculateBezierLength(ControlPoint p0, ControlPoint p1, double t) {
-        int steps = 100; // Number of subdivisions to approximate the curve length
+        int steps = LENGTH_PRECISION; // Number of subdivisions to approximate the curve length
         double length = 0.0;
         CartesianCoordinate prevPoint = interpolateBezierPoint(0.0, p0, p1);
     
@@ -335,50 +378,64 @@ public class Trajectory {
         
         if(controlPoints.size() <= 1) return interpolatedPoints; 
     
-        if(isContinuous) {
-            ControlPoint first = controlPoints.get(0);
-            interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
+        switch (interpolationType) {
+            case EQUIDISTANT:
 
-                double offset = 0.0;
-                double accumulatedDistance = 0.0;
+
+
+                ControlPoint first = controlPoints.get(0);
+                interpolatedPoints.add(new FollowPoint(first.getPosition(), first));
+
+                    double offset = 0.0;
+                    double accumulatedDistance = 0.0;
+
+                    for (int i = 0; i < controlPoints.size() - 1; i++) {
+                        ControlPoint p0 = controlPoints.get(i);
+                        ControlPoint p1 = controlPoints.get(i + 1);
+                        double curveLength = p0.getPosition().distanceTo(p1.getPosition());
+
+                        for (double d = offset; d <= curveLength; d += distance) {
+                            double t = linearTFromDistance(p0, p1, d);
+                            CartesianCoordinate currentPoint = interpolateLinearPoint(t, p0, p1);
+                            interpolatedPoints.add(new FollowPoint(currentPoint, p0));
+                            accumulatedDistance += distance;
+                        }
+
+                        offset = Math.max((accumulatedDistance - curveLength), 0);
+                        accumulatedDistance = offset;
+
+                    }
+
+                    ControlPoint lastEquidistant = controlPoints.get(controlPoints.size() - 1);
+                    interpolatedPoints.add(new FollowPoint(lastEquidistant.getPosition(), lastEquidistant));
+
+                    break;
+
+
+
+
+            case UNIFORM:
+
+
 
                 for (int i = 0; i < controlPoints.size() - 1; i++) {
                     ControlPoint p0 = controlPoints.get(i);
                     ControlPoint p1 = controlPoints.get(i + 1);
-                    double curveLength = p0.getPosition().distanceTo(p1.getPosition());
-
-                    for (double d = offset; d <= curveLength; d += distance) {
-                        double t = linearTFromDistance(p0, p1, d);
-                        CartesianCoordinate currentPoint = interpolateLinearPoint(t, p0, p1);
-                        interpolatedPoints.add(new FollowPoint(currentPoint, p0));
-                        accumulatedDistance += distance;
+                    int numSegments = p0.getNumSegments();
+        
+                    for (int j = 0; j < numSegments; j++) {
+                        double t = (double) j / numSegments;
+                        interpolatedPoints.add(new FollowPoint(interpolateLinearPoint(t, p0, p1), p0));
                     }
-
-                    offset = Math.max((accumulatedDistance - curveLength), 0);
-                    accumulatedDistance = offset;
-
+                }
+        
+                if(controlPoints.size() >= 2){
+                    ControlPoint lastUniform = controlPoints.get(controlPoints.size() - 1);
+                    interpolatedPoints.add(new FollowPoint(lastUniform.getPosition(), lastUniform));
                 }
 
-                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
-                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
+                break;
 
-        } else {
-            for (int i = 0; i < controlPoints.size() - 1; i++) {
-                ControlPoint p0 = controlPoints.get(i);
-                ControlPoint p1 = controlPoints.get(i + 1);
-                int numSegments = p0.getNumSegments();
-    
-                for (int j = 0; j < numSegments; j++) {
-                    double t = (double) j / numSegments;
-                    interpolatedPoints.add(new FollowPoint(interpolateLinearPoint(t, p0, p1), p0));
-                }
-            }
-    
-            // Manually add the last control point
-            if(controlPoints.size() >= 2){
-                ControlPoint last = controlPoints.get(controlPoints.size() - 1);
-                interpolatedPoints.add(new FollowPoint(last.getPosition(), last));
-            }
         }
 
         return interpolatedPoints;
@@ -401,10 +458,10 @@ public class Trajectory {
         double delta = 0.5;  // Initial delta for binary search
         CartesianCoordinate prevPoint = interpolateLinearPoint(0, p0, p1);
     
-        for (int i = 0; i < PRECISION; i++) {
+        for (int i = 0; i < PRECISION_STEPS; i++) {
             double length = calculateLinearLength(p0, p1, t);
 
-            if( Math.abs(distFromStart-length) < 0.001)
+            if( Math.abs(distFromStart-length) < PRECISION_ACCURACY)
                 return t;
     
             if (length < distFromStart)

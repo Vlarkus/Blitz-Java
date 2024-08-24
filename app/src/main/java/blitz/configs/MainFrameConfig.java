@@ -132,10 +132,21 @@ public class MainFrameConfig {
 
 
 
+    // InfoPanel
+
+    // LinePanel
+    public static final Dimension LINE_PANEL_DIMENSITONS = new Dimension(MainFrameConfig.SIDE_PANEL_PREFERRED_DIMENSIONS.width, 40);
+    public static final Dimension LINE_PANEL_COMBO_BOX_DIMENSITONS = new Dimension(125, 30);
+    public static final HexColor ACTIVE_LAYER_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    public static final HexColor INACTIVE_LAYER_PANEL_BACKGROUND_COLOR = new HexColor("#cccccc");
+
+
+
+
     // ControlPointEditPanel
 
-    public static final Dimension CP_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 100);
-    public static final HexColor CP_EDIT_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
+    public static final Dimension CP_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 120);
+    public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final Font TITLE_LABEL_FONT = new Font("Verdana", Font.BOLD, 20);
     public static final Font NORMAL_LABEL_FONT = new Font("Arial", Font.BOLD, 14);
     public static final String STANDART_TEXT_FIELD_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";

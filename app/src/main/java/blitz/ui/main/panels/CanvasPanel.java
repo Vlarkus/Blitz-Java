@@ -589,7 +589,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 return;
             }
         }
-        Active.setActiveControlPoint(null);
+        Active.setActiveTrajectory(null);
     }
     
 

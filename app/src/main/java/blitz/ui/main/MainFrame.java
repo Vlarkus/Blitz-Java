@@ -35,11 +35,10 @@ import blitz.ui.main.menu.Export;
 import blitz.ui.main.menu.Open;
 import blitz.ui.main.menu.Save;
 import blitz.ui.main.panels.CanvasPanel;
-import blitz.ui.main.panels.ControlPointEditPanel;
+import blitz.ui.main.panels.InfoPanel;
 import blitz.ui.main.panels.MouseInfoPanel;
 import blitz.ui.main.panels.SelectionPanel;
 import blitz.ui.main.panels.ToolPanel;
-import blitz.ui.main.panels.TrajectoryEditPanel;
 import blitz.ui.main.tools.Tool.Tools;
 
 public class MainFrame extends JFrame {
@@ -49,8 +48,7 @@ public class MainFrame extends JFrame {
     private CanvasPanel canvasPanel;
     private JPanel sidePanel;
     private JPanel centerPanel;
-    private ControlPointEditPanel controlPointEditPanel;
-    private TrajectoryEditPanel trajectoryEditPanel;
+    private InfoPanel infoPanel;
     private SelectionPanel selectionPanel;
     private JScrollPane scrollPane;
     
@@ -388,11 +386,8 @@ public class MainFrame extends JFrame {
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
         mainPanel.add(sidePanel, BorderLayout.EAST);
 
-        controlPointEditPanel = new ControlPointEditPanel();
-        sidePanel.add(controlPointEditPanel);
-
-        trajectoryEditPanel = new TrajectoryEditPanel();
-        sidePanel.add(trajectoryEditPanel);
+        infoPanel = new InfoPanel();
+        sidePanel.add(infoPanel);
 
         selectionPanel = new SelectionPanel();
         sidePanel.add(selectionPanel);

@@ -1,5 +1,8 @@
 package blitz.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import blitz.configs.ModelsConfig;
 import blitz.models.ControlPoint.SYMMETRY;
 import blitz.services.CartesianCoordinate;
@@ -26,11 +29,22 @@ public final class ControlPoint {
 
     private boolean isLocked;
 
-    private SYMMETRY symmetry;
+    private static Map<String, SYMMETRY> symmetryMap = new HashMap<>();
+    public static final String BROKEN_SYMMETRY_KEY = "Broken";
+    public static final String ALIGNED_SYMMETRY_KEY = "Aligned";
+    public static final String MIRRORED_SYMMETRY_KEY = "Mirrored";
+    public static final String[] ALL_INTERPOLATION_TYPES = new String[]{BROKEN_SYMMETRY_KEY, ALIGNED_SYMMETRY_KEY, MIRRORED_SYMMETRY_KEY};
+    private SYMMETRY symmetryType;
     public enum SYMMETRY{
         BROKEN,
         ALIGNED,
         MIRRORED
+    }
+
+    static{
+        symmetryMap.put(BROKEN_SYMMETRY_KEY, SYMMETRY.BROKEN);
+        symmetryMap.put(ALIGNED_SYMMETRY_KEY, SYMMETRY.ALIGNED);
+        symmetryMap.put(MIRRORED_SYMMETRY_KEY, SYMMETRY.MIRRORED);
     }
 
     // -=-=-=- CONSTRUCTORS -=-=-=-
@@ -56,7 +70,7 @@ public final class ControlPoint {
         setNumSegments(isValidNumSegments(numSegments)? numSegments : ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS);
         setTime(isValidTime(time)? time : ModelsConfig.CONTROL_POINT_MIN_TIME);
         setIsLocked(false);
-        setSymmetry(SYMMETRY.MIRRORED);
+        setSymmetryType(ControlPoint.MIRRORED_SYMMETRY_KEY);
     }
 
     public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
@@ -113,12 +127,12 @@ public final class ControlPoint {
         return false;
     }
 
-    public SYMMETRY getSymmetry(){
-        return symmetry;
+    public SYMMETRY getSymmetryType(){
+        return symmetryType;
     }
 
-    public void setSymmetry(SYMMETRY symmetry){
-        this.symmetry = symmetry;
+    public void setSymmetryType(String symmetryType){
+        this.symmetryType = symmetryMap.get(symmetryType);
         setRStart(getRStart());
         setThetaStart(getThetaStart());
     }
@@ -215,7 +229,7 @@ public final class ControlPoint {
      */
     public void setRStart(double r) {
         this.rStart = r;
-        if(symmetry == SYMMETRY.MIRRORED){
+        if(symmetryType == SYMMETRY.MIRRORED){
             rEnd = r;
         }
     }
@@ -227,7 +241,7 @@ public final class ControlPoint {
      */
     public void setThetaStart(double theta) {
         this.thetaStart = Utils.normalizeAngle(theta);
-        if(symmetry == SYMMETRY.ALIGNED || symmetry == SYMMETRY.MIRRORED){
+        if(symmetryType == SYMMETRY.ALIGNED || symmetryType == SYMMETRY.MIRRORED){
             thetaEnd = Utils.normalizeAngle(theta+180);
         }
     }
@@ -284,7 +298,7 @@ public final class ControlPoint {
      */
     public void setREnd(double r) {
         this.rEnd = r;
-        if(symmetry == SYMMETRY.MIRRORED){
+        if(symmetryType == SYMMETRY.MIRRORED){
             rStart = r;
         }
     }
@@ -296,7 +310,7 @@ public final class ControlPoint {
      */
     public void setThetaEnd(double theta) {
         this.thetaEnd = Utils.normalizeAngle(theta);
-        if(symmetry == SYMMETRY.ALIGNED || symmetry == SYMMETRY.MIRRORED){
+        if(symmetryType == SYMMETRY.ALIGNED || symmetryType == SYMMETRY.MIRRORED){
             thetaStart = Utils.normalizeAngle(theta+180);
         }
     }
