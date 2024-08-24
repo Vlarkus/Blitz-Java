@@ -101,7 +101,7 @@ public class HelperStartLine extends LinePanel implements ActiveListener {
 
     private void configureTextField(JTextField textField, ValueGetter getter, ValueSetter setter) {
         AbstractDocument doc = (AbstractDocument) textField.getDocument();
-        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.STANDART_TEXT_FIELD_REGEX));
+        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.STANDART_TEXT_FIELD_DOUBLE_REGEX));
 
         textField.putClientProperty("ValueGetter", getter);
         textField.putClientProperty("ValueSetter", setter);
@@ -146,6 +146,7 @@ public class HelperStartLine extends LinePanel implements ActiveListener {
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
+        displayInteractability();
         updateTextField();
     }
 

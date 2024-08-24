@@ -21,8 +21,7 @@ import blitz.services.DecimalFilter;
 public class NumSegmentsLine extends LinePanel implements ActiveListener {
 
     private JTextField numSegTextField;
-    private JTextField thetaEndTextField;
-    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.####");
+    private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0");
 
     public NumSegmentsLine() {
         super();
@@ -40,7 +39,7 @@ public class NumSegmentsLine extends LinePanel implements ActiveListener {
             @Override
             public String getValue() {
                 if (isInteractable()) {
-                    return DECIMAL_FORMAT.format(Active.getActiveTrajectory().getDistance());
+                    return DECIMAL_FORMAT.format(Active.getActiveControlPoint().getNumSegments());
                 }
                 return "";
             }
@@ -48,8 +47,8 @@ public class NumSegmentsLine extends LinePanel implements ActiveListener {
             @Override
             public void setValue(String value) {
                 if (isInteractable()) {
-                    double parsedValue = parseDouble(value, Active.getActiveTrajectory().getDistance());
-                    Active.getActiveTrajectory().setDistance(parsedValue);
+                    int parsedValue = parseInt(value, Active.getActiveControlPoint().getNumSegments());
+                    Active.getActiveControlPoint().setNumSegments(parsedValue);
                     Active.notifyActiveControlPointStateEdited();
                 }
             }
@@ -75,8 +74,7 @@ public class NumSegmentsLine extends LinePanel implements ActiveListener {
 
     private void configureTextField(JTextField textField, ValueGetter getter, ValueSetter setter) {
         AbstractDocument doc = (AbstractDocument) textField.getDocument();
-        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.STANDART_TEXT_FIELD_REGEX));
-
+        doc.setDocumentFilter(new DecimalFilter(MainFrameConfig.STANDART_TEXT_FIELD_INT_REGEX)); 
         textField.putClientProperty("ValueGetter", getter);
         textField.putClientProperty("ValueSetter", setter);
         textFieldSetup(textField);
@@ -92,9 +90,9 @@ public class NumSegmentsLine extends LinePanel implements ActiveListener {
     public boolean isInteractable() {
         ControlPoint cp = Active.getActiveControlPoint();
         Trajectory tr = Active.getActiveTrajectory();
-        if(cp == null)          return false;
-        if(tr.isInterpolationEquidistant())   return false;
-        if(cp == tr.getLast())  return false;
+        if(cp == null)                          return false;
+        if(tr.isInterpolationEquidistant())     return false;
+        if(cp == tr.getLast())                  return false;
         return true;
     }
 
@@ -117,6 +115,7 @@ public class NumSegmentsLine extends LinePanel implements ActiveListener {
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
+        displayInteractability();
         updateTextField();
     }
 

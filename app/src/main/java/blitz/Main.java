@@ -1,15 +1,18 @@
 package blitz;
 
+import javax.swing.SwingUtilities;
+
 import blitz.configs.MainFrameConfig;
+import blitz.ui.main.MainFrame;
 
 public class Main {
     
     public static void main(String[] args) {
         System.out.println(BlitzTerminalLogo());
-        // setupMacOS();
-        // SwingUtilities.invokeLater(() -> {
-        //     new MainFrame();
-        // });
+        setupMacOS();
+        SwingUtilities.invokeLater(() -> {
+            new MainFrame();
+        });
     }
 
     private static void setupMacOS() {

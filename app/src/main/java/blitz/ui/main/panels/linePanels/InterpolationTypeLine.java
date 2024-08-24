@@ -104,6 +104,7 @@ public class InterpolationTypeLine extends LinePanel implements ActiveListener {
 
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
+        displayInteractability();
         updateComboBox();
     }
 
