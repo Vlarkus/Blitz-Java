@@ -1,17 +1,15 @@
 package blitz;
 
-import javax.swing.SwingUtilities;
-
-import blitz.ui.main.MainFrame;
+import blitz.configs.MainFrameConfig;
 
 public class Main {
     
     public static void main(String[] args) {
-        System.out.println("\n\n\nApplication Started\n");
-        setupMacOS();
-        SwingUtilities.invokeLater(() -> {
-            new MainFrame();
-        });
+        System.out.println(BlitzTerminalLogo());
+        // setupMacOS();
+        // SwingUtilities.invokeLater(() -> {
+        //     new MainFrame();
+        // });
     }
 
     private static void setupMacOS() {
@@ -23,6 +21,18 @@ public class Main {
 
     private static boolean isMac() {
         return System.getProperty("os.name").toLowerCase().contains("mac");
+    }
+
+    private static String BlitzTerminalLogo(){
+        String blitzLogo = new String();
+        blitzLogo += "\n";
+        blitzLogo += "\n";
+        blitzLogo += "\n";
+        blitzLogo += MainFrameConfig.BLITZ_TERMINAL_ICON;
+        blitzLogo += "\n";
+        blitzLogo += "\n";
+        blitzLogo += "\n";
+        return blitzLogo;
     }
 
 }
