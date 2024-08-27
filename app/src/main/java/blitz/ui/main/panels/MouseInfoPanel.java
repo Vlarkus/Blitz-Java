@@ -34,11 +34,11 @@ public class MouseInfoPanel extends JPanel {
         setMinimumSize(getPreferredSize());
         setLayout(new BorderLayout());
 
-        // Create labels
+        // Mouse Position
+
         xLabel = createFixedSizeLabel("");
         yLabel = createFixedSizeLabel("");
 
-        // Create a panel for the labels and add them
         JPanel labelPanel = new JPanel();
         labelPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
@@ -51,7 +51,18 @@ public class MouseInfoPanel extends JPanel {
 
         add(labelPanel, BorderLayout.WEST);
 
-        // Create buttons
+
+
+        // View Selection
+
+        JPanel viewSelectionPanel = new JPanel();
+        
+
+        add(viewSelectionPanel, BorderLayout.CENTER);
+
+
+
+        // Zoom Panel
         gbc.insets = new Insets(0, 0, 0, 0);
         int size = MainFrameConfig.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS.height;
         
@@ -75,13 +86,12 @@ public class MouseInfoPanel extends JPanel {
             }
         });
 
-        // Create a panel for the buttons
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
-        buttonPanel.add(plusButton);
-        buttonPanel.add(minusButton);
+        JPanel zoomPanel = new JPanel();
+        zoomPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+        zoomPanel.add(plusButton);
+        zoomPanel.add(minusButton);
 
-        add(buttonPanel, BorderLayout.EAST);
+        add(zoomPanel, BorderLayout.EAST);
     }
 
     private JLabel createFixedSizeLabel(String text) {

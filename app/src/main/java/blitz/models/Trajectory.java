@@ -2,6 +2,8 @@ package blitz.models;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.sql.Time;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -264,12 +266,14 @@ public class Trajectory {
                     ControlPoint p0 = controlPoints.get(i);
                     ControlPoint p1 = controlPoints.get(i + 1);
                     double curveLength = calculateBezierLength(p0, p1, 1.0);
+                    double prevT = 0;
         
                     for (double d = offset; d <= curveLength; d += distance) {
-                        double t = bezierTFromDistance(p0, p1, d);
-                        CartesianCoordinate currentPoint = interpolateBezierPoint(t, p0, p1);
+                        double currT = bezierTFromDistance(p0, p1, d, prevT);
+                        CartesianCoordinate currentPoint = interpolateBezierPoint(currT, p0, p1);
                         interpolatedPoints.add(new FollowPoint(currentPoint, p0));
                         accumulatedDistance += distance;
+                        prevT = currT;  
                     }
         
                     // Calculate the correct offset for the next iteration
@@ -312,25 +316,40 @@ public class Trajectory {
     }
     
 
-    public double bezierTFromDistance(ControlPoint p0, ControlPoint p1, double distFromStart) {
-        double t = 0.0;
-        double delta = 0.5;
-        CartesianCoordinate prevPoint = interpolateBezierPoint(0, p0, p1);
-    
-        for (int i = 0; i < PRECISION_STEPS; i++) {
-            double length = calculateBezierLength(p0, p1, t);
+    public double bezierTFromDistance(ControlPoint p0, ControlPoint p1, double distFromStart,  double t) {
 
-            if( Math.abs(distFromStart-length) < 0.001)
-                return t;
-    
+        if(distFromStart == 0) return 0;
+
+        int counter = PRECISION_STEPS;
+
+        double delta = (1-t) * 0.5;
+        double length = calculateBezierLength(p0, p1, t);
+        while (0.001 < Math.abs(distFromStart-length) && 0 < counter--) { 
+            length = calculateBezierLength(p0, p1, t);
+            delta *= 0.5;
             if (length < distFromStart)
                 t += delta;
-            else if (distFromStart < length)
-                t -= delta;
-            else
-                return t;
-            delta *= 0.5;
+            else if (length > distFromStart)
+                    t -= delta;
+                else
+                    break;
+            
         }
+
+        // for (int i = 0; i < PRECISION_STEPS; i++) {
+        //     double length = calculateBezierLength(p0, p1, t);
+
+        //     if( Math.abs(distFromStart-length) < 0.001)
+        //         return t;
+    
+        //     if (length < distFromStart)
+        //         t += delta;
+        //     else if (distFromStart < length)
+        //         t -= delta;
+        //     else
+        //         return t;
+        //     delta *= 0.5;
+        // }
     
         return t;
     }
