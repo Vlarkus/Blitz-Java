@@ -51,8 +51,6 @@ public class Trajectory {
         try {
             splineMap.put(LINEAR_SPLINE_KEY, Trajectory.class.getMethod("linearInterpolation"));
             splineMap.put(BEZIER_SPLINE_KEY, Trajectory.class.getMethod("bezierInterpolation"));
-            // splineCalculationMap.put("Catmul-Rom", Trajectory.class.getMethod("catmullRomInterpolation", ParameterType.class));
-            // splineCalculationMap.put("NURB", Trajectory.class.getMethod("nurbInterpolation", ParameterType.class));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }
@@ -269,11 +267,11 @@ public class Trajectory {
                     double prevT = 0;
         
                     for (double d = offset; d <= curveLength; d += distance) {
-                        double currT = bezierTFromDistance(p0, p1, d, prevT);
+                        double currT = bezierTFromDistance(p0, p1, curveLength, d, prevT, 1);
                         CartesianCoordinate currentPoint = interpolateBezierPoint(currT, p0, p1);
                         interpolatedPoints.add(new FollowPoint(currentPoint, p0));
                         accumulatedDistance += distance;
-                        prevT = currT;  
+                        prevT = currT;
                     }
         
                     // Calculate the correct offset for the next iteration
@@ -316,42 +314,25 @@ public class Trajectory {
     }
     
 
-    public double bezierTFromDistance(ControlPoint p0, ControlPoint p1, double distFromStart,  double t) {
+    public double bezierTFromDistance(ControlPoint p0, ControlPoint p1, double curveLength, double distFromStart,  double startT, double endT) {
 
         if(distFromStart == 0) return 0;
 
         int counter = PRECISION_STEPS;
-
-        double delta = (1-t) * 0.5;
-        double length = calculateBezierLength(p0, p1, t);
+        double currT = (startT + endT) / 2.0;
+        double length = currT * curveLength;
         while (0.001 < Math.abs(distFromStart-length) && 0 < counter--) { 
-            length = calculateBezierLength(p0, p1, t);
-            delta *= 0.5;
+            length = currT * curveLength;
             if (length < distFromStart)
-                t += delta;
+                startT = currT;
             else if (length > distFromStart)
-                    t -= delta;
-                else
-                    break;
-            
+                endT = currT;
+            else
+                break;
+            currT = (startT + endT) / 2.0;
         }
-
-        // for (int i = 0; i < PRECISION_STEPS; i++) {
-        //     double length = calculateBezierLength(p0, p1, t);
-
-        //     if( Math.abs(distFromStart-length) < 0.001)
-        //         return t;
     
-        //     if (length < distFromStart)
-        //         t += delta;
-        //     else if (distFromStart < length)
-        //         t -= delta;
-        //     else
-        //         return t;
-        //     delta *= 0.5;
-        // }
-    
-        return t;
+        return currT;
     }
     
     private static CartesianCoordinate interpolateBezierPoint(double t, ControlPoint p0, ControlPoint p1) {
