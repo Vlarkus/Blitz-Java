@@ -1,0 +1,3 @@
+- InfoPanel Logic: some lines are enabled when they shouldn't be.
+- InfoPanel Display: some fields don't update correctly when switching active trajectory.
+- Linear Equidistant Broken: gives errors.
