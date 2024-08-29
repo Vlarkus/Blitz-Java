@@ -16,6 +16,7 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.models.calculations.Calculations;
 import blitz.services.DecimalFilter;
 
 public class HelperStartLine extends LinePanel implements ActiveListener {
@@ -122,7 +123,7 @@ public class HelperStartLine extends LinePanel implements ActiveListener {
         Trajectory tr = Active.getActiveTrajectory();
         if(cp == null)          return false;
         if(cp == tr.getLast())  return false;
-        if(tr.isTypeLinear())   return false;
+        if(tr.getSplineType().equals(Calculations.LINEAR_SPLINE))   return false;
         return true;
     }
 

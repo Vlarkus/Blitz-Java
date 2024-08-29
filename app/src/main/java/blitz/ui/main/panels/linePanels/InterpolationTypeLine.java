@@ -15,11 +15,12 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.models.calculations.Calculations;
 
 public class InterpolationTypeLine extends LinePanel implements ActiveListener {
 
     private JComboBox<String> interpolationTypeComboBox;
-    private final String[] CURVE_TYPES = Trajectory.ALL_INTERPOLATION_TYPES;
+    private final String[] CURVE_TYPES = Calculations.ALL_INTERPOLATION_TYPES;
 
     public InterpolationTypeLine() {
         super();
@@ -70,12 +71,7 @@ public class InterpolationTypeLine extends LinePanel implements ActiveListener {
     private void updateComboBox() {
         Trajectory tr = Active.getActiveTrajectory();
         if (tr != null) {
-            if(tr.isTypeLinear()){
-                interpolationTypeComboBox.setSelectedItem(Trajectory.LINEAR_SPLINE_KEY);
-            }
-            if(tr.isTypeBezier()){
-                interpolationTypeComboBox.setSelectedItem(Trajectory.BEZIER_SPLINE_KEY);
-            }
+            interpolationTypeComboBox.setSelectedItem(tr.getSplineType());
         }
     }
 

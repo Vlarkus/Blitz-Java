@@ -15,6 +15,7 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.models.calculations.Calculations;
 
 public class SymmetryLine extends LinePanel implements ActiveListener {
 
@@ -88,7 +89,7 @@ public class SymmetryLine extends LinePanel implements ActiveListener {
         ControlPoint cp = Active.getActiveControlPoint();
         Trajectory tr = Active.getActiveTrajectory();
         if (cp == null)          return false;
-        if (tr.isTypeLinear())   return false;
+        if (tr.getSplineType().equals(Calculations.LINEAR_SPLINE))   return false;
         if (cp == tr.getFirst()) return false;
         if (cp == tr.getLast())  return false;
         return true;

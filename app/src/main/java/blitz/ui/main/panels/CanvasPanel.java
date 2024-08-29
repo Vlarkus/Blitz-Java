@@ -34,6 +34,7 @@ import blitz.models.TrajectoriesListListener;
 import blitz.models.Trajectory;
 import blitz.models.VisibleTrajectories;
 import blitz.models.VisibleTrajectoriesListener;
+import blitz.models.calculations.Calculations;
 import blitz.services.CartesianCoordinate;
 import blitz.services.FieldImage;
 import blitz.services.Utils;
@@ -241,8 +242,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         for (ControlPointer p : controlPointers) {
             if (p.getState() == State.SELECTED){
                 Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(p.getRelatedControlPoint());
-                if(!tr.isTypeLinear())
-                if(tr.size() > 1){
+                if(!tr.getSplineType().equals(Calculations.LINEAR_SPLINE) && 1 < tr.size()){
                     ControlPoint cp = p.getRelatedControlPoint();
         
                     if(!isControlPointerLast(p)){

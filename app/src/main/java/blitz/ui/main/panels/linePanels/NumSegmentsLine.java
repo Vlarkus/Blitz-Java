@@ -16,6 +16,7 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.models.calculations.Calculations;
 import blitz.services.DecimalFilter;
 
 public class NumSegmentsLine extends LinePanel implements ActiveListener {
@@ -91,7 +92,7 @@ public class NumSegmentsLine extends LinePanel implements ActiveListener {
         ControlPoint cp = Active.getActiveControlPoint();
         Trajectory tr = Active.getActiveTrajectory();
         if(cp == null)                          return false;
-        if(tr.isInterpolationEquidistant())     return false;
+        if(tr.getInterpolationType().equals(Calculations.EQUIDISTANT_INTERPOLATION))    return false;
         if(cp == tr.getLast())                  return false;
         return true;
     }

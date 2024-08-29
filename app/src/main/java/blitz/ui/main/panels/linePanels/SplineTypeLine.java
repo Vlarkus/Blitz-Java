@@ -15,11 +15,12 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.models.calculations.Calculations;
 
 public class SplineTypeLine extends LinePanel implements ActiveListener {
 
     private JComboBox<String> splineTypeComboBox;
-    private final String[] CURVE_TYPES = Trajectory.ALL_SPLINE_TYPES;
+    private final String[] CURVE_TYPES = Calculations.ALL_SPLINE_TYPES;
 
     public SplineTypeLine() {
         super();
@@ -70,13 +71,9 @@ public class SplineTypeLine extends LinePanel implements ActiveListener {
     private void updateComboBox() {
         Trajectory tr = Active.getActiveTrajectory();
         if (tr != null) {
-            if(tr.isTypeLinear()){
-                splineTypeComboBox.setSelectedItem(Trajectory.LINEAR_SPLINE_KEY);
-            }
-            if(tr.isTypeBezier()){
-                splineTypeComboBox.setSelectedItem(Trajectory.BEZIER_SPLINE_KEY);
-            }
+            splineTypeComboBox.setSelectedItem(tr.getSplineType());
         }
+
     }
 
     @Override

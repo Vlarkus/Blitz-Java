@@ -16,6 +16,7 @@ import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
+import blitz.models.calculations.Calculations;
 import blitz.services.DecimalFilter;
 
 public class DistanceLine extends LinePanel implements ActiveListener {
@@ -40,7 +41,7 @@ public class DistanceLine extends LinePanel implements ActiveListener {
             @Override
             public String getValue() {
                 if (isInteractable()) {
-                    return DECIMAL_FORMAT.format(Active.getActiveTrajectory().getDistance());
+                    return DECIMAL_FORMAT.format(Active.getActiveTrajectory().getDistBtwPoints());
                 }
                 return "";
             }
@@ -48,8 +49,8 @@ public class DistanceLine extends LinePanel implements ActiveListener {
             @Override
             public void setValue(String value) {
                 if (isInteractable()) {
-                    double parsedValue = parseDouble(value, Active.getActiveTrajectory().getDistance());
-                    Active.getActiveTrajectory().setDistance(parsedValue);
+                    double parsedValue = parseDouble(value, Active.getActiveTrajectory().getDistBtwPoints());
+                    Active.getActiveTrajectory().setDistBtwPoints(parsedValue);
                     Active.notifyActiveControlPointStateEdited();
                 }
             }
@@ -93,7 +94,7 @@ public class DistanceLine extends LinePanel implements ActiveListener {
         ControlPoint cp = Active.getActiveControlPoint();
         Trajectory tr = Active.getActiveTrajectory();
         if(tr == null)          return false;
-        if(tr.isInterpolationUniform())  return false;
+        if(tr.getInterpolationType().equals(Calculations.UNIFORM_INTERPOLATION))  return false;
         return true;
     }
 
