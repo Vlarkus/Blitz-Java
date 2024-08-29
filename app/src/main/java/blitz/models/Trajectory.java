@@ -21,7 +21,7 @@ public class Trajectory {
     private ArrayList<ControlPoint> controlPoints;
     private boolean isVisible, isLocked;
 
-    private double distBtwPoints;
+    private double spacing;
 
     private String interpolationType;
     private String splineType;
@@ -43,7 +43,7 @@ public class Trajectory {
         setIsLocked(false);
         setSplineType(Calculations.BEZIER_SPLINE);
         setInterpolationType(Calculations.UNIFORM_INTERPOLATION);
-        setDistBtwPoints(0.5);
+        setSpacing(0.5);
     }
 
     /**
@@ -90,14 +90,14 @@ public class Trajectory {
         }
     }
 
-    public void setDistBtwPoints(double d){
+    public void setSpacing(double d){
         if(0.1 <= d && d < 12){
-            distBtwPoints = d;
+            spacing = d;
         }
     }
 
-    public double getDistBtwPoints(){
-        return distBtwPoints;
+    public double getSpacing(){
+        return spacing;
     }
 
     public void setName(String name){

@@ -41,7 +41,7 @@ public class DistanceLine extends LinePanel implements ActiveListener {
             @Override
             public String getValue() {
                 if (isInteractable()) {
-                    return DECIMAL_FORMAT.format(Active.getActiveTrajectory().getDistBtwPoints());
+                    return DECIMAL_FORMAT.format(Active.getActiveTrajectory().getSpacing());
                 }
                 return "";
             }
@@ -49,8 +49,8 @@ public class DistanceLine extends LinePanel implements ActiveListener {
             @Override
             public void setValue(String value) {
                 if (isInteractable()) {
-                    double parsedValue = parseDouble(value, Active.getActiveTrajectory().getDistBtwPoints());
-                    Active.getActiveTrajectory().setDistBtwPoints(parsedValue);
+                    double parsedValue = parseDouble(value, Active.getActiveTrajectory().getSpacing());
+                    Active.getActiveTrajectory().setSpacing(parsedValue);
                     Active.notifyActiveControlPointStateEdited();
                 }
             }

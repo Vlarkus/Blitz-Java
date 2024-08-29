@@ -10,7 +10,7 @@ import blitz.models.calculations.AbstractInterpolation;
 import blitz.models.calculations.AbstractSpline;
 import blitz.services.CartesianCoordinate;
 
-public class Uniform extends AbstractInterpolation{
+public class UniformIntp extends AbstractInterpolation{
 
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {

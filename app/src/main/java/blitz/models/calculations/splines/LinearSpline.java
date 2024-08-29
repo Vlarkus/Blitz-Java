@@ -4,7 +4,7 @@ import blitz.models.ControlPoint;
 import blitz.models.calculations.AbstractSpline;
 import blitz.services.CartesianCoordinate;
 
-public class Linear extends AbstractSpline {
+public class LinearSpline extends AbstractSpline {
 
     @Override
     public CartesianCoordinate evaluate(ControlPoint p0, ControlPoint p1, double t) {
