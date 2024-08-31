@@ -44,12 +44,15 @@ public class BezierSpline extends  AbstractSpline{
     @Override
     public double getArcLength(ControlPoint p0, ControlPoint p1, double tMin, double tMax) {
 
-        if (p0 == null || p1 == null || tMin < 0 || tMax > 1 || tMin >= tMax) {
+        if (p0 == null || p1 == null || tMin < 0 || tMax > 1 || tMin > tMax) {
+            throw new IllegalArgumentException("Invalid input parameters");
+        }
+        if(tMin == tMax){
             return 0;
         }
 
         double t = tMin;
-        double step = 0.005;
+        double step = 0.01;
         double arcLength = 0.0;
 
         CartesianCoordinate prevPoint = evaluate(p0, p1, tMin);

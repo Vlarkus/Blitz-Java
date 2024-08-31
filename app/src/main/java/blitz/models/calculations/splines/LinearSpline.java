@@ -20,8 +20,12 @@ public class LinearSpline extends AbstractSpline {
 
     @Override
     public double getArcLength(ControlPoint p0, ControlPoint p1, double tMin, double tMax) {
-        if (p0 == null || p1 == null || tMin < 0 || tMax > 1 || tMin >= tMax) {
+        
+        if (p0 == null || p1 == null || tMin < 0 || tMax > 1 || tMin > tMax) {
             throw new IllegalArgumentException("Invalid input parameters");
+        }
+        if(tMin == tMax){
+            return 0;
         }
 
         double distance = p0.getPosition().distanceTo(p1.getPosition());

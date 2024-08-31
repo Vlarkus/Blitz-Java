@@ -9,7 +9,7 @@ import blitz.models.calculations.AbstractInterpolation;
 import blitz.models.calculations.AbstractSpline;
 import blitz.services.CartesianCoordinate;
 
-public class EquidistantIntp extends AbstractInterpolation {
+public class EquidistantIntpNewtons extends AbstractInterpolation {
 
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
@@ -22,21 +22,21 @@ public class EquidistantIntp extends AbstractInterpolation {
             return followPoints; // Not enough points to interpolate
         }
 
+        double offset = 0; // Accumulated distance along the segment
         for (int i = 0; i < controlPoints.size() - 1; i++) {
             ControlPoint p0 = controlPoints.get(i);
             ControlPoint p1 = controlPoints.get(i + 1);
             double segmentLength = splineObj.getArcLength(p0, p1, 0, 1);
 
-            double s = 0; // Accumulated distance along the segment
             double t = 0; // Start with t = 0
 
             int maxLoopIterations = 1000; // Maximum number of iterations to prevent infinite loop
             int iterationCount = 0;
 
-            while (s < segmentLength - targetDistance) {
+            while (offset < segmentLength - targetDistance) {
                 
                 // Find the parameter t for the next point using the Newton-Mixed method
-                double tNext = findTForArcLength(p0, p1, s + targetDistance, t, splineObj);
+                double tNext = findTForArcLength(p0, p1, offset + targetDistance, t, splineObj);
 
                 if (tNext >= 1.0) {
                     break; // Reached or exceeded the end of the segment
@@ -48,9 +48,11 @@ public class EquidistantIntp extends AbstractInterpolation {
                 // Ensure s is increasing
                 double newS = splineObj.getArcLength(p0, p1, 0, tNext);
 
-                s = newS; // Update the accumulated distance
+                offset = newS; // Update the accumulated distance
                 t = tNext; // Move to the next segment
             }
+
+            offset = offset % targetDistance;
 
         }
 

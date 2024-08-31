@@ -6,7 +6,7 @@ import java.util.Map;
 
 import blitz.models.FollowPoint;
 import blitz.models.Trajectory;
-import blitz.models.calculations.interpolations.EquidistantIntp;
+import blitz.models.calculations.interpolations.EquidistantIntpTable;
 import blitz.models.calculations.interpolations.UniformIntp;
 import blitz.models.calculations.splines.BezierSpline;
 import blitz.models.calculations.splines.LinearSpline;
@@ -27,7 +27,7 @@ public class Calculations {
         SPLINE_MAP.put(LINEAR_SPLINE, new LinearSpline());
         SPLINE_MAP.put(BEZIER_SPLINE, new BezierSpline());
     
-        INTERPOLATION_MAP.put(EQUIDISTANT_INTERPOLATION, new EquidistantIntp());
+        INTERPOLATION_MAP.put(EQUIDISTANT_INTERPOLATION, new EquidistantIntpTable());
         INTERPOLATION_MAP.put(UNIFORM_INTERPOLATION, new UniformIntp());
     }
 

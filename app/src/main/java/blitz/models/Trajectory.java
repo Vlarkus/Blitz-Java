@@ -181,13 +181,9 @@ public class Trajectory {
     }
 
 
-    
-    @SuppressWarnings("unchecked")
     public ArrayList<FollowPoint> calculateFollowPoints() {
         return Calculations.calculate(this);
-    }
-    
-    
+    }    
 
     public String getNextAvaliableName(){
         

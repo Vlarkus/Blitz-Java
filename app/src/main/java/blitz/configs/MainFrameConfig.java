@@ -22,6 +22,12 @@ public class MainFrameConfig {
     
     public static final HexColor PANEL_BORDER_COLOR = new HexColor("#dddddd");
 
+    
+    
+    // Calculations
+
+    public static final int TABLE_DIVISION_COEFF = 100;
+
 
 
     // MenuBar
