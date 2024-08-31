@@ -39,7 +39,7 @@ public class FormatManager {
         Function<Trajectory, Boolean> isValid = (Trajectory t) -> t != null && t.size() >= 2;
 
         Function<FollowPoint, String> point = (FollowPoint fp) -> {
-            return fp.getX() + ", " + fp.getY();
+            return String.format("%.4f, %.4f, %.4f", fp.getX(), fp.getY(), fp.getSpeed());
         };
 
         // Validation

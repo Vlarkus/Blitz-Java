@@ -110,6 +110,7 @@ public class Export {
     private static void showFileChooser(String trajectory) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save File");
+        fileChooser.setSelectedFile(new File(trajectory + MainFrameConfig.EXPORT_FILE_EXTENSION_TYPE));
 
         // Set up file filters based on the formats available in FormatManager
         for (String format : FormatManager.getAllFormats()) {
