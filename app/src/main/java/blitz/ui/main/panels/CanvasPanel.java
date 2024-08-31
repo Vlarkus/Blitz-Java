@@ -228,7 +228,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 CartesianCoordinate coordinate = convertFieldToScreenCoordinates(fp.getPosition());
                 int x = (int) coordinate.getX();
                 int y = (int) coordinate.getY();
-                followPointers.add(new FollowPointer(x, y, fp.getRelatedControlPoint()));
+                double speedColorCoeff = fp.getSpeed() / (tr.getMaxSpeed() - tr.getMinSpeed());
+                followPointers.add(new FollowPointer(x, y, speedColorCoeff, fp.getRelatedControlPoint()));
             }
 
         }

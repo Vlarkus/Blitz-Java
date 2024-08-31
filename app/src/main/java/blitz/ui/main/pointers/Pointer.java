@@ -29,17 +29,6 @@ public abstract class Pointer extends JComponent{
         setCenterPosition(x, y);
         this.color = color;
     }
-    
-    // @Override
-    // public void paintComponent(Graphics g) {
-    //     super.paintComponent(g);
-    //     g.setColor(color);
-    //     g.fillOval(0, 0, diameter, diameter);
-    // }
-
-    // public void callSuperPaintComponent(Graphics g){
-    //     super.paintComponent(g);
-    // }
 
     @Override
     public Dimension getPreferredSize() {
