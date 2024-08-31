@@ -1,6 +1,5 @@
 package blitz.models.calculations.interpolations;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import blitz.models.ControlPoint;
@@ -15,29 +14,39 @@ public class FixedAmountIntp extends AbstractInterpolation{
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
 
-        ArrayList<FollowPoint> fps = new ArrayList<>();
-        ArrayList<ControlPoint> cps = tr.getAllControlPoints();
+        this.splineObj = splineObj;
 
-        Method evaluate = null;
+        double minSpeed = tr.getMinSpeed();
+        double maxSpeed = tr.getMaxSpeed();
+        double minBentRate = tr.getMinBentRate();
+        double maxBentRate = tr.getMaxBentRate();
 
-        for (int i = 0; i < cps.size()-1; i++) {
+        ArrayList<FollowPoint> followPoints = new ArrayList<>();
+        ArrayList<ControlPoint> controlPoints = tr.getAllControlPoints();
 
-            ControlPoint p0 = cps.get(i);
-            ControlPoint p1 = cps.get(i + 1);
+        for (int i = 0; i < controlPoints.size()-1; i++) {
+
+            ControlPoint p0 = controlPoints.get(i);
+            ControlPoint p1 = controlPoints.get(i + 1);
             int numSegments = p0.getNumSegments();
 
             for (int j = 0; j < numSegments; j++) {
                 
                 double t = (double) j / numSegments;
                 CartesianCoordinate coord = splineObj.evaluate(p0, p1, t);
-                FollowPoint p = new FollowPoint(coord, p0);
-                fps.add(p);
+                double speed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
+                FollowPoint p = new FollowPoint(coord, speed, p0);
+                followPoints.add(p);
 
             }
 
         }
 
-        return fps;
+        ControlPoint last = tr.getLast();
+        FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
+        followPoints.add(fp);
+
+        return followPoints;
 
     }
     

@@ -22,10 +22,13 @@ public class Trajectory {
     private boolean isVisible, isLocked;
 
     private double spacing;
+    private double minSpeed;
+    private double maxSpeed;
+    private double minBentRate;
+    private double maxBentRate;
 
     private String interpolationType;
     private String splineType;
-    
 
 
 
@@ -44,6 +47,10 @@ public class Trajectory {
         setSplineType(Calculations.BEZIER_SPLINE);
         setInterpolationType(Calculations.EQUIDISTANT_INTERPOLATION);
         setSpacing(0.5);
+        setMaxSpeed(127);
+        setMinSpeed(0);
+        setMinBentRate(0);
+        setMaxBentRate(1);
     }
 
     /**
@@ -59,6 +66,8 @@ public class Trajectory {
         setSplineType(other.getSplineType());
         setInterpolationType(other.getInterpolationType());
         setSpacing(other.getSpacing());
+        setMaxSpeed(other.getMaxSpeed());
+        setMinSpeed(other.getMinSpeed());
     }
 
 
@@ -66,6 +75,63 @@ public class Trajectory {
 
 
     // -=-=-=- METHODS -=-=-=-
+
+    public void setMaxSpeed(double speed) {
+        if (speed < 0) {
+            throw new IllegalArgumentException("Max speed must be non-negative.");
+        }
+        if (minSpeed > 0 && speed < minSpeed) {
+            throw new IllegalArgumentException("Max speed cannot be less than the minimum speed.");
+        }
+        maxSpeed = speed;
+    }
+    
+    public double getMaxSpeed() {
+        return maxSpeed;
+    }
+    
+    public void setMinSpeed(double speed) {
+        if (speed < 0) {
+            throw new IllegalArgumentException("Min speed must be non-negative.");
+        }
+        if (maxSpeed > 0 && speed > maxSpeed) {
+            throw new IllegalArgumentException("Min speed cannot be greater than the maximum speed.");
+        }
+        minSpeed = speed;
+    }
+    
+    public double getMinSpeed() {
+        return minSpeed;
+    }
+    
+    public void setMinBentRate(double rate) {
+        if (rate < 0 || rate > 1) {
+            throw new IllegalArgumentException("Min bent rate must be between 0 and 1.");
+        }
+        if (maxBentRate > 0 && rate > maxBentRate) {
+            throw new IllegalArgumentException("Min bent rate cannot be greater than the maximum bent rate.");
+        }
+        minBentRate = rate;
+    }
+    
+    public double getMinBentRate() {
+        return minBentRate;
+    }
+    
+    public void setMaxBentRate(double rate) {
+        if (rate < 0 || rate > 1) {
+            throw new IllegalArgumentException("Max bent rate must be between 0 and 1.");
+        }
+        if (minBentRate > 0 && rate < minBentRate) {
+            throw new IllegalArgumentException("Max bent rate cannot be less than the minimum bent rate.");
+        }
+        maxBentRate = rate;
+    }
+    
+    public double getMaxBentRate() {
+        return maxBentRate;
+    }
+    
 
     public void setInterpolationType(String type){
         if(Calculations.isValidInterpolationType(type)){
@@ -185,7 +251,7 @@ public class Trajectory {
 
 
     public ArrayList<FollowPoint> calculateFollowPoints() {
-        return Calculations.calculate(this);
+        return Calculations.calculateFollowPoints(this);
     }    
 
     public String getNextAvaliableName(){

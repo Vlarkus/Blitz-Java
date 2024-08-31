@@ -55,7 +55,7 @@ public class Calculations {
     }
     
 
-    public static ArrayList<FollowPoint> calculate(Trajectory tr) {
+    public static ArrayList<FollowPoint> calculateFollowPoints(Trajectory tr) {
 
         if (tr == null || tr.size() < 2) return null;
 
@@ -74,9 +74,6 @@ public class Calculations {
             e.printStackTrace();
             return null;
         }
-    }
-
-
-    
+    }    
     
 }

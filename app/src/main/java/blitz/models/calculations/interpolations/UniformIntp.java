@@ -16,6 +16,13 @@ public class UniformIntp extends AbstractInterpolation {
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
 
+        this.splineObj = splineObj;
+
+        double minSpeed = tr.getMinSpeed();
+        double maxSpeed = tr.getMaxSpeed();
+        double minBentRate = tr.getMinBentRate();
+        double maxBentRate = tr.getMaxBentRate();
+
         ArrayList<FollowPoint> followPoints = new ArrayList<>();
         ArrayList<ControlPoint> controlPoints = tr.getAllControlPoints();
         
@@ -38,7 +45,8 @@ public class UniformIntp extends AbstractInterpolation {
             while(accumulatedLength < arcLength){
                 double t = table.approximate(accumulatedLength);
                 CartesianCoordinate c = splineObj.evaluate(p0, p1, t);
-                FollowPoint fp = new FollowPoint(c, p0);
+                double speed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
+                FollowPoint fp = new FollowPoint(c, speed, p0);
                 followPoints.add(fp);
                 accumulatedLength += spacing;
             }
@@ -46,7 +54,7 @@ public class UniformIntp extends AbstractInterpolation {
         }
 
         ControlPoint last = tr.getLast();
-        FollowPoint fp = new FollowPoint(last.getPosition(), last);
+        FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
         followPoints.add(fp);
 
         return followPoints;

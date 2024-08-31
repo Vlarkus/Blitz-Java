@@ -72,5 +72,24 @@ public class BezierSpline extends  AbstractSpline{
 
         return arcLength;
     }
+
+
+    @Override
+    public double calculateBentRate(ControlPoint p0, ControlPoint p1, double t) {
+
+        double[] firstDerivative = firstDerivative(p0, p1, t);
+        double[] secondDerivative = secondDerivative(p0, p1, t);
+
+        double xPrime = firstDerivative[0];
+        double yPrime = firstDerivative[1];
+        double xDoublePrime = secondDerivative[0];
+        double yDoublePrime = secondDerivative[1];
+
+        double numerator = Math.abs(xPrime * yDoublePrime - yPrime * xDoublePrime);
+        double denominator = Math.pow(xPrime * xPrime + yPrime * yPrime, 1.5);
+
+        return numerator / denominator;
+
+    }
     
 }

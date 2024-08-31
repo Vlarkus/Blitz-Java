@@ -8,15 +8,17 @@ public class FollowPoint {
     private double speed;
     private ControlPoint relatedCP;
 
-    public FollowPoint(double x, double y, ControlPoint relatedCP){
+    public FollowPoint(double x, double y, double speed, ControlPoint relatedCP){
         this.x = x;
         this.y = y;
+        this.speed = speed;
         this.relatedCP = relatedCP;
     }
 
-    public FollowPoint(CartesianCoordinate c, ControlPoint relatedCP){
+    public FollowPoint(CartesianCoordinate c, double speed, ControlPoint relatedCP){
         this.x = c.getX();
         this.y = c.getY();
+        this.speed = speed;
         this.relatedCP = relatedCP;
     }
 

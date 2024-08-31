@@ -31,4 +31,10 @@ public class LinearSpline extends AbstractSpline {
         double distance = p0.getPosition().distanceTo(p1.getPosition());
         return distance * (tMax - tMin);
     }
+
+    @Override
+    public double calculateBentRate(ControlPoint p0, ControlPoint p1, double t){
+        return 0;
+    }
+
 }
