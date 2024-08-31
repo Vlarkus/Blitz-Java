@@ -1,12 +1,19 @@
-- ADD VOLTAGE CALCULATOR TO TRAJECTORY FOR BEZIER POINTS!!!!
 
-- Use triangles for bezier pointers to show direction.
-
+IMPLEMENT:
+- Speed Menu with voltage calculations.
+- Exporting with speed variable.
+- Viewing modes: Basic, Speed.
+- Add Window to edit speed of the curve.
 - Add Tutorials to the Help Menu Option.
-
-- Pointers highlight if a tool can work with them and if a cursor is over the pointer.
-
-- Ability to change color of different trajectories.
+- Control Point highlights if you hover it with a tool you can edit it.
 - Animate the 18x18 robot box so that it travels around the path in a continous loop (aditional tool)
 
-- When hovering over a tool for more than 2 seconds, the tool will show a small suggestion window.
+COOL TO HAVE:
+- Use triangles for bezier pointers to show direction.
+- Pointers highlight if a tool can work with them and if a cursor is over the pointer.
+- Ability to change color of different trajectories.
+
+OPTIMIZATIONS:
+- Add optimization mode, so that when you move a curve, it uses smaller coeff-s for calculating curves, but once you release them, it is recalculated with a higher precision.
+- Make the curves to calculate max of 4 decimal digits, so they dont waste time.
+- Make the CanvasPanel store the points differently, based on the curves. That way it only needs to update the active curve, as you can only change active curves. Basically, rerender only active curves.
