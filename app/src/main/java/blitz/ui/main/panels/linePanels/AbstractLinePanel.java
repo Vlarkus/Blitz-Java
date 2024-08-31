@@ -11,9 +11,9 @@ import blitz.configs.MainFrameConfig;
 import blitz.models.Active;
 import blitz.services.Utils;
 
-public abstract class LinePanel extends JPanel{
+public abstract class AbstractLinePanel extends JPanel{
 
-    public LinePanel(){
+    public AbstractLinePanel(){
         setPreferredSize(MainFrameConfig.LINE_PANEL_DIMENSITONS);
         setMinimumSize(MainFrameConfig.LINE_PANEL_DIMENSITONS);
         setMaximumSize(MainFrameConfig.LINE_PANEL_DIMENSITONS);

@@ -11,7 +11,7 @@ import blitz.models.calculations.AbstractSpline;
 import blitz.services.CartesianCoordinate;
 import blitz.services.Table;
 
-public class EquidistantIntpTable extends AbstractInterpolation {
+public class EquidistantIntp extends AbstractInterpolation {
 
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
@@ -28,8 +28,8 @@ public class EquidistantIntpTable extends AbstractInterpolation {
             ControlPoint p1 = controlPoints.get(i + 1);
 
             double arcLength = splineObj.getArcLength(p0, p1, 0, 1);
+            
             Table table = new Table(0, arcLength, 0, 1);
-
             for (int j = 0; j < MainFrameConfig.TABLE_DIVISION_COEFF; j++) {
                 double t = (double) j / MainFrameConfig.TABLE_DIVISION_COEFF;
                 table.add(splineObj.getArcLength(p0, p1, 0, t), t);

@@ -18,7 +18,7 @@ import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.services.DecimalFilter;
 
-public class PositionLine extends LinePanel implements ActiveListener {
+public class PositionLine extends AbstractLinePanel implements ActiveListener {
 
     private JTextField xTextField;
     private JTextField yTextField;

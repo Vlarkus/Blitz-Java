@@ -10,7 +10,7 @@ import blitz.ui.main.panels.linePanels.DistanceLine;
 import blitz.ui.main.panels.linePanels.HelperEndLine;
 import blitz.ui.main.panels.linePanels.HelperStartLine;
 import blitz.ui.main.panels.linePanels.InterpolationTypeLine;
-import blitz.ui.main.panels.linePanels.LinePanel;
+import blitz.ui.main.panels.linePanels.AbstractLinePanel;
 import blitz.ui.main.panels.linePanels.NumSegmentsLine;
 import blitz.ui.main.panels.linePanels.PositionLine;
 import blitz.ui.main.panels.linePanels.SplineTypeLine;
@@ -18,7 +18,7 @@ import blitz.ui.main.panels.linePanels.SymmetryLine;
 
 public class InfoPanel extends JPanel{
 
-    private ArrayList<LinePanel> lines;
+    private ArrayList<AbstractLinePanel> lines;
 
     public InfoPanel(){
         setBackground(MainFrameConfig.INFO_PANEL_BACKGROUND_COLOR);
@@ -38,7 +38,7 @@ public class InfoPanel extends JPanel{
         lines.add(new SplineTypeLine());
         lines.add(new InterpolationTypeLine());
 
-        for (LinePanel linePanel : lines) {
+        for (AbstractLinePanel linePanel : lines) {
             add(linePanel);
         }
     }

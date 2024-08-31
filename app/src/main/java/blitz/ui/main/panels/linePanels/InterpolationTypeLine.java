@@ -17,7 +17,7 @@ import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.models.calculations.Calculations;
 
-public class InterpolationTypeLine extends LinePanel implements ActiveListener {
+public class InterpolationTypeLine extends AbstractLinePanel implements ActiveListener {
 
     private JComboBox<String> interpolationTypeComboBox;
     private final String[] CURVE_TYPES = Calculations.ALL_INTERPOLATION_TYPES;
@@ -71,7 +71,7 @@ public class InterpolationTypeLine extends LinePanel implements ActiveListener {
     private void updateComboBox() {
         Trajectory tr = Active.getActiveTrajectory();
         if (tr != null) {
-            interpolationTypeComboBox.setSelectedItem(tr.getSplineType());
+            interpolationTypeComboBox.setSelectedItem(tr.getInterpolationType());
         }
     }
 
@@ -106,6 +106,5 @@ public class InterpolationTypeLine extends LinePanel implements ActiveListener {
 
     @Override
     public void activeTrajectoryStateEdited(Trajectory tr) {
-        // Implement if necessary
     }
 }

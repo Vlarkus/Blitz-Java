@@ -6,7 +6,8 @@ import java.util.Map;
 
 import blitz.models.FollowPoint;
 import blitz.models.Trajectory;
-import blitz.models.calculations.interpolations.EquidistantIntpTable;
+import blitz.models.calculations.interpolations.EquidistantIntp;
+import blitz.models.calculations.interpolations.FixedAmountIntp;
 import blitz.models.calculations.interpolations.UniformIntp;
 import blitz.models.calculations.splines.BezierSpline;
 import blitz.models.calculations.splines.LinearSpline;
@@ -21,14 +22,16 @@ public class Calculations {
     private static Map<String, AbstractInterpolation> INTERPOLATION_MAP = new HashMap<>();
     public static final String EQUIDISTANT_INTERPOLATION = "Equidistant";
     public static final String UNIFORM_INTERPOLATION = "Uniform";
-    public static final String[] ALL_INTERPOLATION_TYPES = new String[]{EQUIDISTANT_INTERPOLATION, UNIFORM_INTERPOLATION};
+    public static final String FIXED_SPACING_INTERPOLATION = "Fixed Amount";
+    public static final String[] ALL_INTERPOLATION_TYPES = new String[]{EQUIDISTANT_INTERPOLATION, UNIFORM_INTERPOLATION, FIXED_SPACING_INTERPOLATION};
 
     static {
         SPLINE_MAP.put(LINEAR_SPLINE, new LinearSpline());
         SPLINE_MAP.put(BEZIER_SPLINE, new BezierSpline());
     
-        INTERPOLATION_MAP.put(EQUIDISTANT_INTERPOLATION, new EquidistantIntpTable());
+        INTERPOLATION_MAP.put(EQUIDISTANT_INTERPOLATION, new EquidistantIntp());
         INTERPOLATION_MAP.put(UNIFORM_INTERPOLATION, new UniformIntp());
+        INTERPOLATION_MAP.put(FIXED_SPACING_INTERPOLATION, new FixedAmountIntp());
     }
 
 

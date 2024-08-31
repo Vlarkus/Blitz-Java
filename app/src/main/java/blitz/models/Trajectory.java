@@ -42,7 +42,7 @@ public class Trajectory {
         setIsVisible(true);
         setIsLocked(false);
         setSplineType(Calculations.BEZIER_SPLINE);
-        setInterpolationType(Calculations.UNIFORM_INTERPOLATION);
+        setInterpolationType(Calculations.EQUIDISTANT_INTERPOLATION);
         setSpacing(0.5);
     }
 
@@ -56,6 +56,9 @@ public class Trajectory {
         controlPoints = other.copyAllControlPoints();
         setIsVisible(true);
         setIsLocked(false);
+        setSplineType(other.getSplineType());
+        setInterpolationType(other.getInterpolationType());
+        setSpacing(other.getSpacing());
     }
 
 

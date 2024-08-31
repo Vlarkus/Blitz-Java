@@ -19,7 +19,7 @@ import blitz.models.Trajectory;
 import blitz.models.calculations.Calculations;
 import blitz.services.DecimalFilter;
 
-public class DistanceLine extends LinePanel implements ActiveListener {
+public class DistanceLine extends AbstractLinePanel implements ActiveListener {
 
     private JTextField distanceTextField;
     private JTextField thetaEndTextField;
@@ -94,7 +94,8 @@ public class DistanceLine extends LinePanel implements ActiveListener {
         ControlPoint cp = Active.getActiveControlPoint();
         Trajectory tr = Active.getActiveTrajectory();
         if(tr == null)          return false;
-        if(tr.getInterpolationType().equals(Calculations.UNIFORM_INTERPOLATION))  return false;
+        if(tr.getInterpolationType().equals(Calculations.FIXED_SPACING_INTERPOLATION))  return false;
+        if(tr.getInterpolationType().equals(Calculations.UNIFORM_INTERPOLATION))        return false;
         return true;
     }
 

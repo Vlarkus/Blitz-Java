@@ -17,7 +17,7 @@ import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.models.calculations.Calculations;
 
-public class SymmetryLine extends LinePanel implements ActiveListener {
+public class SymmetryLine extends AbstractLinePanel implements ActiveListener {
 
     private JComboBox<String> symmetryComboBox;
     private final String[] SYMMETRY_TYPES = ControlPoint.ALL_INTERPOLATION_TYPES;

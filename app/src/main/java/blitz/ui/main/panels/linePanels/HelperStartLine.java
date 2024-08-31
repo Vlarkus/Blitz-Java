@@ -19,7 +19,7 @@ import blitz.models.Trajectory;
 import blitz.models.calculations.Calculations;
 import blitz.services.DecimalFilter;
 
-public class HelperStartLine extends LinePanel implements ActiveListener {
+public class HelperStartLine extends AbstractLinePanel implements ActiveListener {
 
     private JTextField rStartTextField;
     private JTextField thetaStartTextField;

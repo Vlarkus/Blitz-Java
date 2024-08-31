@@ -19,7 +19,7 @@ import blitz.models.Trajectory;
 import blitz.models.calculations.Calculations;
 import blitz.services.DecimalFilter;
 
-public class NumSegmentsLine extends LinePanel implements ActiveListener {
+public class NumSegmentsLine extends AbstractLinePanel implements ActiveListener {
 
     private JTextField numSegTextField;
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0");

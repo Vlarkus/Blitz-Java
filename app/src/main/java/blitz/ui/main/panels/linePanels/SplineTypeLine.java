@@ -17,7 +17,7 @@ import blitz.models.ControlPoint;
 import blitz.models.Trajectory;
 import blitz.models.calculations.Calculations;
 
-public class SplineTypeLine extends LinePanel implements ActiveListener {
+public class SplineTypeLine extends AbstractLinePanel implements ActiveListener {
 
     private JComboBox<String> splineTypeComboBox;
     private final String[] CURVE_TYPES = Calculations.ALL_SPLINE_TYPES;
