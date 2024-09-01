@@ -3,7 +3,7 @@ package blitz;
 import javax.swing.SwingUtilities;
 
 import blitz.configs.Config;
-import blitz.ui.main.MainFrame;
+import blitz.ui.application.MainFrame;
 
 public class Main {
     

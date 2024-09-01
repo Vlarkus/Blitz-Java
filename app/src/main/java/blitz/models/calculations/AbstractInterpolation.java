@@ -2,9 +2,9 @@ package blitz.models.calculations;
 
 import java.util.ArrayList;
 
-import blitz.models.ControlPoint;
-import blitz.models.FollowPoint;
-import blitz.models.Trajectory;
+import blitz.models.trajectories.Trajectory;
+import blitz.models.trajectories.trajectoryComponents.ControlPoint;
+import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 
 public abstract class AbstractInterpolation {
 

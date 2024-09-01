@@ -3,11 +3,11 @@ package blitz.models.calculations.interpolations;
 import java.util.ArrayList;
 
 import blitz.configs.Config;
-import blitz.models.ControlPoint;
-import blitz.models.FollowPoint;
-import blitz.models.Trajectory;
 import blitz.models.calculations.AbstractInterpolation;
 import blitz.models.calculations.AbstractSpline;
+import blitz.models.trajectories.Trajectory;
+import blitz.models.trajectories.trajectoryComponents.ControlPoint;
+import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 import blitz.services.CartesianCoordinate;
 import blitz.services.Table;
 

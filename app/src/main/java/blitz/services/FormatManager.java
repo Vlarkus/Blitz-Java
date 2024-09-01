@@ -7,8 +7,8 @@ import java.util.Set;
 import java.util.function.Function;
 
 import blitz.configs.Config;
-import blitz.models.FollowPoint;
-import blitz.models.Trajectory;
+import blitz.models.trajectories.Trajectory;
+import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 
 public class FormatManager {
 

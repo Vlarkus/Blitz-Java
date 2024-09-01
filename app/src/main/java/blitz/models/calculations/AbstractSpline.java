@@ -1,6 +1,6 @@
 package blitz.models.calculations;
 
-import blitz.models.ControlPoint;
+import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.CartesianCoordinate;
 
 public abstract class AbstractSpline {

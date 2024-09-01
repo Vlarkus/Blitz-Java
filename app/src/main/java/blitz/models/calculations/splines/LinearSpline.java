@@ -1,7 +1,7 @@
 package blitz.models.calculations.splines;
 
-import blitz.models.ControlPoint;
 import blitz.models.calculations.AbstractSpline;
+import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.CartesianCoordinate;
 
 public class LinearSpline extends AbstractSpline {

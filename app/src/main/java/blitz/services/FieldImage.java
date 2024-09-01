@@ -7,7 +7,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import blitz.configs.Config;
-import blitz.ui.main.panels.CanvasPanel;
+import blitz.ui.application.panels.canvasPanel.CanvasPanel;
 
 public class FieldImage {
 

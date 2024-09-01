@@ -131,7 +131,7 @@ public class Config {
 
 
 
-    // MouseInfoPanel
+    // CanvasInteractionPanel
 
     public static final Dimension  MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS = new Dimension(CANVAS_PANEL_PREFERRED_DIMENSIONS.width, 30);
     public static final HexColor MOUSE_INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");

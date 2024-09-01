@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import blitz.models.FollowPoint;
-import blitz.models.Trajectory;
 import blitz.models.calculations.interpolations.EquidistantIntp;
 import blitz.models.calculations.interpolations.FixedAmountIntp;
 import blitz.models.calculations.interpolations.UniformIntp;
 import blitz.models.calculations.splines.BezierSpline;
 import blitz.models.calculations.splines.LinearSpline;
+import blitz.models.trajectories.Trajectory;
+import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 
 public class Calculations {
 
