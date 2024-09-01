@@ -24,18 +24,28 @@ public class FixedAmountIntp extends AbstractInterpolation{
         ArrayList<FollowPoint> followPoints = new ArrayList<>();
         ArrayList<ControlPoint> controlPoints = tr.getAllControlPoints();
 
+        boolean isLastCurve;
+
         for (int i = 0; i < controlPoints.size()-1; i++) {
 
             ControlPoint p0 = controlPoints.get(i);
             ControlPoint p1 = controlPoints.get(i + 1);
             int numSegments = p0.getNumSegments();
 
+            isLastCurve = (p1 == tr.getLast());
+
             for (int j = 0; j < numSegments; j++) {
                 
                 double t = (double) j / numSegments;
                 CartesianCoordinate coord = splineObj.evaluate(p0, p1, t);
-                double speed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
-                FollowPoint p = new FollowPoint(coord, speed, p0);
+                double currentSpeed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
+                if(isLastCurve){
+                    double decliningSpeed = maxSpeed - (maxSpeed - minSpeed) * t;
+                    if(decliningSpeed < currentSpeed){
+                        currentSpeed = decliningSpeed;
+                    }
+                }
+                FollowPoint p = new FollowPoint(coord, currentSpeed, p0);
                 followPoints.add(p);
 
             }

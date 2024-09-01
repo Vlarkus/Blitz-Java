@@ -28,7 +28,7 @@ import javax.swing.JViewport;
 import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.services.FieldImage;
 import blitz.services.Utils;
 import blitz.ui.main.menu.Export;
@@ -61,7 +61,7 @@ public class MainFrame extends JFrame {
      * Constructs JFrame and creates working Trajectory.
      */
     public MainFrame(){
-        super(MainFrameConfig.FRAME_TITLE);
+        super(Config.FRAME_TITLE);
         constructMenuBar();
         constructFrame();
         setupKeyBindings();
@@ -315,7 +315,7 @@ public class MainFrame extends JFrame {
     }
 
     private void fillChangeFieldMenu(JMenu changeFieldMenu) {
-        fieldImages = Utils.searchForPngImages(MainFrameConfig.PATH_TO_FIELDS_DIRECTORY);
+        fieldImages = Utils.searchForPngImages(Config.PATH_TO_FIELDS_DIRECTORY);
 
         for (FieldImage fieldImage : fieldImages) {
             JMenuItem matchFieldOption = new JMenuItem(fieldImage.getFieldName());
@@ -331,23 +331,23 @@ public class MainFrame extends JFrame {
      */
     private void constructFrame() {
         // Constructing the Main Frame
-        setTitle(MainFrameConfig.FRAME_TITLE);
+        setTitle(Config.FRAME_TITLE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(MainFrameConfig.DEFAULT_FRAME_DIMENSIONS);
-        setMinimumSize(MainFrameConfig.MINIMUM_FRAME_DIMENSIONS);
+        setSize(Config.DEFAULT_FRAME_DIMENSIONS);
+        setMinimumSize(Config.MINIMUM_FRAME_DIMENSIONS);
         setResizable(true);
         setLocationRelativeTo(null);
 
         // Initializing Panels:
         mainPanel = new JPanel();
-        mainPanel.setPreferredSize(new Dimension(MainFrameConfig.DEFAULT_FRAME_DIMENSIONS));
+        mainPanel.setPreferredSize(new Dimension(Config.DEFAULT_FRAME_DIMENSIONS));
         mainPanel.setLayout(new BorderLayout());
         fillMainPanelWithContent();
         add(mainPanel);
 
         Image icon = null;
         try {
-            icon = ImageIO.read(new File(MainFrameConfig.PATH_TO_APP_ICON));
+            icon = ImageIO.read(new File(Config.PATH_TO_APP_ICON));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -372,7 +372,7 @@ public class MainFrame extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         canvasPanel.setScrollPane(scrollPane);
         JViewport viewport = scrollPane.getViewport();
-        viewport.setViewPosition(new Point((int) (MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSIONS.width / 3), (int) (MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSIONS.height / 3)));
+        viewport.setViewPosition(new Point((int) (Config.CANVAS_PANEL_PREFERRED_DIMENSIONS.width / 3), (int) (Config.CANVAS_PANEL_PREFERRED_DIMENSIONS.height / 3)));
 
         centerPanel = new JPanel(new BorderLayout());
         centerPanel.add(scrollPane, BorderLayout.CENTER);
@@ -382,7 +382,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(centerPanel, BorderLayout.CENTER);
 
         sidePanel = new JPanel();
-        sidePanel.setPreferredSize(MainFrameConfig.SIDE_PANEL_PREFERRED_DIMENSIONS);
+        sidePanel.setPreferredSize(Config.SIDE_PANEL_PREFERRED_DIMENSIONS);
         sidePanel.setLayout(new BoxLayout(sidePanel, BoxLayout.Y_AXIS));
         mainPanel.add(sidePanel, BorderLayout.EAST);
 

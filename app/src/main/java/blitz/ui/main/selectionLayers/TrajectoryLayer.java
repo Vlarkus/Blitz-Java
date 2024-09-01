@@ -19,7 +19,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
@@ -66,10 +66,10 @@ public class TrajectoryLayer extends JPanel {
 
     private void constructTrajectoryPanelElements() {
         trajectoryPanelElements = new JPanel(new GridBagLayout());
-        trajectoryPanelElements.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
-        trajectoryPanelElements.setMinimumSize(MainFrameConfig.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
-        trajectoryPanelElements.setMaximumSize(MainFrameConfig.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
-        trajectoryPanelElements.setBackground(MainFrameConfig.TRAJECTORY_LAYER_BACKGROUND_COLOR);
+        trajectoryPanelElements.setPreferredSize(Config.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
+        trajectoryPanelElements.setMinimumSize(Config.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
+        trajectoryPanelElements.setMaximumSize(Config.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
+        trajectoryPanelElements.setBackground(Config.TRAJECTORY_LAYER_BACKGROUND_COLOR);
         add(trajectoryPanelElements, BorderLayout.NORTH);
 
         trLayerGBC.anchor = GridBagConstraints.WEST;
@@ -81,7 +81,7 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.gridy = 0;
         activeButton = new JButton();
         configureLayerButton(activeButton, true);
-        setLayerButtonImage(activeButton, relatedTrajectory == Active.getActiveTrajectory(), MainFrameConfig.PATH_TO_SELECTED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
+        setLayerButtonImage(activeButton, relatedTrajectory == Active.getActiveTrajectory(), Config.PATH_TO_SELECTED_LAYER_SELECTION_ICON, Config.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
         trajectoryPanelElements.add(activeButton, trLayerGBC);
         activeButton.addActionListener(new ActionListener() {
             @Override
@@ -102,7 +102,7 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.gridx++;
         trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         nameLabel = new JLabel(relatedTrajectory.getName());
-        nameLabel.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
+        nameLabel.setPreferredSize(Config.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
         nameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -113,7 +113,7 @@ public class TrajectoryLayer extends JPanel {
     
         // Name TextField
         nameTextField = new JTextField(relatedTrajectory.getName());
-        nameTextField.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
+        nameTextField.setPreferredSize(Config.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
         nameTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -138,7 +138,7 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         visibilityButton = new JButton();
         configureLayerButton(visibilityButton, true);
-        setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
+        setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), Config.PATH_TO_SHOWN_LAYER_SELECTION_ICON, Config.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
         trajectoryPanelElements.add(visibilityButton, trLayerGBC);
         visibilityButton.addActionListener(new ActionListener() {
             @Override
@@ -150,7 +150,7 @@ public class TrajectoryLayer extends JPanel {
                     Active.setActiveTrajectory(null);
                 }
                     
-                setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), MainFrameConfig.PATH_TO_SHOWN_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
+                setLayerButtonImage(visibilityButton, relatedTrajectory.isVisible(), Config.PATH_TO_SHOWN_LAYER_SELECTION_ICON, Config.PATH_TO_HIDDEN_LAYER_SELECTION_ICON);
                 VisibleTrajectories.notifyVisibleTrajectoriesChanged();
                 Utils.requestFocusInWindowFor(visibilityButton);
             }
@@ -161,13 +161,13 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         lockButton = new JButton();
         configureLayerButton(lockButton, true);
-        setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+        setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), Config.PATH_TO_LOCKED_LAYER_SELECTION_ICON, Config.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
         trajectoryPanelElements.add(lockButton, trLayerGBC);
         lockButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 relatedTrajectory.setIsLocked(!relatedTrajectory.isLocked());
-                setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+                setLayerButtonImage(lockButton, relatedTrajectory.isLocked(), Config.PATH_TO_LOCKED_LAYER_SELECTION_ICON, Config.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
                 if (Active.getActiveTrajectory() == relatedTrajectory) {
                     Active.setActiveTrajectory(null);
                 }
@@ -187,7 +187,7 @@ public class TrajectoryLayer extends JPanel {
         // Move Up
         moveUpButton = new JButton();
         configureLayerButton(moveUpButton, false);
-        moveUpButton.setIcon(new ImageIcon(MainFrameConfig.PATH_TO_MOVE_UP_LAYER_SELECTION_ICON));
+        moveUpButton.setIcon(new ImageIcon(Config.PATH_TO_MOVE_UP_LAYER_SELECTION_ICON));
         movePanel.add(moveUpButton);
         moveUpButton.addActionListener(new ActionListener() {
             @Override
@@ -201,7 +201,7 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.gridx++;
         moveDownButton = new JButton();
         configureLayerButton(moveDownButton, false);
-        moveDownButton.setIcon(new ImageIcon(MainFrameConfig.PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON));
+        moveDownButton.setIcon(new ImageIcon(Config.PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON));
         movePanel.add(moveDownButton);
         moveDownButton.addActionListener(new ActionListener() {
             @Override
@@ -216,7 +216,7 @@ public class TrajectoryLayer extends JPanel {
         trLayerGBC.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         collapseButton = new JButton();
         configureLayerButton(collapseButton, true);
-        setLayerButtonImage(collapseButton, true, MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON, null);
+        setLayerButtonImage(collapseButton, true, Config.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON, null);
         trajectoryPanelElements.add(collapseButton, trLayerGBC);
         collapseButton.addActionListener(new ActionListener() {
             @Override
@@ -227,7 +227,7 @@ public class TrajectoryLayer extends JPanel {
                 controlPointsPanel.setVisible(!isCollapsed);
                 
                 // Optionally change the icon to indicate expanded/collapsed state
-                String iconPath = isCollapsed ? MainFrameConfig.PATH_TO_EXPAND_LAYERS_SELECTION_ICON : MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON;
+                String iconPath = isCollapsed ? Config.PATH_TO_EXPAND_LAYERS_SELECTION_ICON : Config.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON;
                 setLayerButtonImage(collapseButton, true, iconPath, null);
         
                 revalidate();
@@ -244,9 +244,9 @@ public class TrajectoryLayer extends JPanel {
 
     private void configureLayerButton(JButton b, boolean isRegular){
         if(isRegular){
-            b.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION);
+            b.setPreferredSize(Config.TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION);
         } else {
-            b.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION);
+            b.setPreferredSize(Config.TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION);
         }
         b.setContentAreaFilled(false);
         b.setBorderPainted(false);
@@ -269,9 +269,9 @@ public class TrajectoryLayer extends JPanel {
         // Filler Panel
         JPanel fillerPanel = new JPanel();
         fillerPanel.setOpaque(false);
-        fillerPanel.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
-        fillerPanel.setMinimumSize(MainFrameConfig.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
-        fillerPanel.setMaximumSize(MainFrameConfig.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
+        fillerPanel.setPreferredSize(Config.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
+        fillerPanel.setMinimumSize(Config.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
+        fillerPanel.setMaximumSize(Config.TRAJECTORY_LAYER_FILLER_PANEL_PREFERRED_DIMENSION);
         add(fillerPanel, BorderLayout.WEST);
     
         // Control Points Panel
@@ -321,7 +321,7 @@ public class TrajectoryLayer extends JPanel {
     public void collapse() {
         isCollapsed = true;
         controlPointsPanel.setVisible(false);
-        String iconPath = MainFrameConfig.PATH_TO_EXPAND_LAYERS_SELECTION_ICON;
+        String iconPath = Config.PATH_TO_EXPAND_LAYERS_SELECTION_ICON;
         setLayerButtonImage(collapseButton, true, iconPath, null);
         revalidate();
         repaint();
@@ -330,7 +330,7 @@ public class TrajectoryLayer extends JPanel {
     public void expand() {
         isCollapsed = false;
         controlPointsPanel.setVisible(true);
-        String iconPath = MainFrameConfig.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON;
+        String iconPath = Config.PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON;
         setLayerButtonImage(collapseButton, true, iconPath, null);
         revalidate();
         repaint();

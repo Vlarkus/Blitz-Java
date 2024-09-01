@@ -10,7 +10,7 @@ import javax.swing.Box;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
@@ -34,7 +34,7 @@ public class InterpolationTypeLine extends AbstractLinePanel implements ActiveLi
 
         // Initialize the drop-down menu
         interpolationTypeComboBox = new JComboBox<>(CURVE_TYPES);
-        Dimension dim = MainFrameConfig.LINE_PANEL_COMBO_BOX_DIMENSITONS;
+        Dimension dim = Config.LINE_PANEL_COMBO_BOX_DIMENSITONS;
         interpolationTypeComboBox.setPreferredSize(dim);
         interpolationTypeComboBox.setMaximumSize(dim);
         interpolationTypeComboBox.setMinimumSize(dim);

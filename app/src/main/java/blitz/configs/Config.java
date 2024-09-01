@@ -6,7 +6,7 @@ import java.awt.Font;
 import blitz.services.CartesianCoordinate;
 import blitz.services.HexColor;
 
-public class MainFrameConfig {
+public class Config {
  
     // MainFrame
 
@@ -149,7 +149,7 @@ public class MainFrameConfig {
 
     // LinePanel
 
-    public static final Dimension LINE_PANEL_DIMENSITONS = new Dimension(MainFrameConfig.SIDE_PANEL_PREFERRED_DIMENSIONS.width, 40);
+    public static final Dimension LINE_PANEL_DIMENSITONS = new Dimension(Config.SIDE_PANEL_PREFERRED_DIMENSIONS.width, 40);
     public static final Dimension LINE_PANEL_COMBO_BOX_DIMENSITONS = new Dimension(125, 30);
     public static final HexColor ACTIVE_LAYER_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
     public static final HexColor INACTIVE_LAYER_PANEL_BACKGROUND_COLOR = new HexColor("#dddddd");
@@ -201,6 +201,34 @@ public class MainFrameConfig {
     public static final String PATH_TO_SHOWN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/shown-layer-selection-icon.png";
     public static final String PATH_TO_UNLOCKED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unlocked-layer-selection-icon.png";
     public static final String PATH_TO_UNSELECTED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unselected-layer-selection-icon.png";
+
+    // Models Config
+
+    public static final double CONTROL_POINT_DEFAULT_X = 0;
+    public static final double CONTROL_POINT_DEFAULT_Y = 0;
+    public static final double CONTROL_POINT_DEFAULT_R_START = 2;
+    public static final double CONTROL_POINT_DEFAULT_THETA_START = 90;
+    public static final double CONTROL_POINT_DEFAULT_R_END = 2;
+    public static final double CONTROL_POINT_DEFAULT_THETA_END = 270;
+    public static final int CONTROL_POINT_DEFAULT_NUM_SEGMENTS = 20;
+    public static final double CONTROL_POINT_DEFAULT_TIME = 0;
+    public static final int CONTROL_POINT_MIN_NUM_SEGMENTS = 2;
+    public static final double CONTROL_POINT_MAX_NUM_SEGMENTS = 200;
+    public static final double CONTROL_POINT_MIN_TIME = 0;
+
+
+    // Services Config
+
+    public static final String FIELD_IMAGE_DIMENSIONS_SUFFIX = "_size";
+    public static final String FIELD_IMAGE_DIMENSIONS_SEPARATOR = "x";
+    public static final String FIELD_IMAGE_EXTENSION = ".png";
+
+    public static final String APP_INFO = 
+    "\n" +
+    "BLITZ - Complex Made Simple\n\n" +
+    "Version 1.0.0\n" + 
+    "Release of September XX 2024";
+
 
 
     public static final String BLITZ_TERMINAL_ICON =

@@ -10,7 +10,7 @@ import javax.swing.Box;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
@@ -34,7 +34,7 @@ public class SplineTypeLine extends AbstractLinePanel implements ActiveListener 
 
         // Initialize the drop-down menu
         splineTypeComboBox = new JComboBox<>(CURVE_TYPES);
-        Dimension dim = MainFrameConfig.LINE_PANEL_COMBO_BOX_DIMENSITONS;
+        Dimension dim = Config.LINE_PANEL_COMBO_BOX_DIMENSITONS;
         splineTypeComboBox.setPreferredSize(dim);
         splineTypeComboBox.setMaximumSize(dim);
         splineTypeComboBox.setMinimumSize(dim);

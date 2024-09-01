@@ -4,7 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.ControlPoint;
 import blitz.services.Gradient;
 import blitz.services.HexColor;
@@ -15,12 +15,12 @@ public class FollowPointer extends Pointer{
 
     static{
         gradient.addColorPoint(0.0, new HexColor("#FF0000")); // Red
-        gradient.addColorPoint(0.5, new HexColor("#FFFF00")); // Yellow
+        gradient.addColorPoint(0.75, new HexColor("#FFFF00")); // Yellow
         gradient.addColorPoint(1.0, new HexColor("#00FF00")); // Green
     }
 
     public FollowPointer(int x, int y, double speedColorCoeff, ControlPoint relatedCP){
-        super(x, y, gradient.getColorAt(speedColorCoeff), MainFrameConfig.FOLLOW_POINTER_DIAMETER, relatedCP);
+        super(x, y, gradient.getColorAt(speedColorCoeff), Config.FOLLOW_POINTER_DIAMETER, relatedCP);
     }
 
     @Override

@@ -1,11 +1,11 @@
 package blitz.ui.main.tools;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 
 public class PanTool extends Tool{
     
     public PanTool(){
-        super(MainFrameConfig.PATH_TO_PAN_TOOL_ICON, Tools.PAN);
+        super(Config.PATH_TO_PAN_TOOL_ICON, Tools.PAN);
         setSelected(true);
     }
 

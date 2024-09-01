@@ -1,11 +1,11 @@
 package blitz.ui.main.tools;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 
 public class RenderAllTool extends Tool{
     
     public RenderAllTool(){
-        super(MainFrameConfig.PATH_TO_RENDER_ALL_TOOL_ICON, Tools.RENDER_ALL);
+        super(Config.PATH_TO_RENDER_ALL_TOOL_ICON, Tools.RENDER_ALL);
     }
 
     @Override

@@ -12,7 +12,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import com.google.gson.Gson;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 
@@ -24,7 +24,7 @@ public class Save {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save As");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FileNameExtensionFilter(MainFrameConfig.SAVE_FILE_EXTENSION_TYPE_DESCRIPTION, MainFrameConfig.SAVE_FILE_EXTENSION_TYPE));
+        fileChooser.setFileFilter(new FileNameExtensionFilter(Config.SAVE_FILE_EXTENSION_TYPE_DESCRIPTION, Config.SAVE_FILE_EXTENSION_TYPE));
         int userSelection = fileChooser.showSaveDialog(null);
     
         // Creating new file
@@ -33,15 +33,15 @@ public class Save {
             String fileName = new File(path).getName();
 
             // Incorect File Name Check
-            if(fileName == null || fileName.equals(MainFrameConfig.SAVE_FILE_EXTENSION_TYPE)){
+            if(fileName == null || fileName.equals(Config.SAVE_FILE_EXTENSION_TYPE)){
                 JOptionPane.showMessageDialog(null, "Incorrect file name!",
                  "Saving Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // If user's file name does not already include extension type, add it.
-            if(!path.substring( path.length() - MainFrameConfig.SAVE_FILE_EXTENSION_TYPE.length() ).equals(MainFrameConfig.SAVE_FILE_EXTENSION_TYPE)){
-                path += MainFrameConfig.SAVE_FILE_EXTENSION_TYPE;
+            if(!path.substring( path.length() - Config.SAVE_FILE_EXTENSION_TYPE.length() ).equals(Config.SAVE_FILE_EXTENSION_TYPE)){
+                path += Config.SAVE_FILE_EXTENSION_TYPE;
             }
 
             // Creating the file

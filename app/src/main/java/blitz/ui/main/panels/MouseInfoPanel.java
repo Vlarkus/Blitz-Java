@@ -13,7 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 
 public class MouseInfoPanel extends JPanel {
 
@@ -28,8 +28,8 @@ public class MouseInfoPanel extends JPanel {
 
     public MouseInfoPanel(CanvasPanel p) {
         canvasPanel = p;
-        setBackground(MainFrameConfig.MOUSE_INFO_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS);
+        setBackground(Config.MOUSE_INFO_PANEL_BACKGROUND_COLOR);
+        setPreferredSize(Config.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS);
         setMaximumSize(getPreferredSize());
         setMinimumSize(getPreferredSize());
         setLayout(new BorderLayout());
@@ -64,7 +64,7 @@ public class MouseInfoPanel extends JPanel {
 
         // Zoom Panel
         gbc.insets = new Insets(0, 0, 0, 0);
-        int size = MainFrameConfig.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS.height;
+        int size = Config.MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS.height;
         
         plusButton = new JButton("+");
         plusButton.setPreferredSize(new Dimension(size, size));        

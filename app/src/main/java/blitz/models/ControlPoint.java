@@ -3,7 +3,7 @@ package blitz.models;
 import java.util.HashMap;
 import java.util.Map;
 
-import blitz.configs.ModelsConfig;
+import blitz.configs.Config;
 import blitz.models.ControlPoint.SYMMETRY;
 import blitz.services.CartesianCoordinate;
 import blitz.services.PolarCoordinate;
@@ -67,30 +67,30 @@ public final class ControlPoint {
         setThetaStart(tS);
         setREnd(rE);
         setThetaEnd(tE);
-        setNumSegments(isValidNumSegments(numSegments)? numSegments : ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS);
-        setTime(isValidTime(time)? time : ModelsConfig.CONTROL_POINT_MIN_TIME);
+        setNumSegments(isValidNumSegments(numSegments)? numSegments : Config.CONTROL_POINT_MIN_NUM_SEGMENTS);
+        setTime(isValidTime(time)? time : Config.CONTROL_POINT_MIN_TIME);
         setIsLocked(false);
         setSymmetryType(ControlPoint.MIRRORED_SYMMETRY_KEY);
     }
 
     public ControlPoint(String name, double x, double y, double rS, double tS, double rE, double tE) {
-        this(name, x, y, rS, tS, rE, tE, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+        this(name, x, y, rS, tS, rE, tE, Config.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, Config.CONTROL_POINT_DEFAULT_TIME);
     }
 
     public ControlPoint(String name, double x, double y, double tS, double tE) {
-        this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, tS, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, tE, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+        this(name, x, y, Config.CONTROL_POINT_DEFAULT_R_START, tS, Config.CONTROL_POINT_DEFAULT_R_END, tE, Config.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, Config.CONTROL_POINT_DEFAULT_TIME);
     }
 
     public ControlPoint(String name, double x, double y, int numSegments, double time) {
-        this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, numSegments, time);
+        this(name, x, y, Config.CONTROL_POINT_DEFAULT_R_START, Config.CONTROL_POINT_DEFAULT_THETA_START, Config.CONTROL_POINT_DEFAULT_R_END, Config.CONTROL_POINT_DEFAULT_THETA_END, numSegments, time);
     }
 
     public ControlPoint(String name, double x, double y) {
-        this(name, x, y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+        this(name, x, y, Config.CONTROL_POINT_DEFAULT_R_START, Config.CONTROL_POINT_DEFAULT_THETA_START, Config.CONTROL_POINT_DEFAULT_R_END, Config.CONTROL_POINT_DEFAULT_THETA_END, Config.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, Config.CONTROL_POINT_DEFAULT_TIME);
     }
 
     public ControlPoint(String name) {
-        this(name, ModelsConfig.CONTROL_POINT_DEFAULT_X, ModelsConfig.CONTROL_POINT_DEFAULT_Y, ModelsConfig.CONTROL_POINT_DEFAULT_R_START, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_START, ModelsConfig.CONTROL_POINT_DEFAULT_R_END, ModelsConfig.CONTROL_POINT_DEFAULT_THETA_END, ModelsConfig.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, ModelsConfig.CONTROL_POINT_DEFAULT_TIME);
+        this(name, Config.CONTROL_POINT_DEFAULT_X, Config.CONTROL_POINT_DEFAULT_Y, Config.CONTROL_POINT_DEFAULT_R_START, Config.CONTROL_POINT_DEFAULT_THETA_START, Config.CONTROL_POINT_DEFAULT_R_END, Config.CONTROL_POINT_DEFAULT_THETA_END, Config.CONTROL_POINT_DEFAULT_NUM_SEGMENTS, Config.CONTROL_POINT_DEFAULT_TIME);
     }
 
     public ControlPoint(ControlPoint cp) {
@@ -142,7 +142,7 @@ public final class ControlPoint {
     }
 
     public boolean isValidNumSegments(int numSegments){
-        if(ModelsConfig.CONTROL_POINT_MIN_NUM_SEGMENTS <= numSegments && numSegments <= ModelsConfig.CONTROL_POINT_MAX_NUM_SEGMENTS){
+        if(Config.CONTROL_POINT_MIN_NUM_SEGMENTS <= numSegments && numSegments <= Config.CONTROL_POINT_MAX_NUM_SEGMENTS){
             return true;
         }
         return false;
@@ -158,7 +158,7 @@ public final class ControlPoint {
     }
 
     public boolean isValidTime(double time){
-        if(ModelsConfig.CONTROL_POINT_MIN_TIME <= time){
+        if(Config.CONTROL_POINT_MIN_TIME <= time){
             return true;
         }
         return false;

@@ -12,6 +12,8 @@ COOL TO HAVE:
 - Use triangles for bezier pointers to show direction.
 - Pointers highlight if a tool can work with them and if a cursor is over the pointer.
 - Ability to change color of different trajectories.
+- Edit Time Frame has buttons with preset actions (set all max, set average, reser to last saved change, save button, etc.)
+- CTRL + Z
 
 OPTIMIZATIONS:
 - Add optimization mode, so that when you move a curve, it uses smaller coeff-s for calculating curves, but once you release them, it is recalculated with a higher precision.

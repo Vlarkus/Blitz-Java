@@ -13,7 +13,7 @@ import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.ui.main.tools.AddTool;
 import blitz.ui.main.tools.CutTool;
 import blitz.ui.main.tools.EditTimeTool;
@@ -38,15 +38,15 @@ public class ToolPanel extends JPanel implements ToolListener{
 
     public ToolPanel() {
 
-        setBackground(MainFrameConfig.TOOL_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.TOOL_PANEL_PREFERRED_DIMENSIONS);
+        setBackground(Config.TOOL_PANEL_BACKGROUND_COLOR);
+        setPreferredSize(Config.TOOL_PANEL_PREFERRED_DIMENSIONS);
 
         setLayout(new GridBagLayout());
 
         // Add these GridBagConstraints for the toolsPanel panel
         toolsPanel = new JPanel();
         toolsPanel.setLayout(new GridBagLayout());
-        toolsPanel.setBackground(MainFrameConfig.TOOL_PANEL_TOOLS_BACKGROUND_COLOR);
+        toolsPanel.setBackground(Config.TOOL_PANEL_TOOLS_BACKGROUND_COLOR);
         GridBagConstraints gbcTools = new GridBagConstraints();
         gbcTools.gridx = 0;
         gbcTools.gridy = 0;
@@ -58,7 +58,7 @@ public class ToolPanel extends JPanel implements ToolListener{
 
 
         optionsPanel = new JPanel();
-        optionsPanel.setBackground(MainFrameConfig.TOOL_PANEL_OPTIONS_BACKGROUND_COLOR);
+        optionsPanel.setBackground(Config.TOOL_PANEL_OPTIONS_BACKGROUND_COLOR);
         optionsPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbcOptions = new GridBagConstraints();
         gbcOptions.gridx = 0;
@@ -70,7 +70,7 @@ public class ToolPanel extends JPanel implements ToolListener{
         
         // Add these GridBagConstraints for the extrasPanel panel
         extrasPanel = new JPanel();
-        extrasPanel.setBackground(MainFrameConfig.TOOL_PANEL_EXTRA_BACKGROUND_COLOR);
+        extrasPanel.setBackground(Config.TOOL_PANEL_EXTRA_BACKGROUND_COLOR);
         extrasPanel.setLayout(new GridBagLayout());
         GridBagConstraints gbcExtra = new GridBagConstraints();
         gbcExtra.gridx = 0;
@@ -117,7 +117,7 @@ public class ToolPanel extends JPanel implements ToolListener{
     public void selectedToolChanged(Tools newSelectedTool) {
         switch (newSelectedTool) {
             case RENDER_ALL:
-                Timer timer = new Timer(MainFrameConfig.RENDER_ALL_DELAY, new ActionListener() {
+                Timer timer = new Timer(Config.RENDER_ALL_DELAY, new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         setActiveTool(Tool.getPreviousTool());

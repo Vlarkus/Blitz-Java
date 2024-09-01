@@ -11,7 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JRadioButton;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 
 public abstract class Tool extends JRadioButton{
     
@@ -46,13 +46,13 @@ public abstract class Tool extends JRadioButton{
         try {
             // Load icons
             frontIcon = new ImageIcon(ImageIO.read(new File(path)));
-            backSelectedIcon = new ImageIcon(ImageIO.read(new File(MainFrameConfig.PATH_TO_SELECTED_TOOL_BACKGROUND_ICON)));
-            backUnselectedIcon = new ImageIcon(ImageIO.read(new File(MainFrameConfig.PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON)));
+            backSelectedIcon = new ImageIcon(ImageIO.read(new File(Config.PATH_TO_SELECTED_TOOL_BACKGROUND_ICON)));
+            backUnselectedIcon = new ImageIcon(ImageIO.read(new File(Config.PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON)));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        setPreferredSize(MainFrameConfig.TOOL_DIMENSIONS);
+        setPreferredSize(Config.TOOL_DIMENSIONS);
 
         addItemListener(new ItemListener() {
             @Override

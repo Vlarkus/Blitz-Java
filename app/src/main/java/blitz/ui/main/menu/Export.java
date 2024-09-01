@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 import blitz.services.FormatManager;
@@ -37,7 +37,7 @@ public class Export {
 
         exportDialogue = new JDialog((JFrame) null, "Select Trajectory", true);
 
-        exportDialogue.setSize(MainFrameConfig.EXPORT_DIALOGUE_DIMENSIONS);
+        exportDialogue.setSize(Config.EXPORT_DIALOGUE_DIMENSIONS);
         exportDialogue.setLocationRelativeTo(null);
         exportDialogue.setLayout(new BorderLayout(10, 10)); // Add padding between the edges and the components
         exportDialogue.setResizable(false);
@@ -110,7 +110,7 @@ public class Export {
     private static void showFileChooser(String trajectory) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Save File");
-        fileChooser.setSelectedFile(new File(trajectory + MainFrameConfig.EXPORT_FILE_EXTENSION_TYPE));
+        fileChooser.setSelectedFile(new File(trajectory + Config.EXPORT_FILE_EXTENSION_TYPE));
 
         // Set up file filters based on the formats available in FormatManager
         for (String format : FormatManager.getAllFormats()) {
@@ -126,8 +126,8 @@ public class Export {
             String filePath = fileToSave.getAbsolutePath();
 
             // Ensure the file has the correct extension
-            if (!filePath.toLowerCase().endsWith(MainFrameConfig.EXPORT_FILE_EXTENSION_TYPE)) {
-                filePath += MainFrameConfig.EXPORT_FILE_EXTENSION_TYPE;
+            if (!filePath.toLowerCase().endsWith(Config.EXPORT_FILE_EXTENSION_TYPE)) {
+                filePath += Config.EXPORT_FILE_EXTENSION_TYPE;
             }
 
             export(filePath, selectedFormat, trajectory);

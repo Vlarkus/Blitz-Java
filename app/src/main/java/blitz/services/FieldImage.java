@@ -6,8 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import blitz.configs.MainFrameConfig;
-import blitz.configs.ServicesConfig;
+import blitz.configs.Config;
 import blitz.ui.main.panels.CanvasPanel;
 
 public class FieldImage {
@@ -40,24 +39,24 @@ public class FieldImage {
 
             // Field Name
             start = 0;
-            end = fileName.indexOf(ServicesConfig.FIELD_IMAGE_DIMENSIONS_SUFFIX);
+            end = fileName.indexOf(Config.FIELD_IMAGE_DIMENSIONS_SUFFIX);
             if (end == -1) {
                 throw new IllegalArgumentException("Invalid file name format: missing extension.");
             }
             this.fieldName = fileName.substring(start, end);
 
             // Dimensions String
-            start = fileName.indexOf(ServicesConfig.FIELD_IMAGE_DIMENSIONS_SUFFIX)
-                        + ServicesConfig.FIELD_IMAGE_DIMENSIONS_SUFFIX.length();
+            start = fileName.indexOf(Config.FIELD_IMAGE_DIMENSIONS_SUFFIX)
+                        + Config.FIELD_IMAGE_DIMENSIONS_SUFFIX.length();
             if (start == -1) {
                 throw new IllegalArgumentException("Invalid file name format: missing dimensions suffix.");
             }
-            end = fileName.indexOf(ServicesConfig.FIELD_IMAGE_EXTENSION);
+            end = fileName.indexOf(Config.FIELD_IMAGE_EXTENSION);
             String dimensions = fileName.substring(start, end);
 
             // Width
             start = 0;
-            end = dimensions.indexOf(ServicesConfig.FIELD_IMAGE_DIMENSIONS_SEPARATOR);
+            end = dimensions.indexOf(Config.FIELD_IMAGE_DIMENSIONS_SEPARATOR);
             if (end == -1) {
                 throw new IllegalArgumentException("Invalid dimensions format: missing width.");
             }
@@ -89,12 +88,12 @@ public class FieldImage {
 
     // Method to update the width based on the current zoom scale
     public void updateWidth() {
-        this.width = (int) (this.originalWidth * MainFrameConfig.PIXELS_IN_ONE_INCH * CanvasPanel.getZoomScaleX());
+        this.width = (int) (this.originalWidth * Config.PIXELS_IN_ONE_INCH * CanvasPanel.getZoomScaleX());
     }
 
     // Method to update the height based on the current zoom scale
     public void updateHeight() {
-        this.height = (int) (this.originalHeight * MainFrameConfig.PIXELS_IN_ONE_INCH * CanvasPanel.getZoomScaleY());
+        this.height = (int) (this.originalHeight * Config.PIXELS_IN_ONE_INCH * CanvasPanel.getZoomScaleY());
     }
 
     private void updateFieldImage() throws IOException{

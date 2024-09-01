@@ -2,7 +2,7 @@ package blitz;
 
 import javax.swing.SwingUtilities;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.ui.main.MainFrame;
 
 public class Main {
@@ -31,7 +31,7 @@ public class Main {
         blitzLogo += "\n";
         blitzLogo += "\n";
         blitzLogo += "\n";
-        blitzLogo += MainFrameConfig.BLITZ_TERMINAL_ICON;
+        blitzLogo += Config.BLITZ_TERMINAL_ICON;
         blitzLogo += "\n";
         blitzLogo += "\n";
         blitzLogo += "\n";

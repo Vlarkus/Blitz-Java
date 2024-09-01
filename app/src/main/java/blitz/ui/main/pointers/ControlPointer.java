@@ -4,7 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.ControlPoint;
 
 public class ControlPointer extends Pointer{
@@ -12,7 +12,7 @@ public class ControlPointer extends Pointer{
     private State state;
 
     public ControlPointer(int x, int y, ControlPoint relatedCP){
-        super(x, y, MainFrameConfig.UNSELECTED_CONTROL_POINTER_COLOR, MainFrameConfig.CONTROL_POINTER_DIAMETER, relatedCP);
+        super(x, y, Config.UNSELECTED_CONTROL_POINTER_COLOR, Config.CONTROL_POINTER_DIAMETER, relatedCP);
         setState(State.UNSELECTED);
 
     }
@@ -21,15 +21,15 @@ public class ControlPointer extends Pointer{
         this.state = state;
         switch (state) {
             case UNSELECTED:
-                setColor(MainFrameConfig.UNSELECTED_CONTROL_POINTER_COLOR);
+                setColor(Config.UNSELECTED_CONTROL_POINTER_COLOR);
                 break;
 
             case HIGHLIGHTED:
-                setColor(MainFrameConfig.HIGHLIGHTED_CONTROL_POINTER_COLOR);
+                setColor(Config.HIGHLIGHTED_CONTROL_POINTER_COLOR);
                 break;
 
             case SELECTED:
-                setColor(MainFrameConfig.SELECTED_CONTROL_POINTER_COLOR);
+                setColor(Config.SELECTED_CONTROL_POINTER_COLOR);
                 break;
         }
     }

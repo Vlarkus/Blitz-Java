@@ -24,7 +24,7 @@ import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.xml.stream.XMLOutputFactory;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
@@ -89,8 +89,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
 
     public CanvasPanel(){
         
-        setBackground(MainFrameConfig.CANVAS_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSIONS);
+        setBackground(Config.CANVAS_PANEL_BACKGROUND_COLOR);
+        setPreferredSize(Config.CANVAS_PANEL_PREFERRED_DIMENSIONS);
         setLayout(null);
 
         visibleTrajectories = new ArrayList<Trajectory>();
@@ -115,18 +115,18 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         // public static final String PATH_TO_NOT_ALLOWED_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/notallowed.png";
         // public static final String PATH_TO_UNKNOWN_CURSOR_IMAGE
        
-        addCursorToMap(MainFrameConfig.PATH_TO_PLUS_CURSOR_IMAGE, CURSOR.PLUS, "Plus", 8, 0);
-        addCursorToMap(MainFrameConfig.PATH_TO_SCISSORS_CURSOR_IMAGE, CURSOR.SCISSORS, "Scissors", 8, 0);
-        addCursorToMap(MainFrameConfig.PATH_TO_MOVE_CURSOR_IMAGE, CURSOR.MOVE, "Move", 16, 16);
-        addCursorToMap(MainFrameConfig.PATH_TO_HAND_GRABBING_CURSOR_IMAGE, CURSOR.HAND_GRABBING, "Grabbing hand", 16, 16);
-        addCursorToMap(MainFrameConfig.PATH_TO_HAND_OPEN_CURSOR_IMAGE, CURSOR.HAND_OPEN, "Open hand", 16, 16);
-        addCursorToMap(MainFrameConfig.PATH_TO_HAND_POINTING_CURSOR_IMAGE, CURSOR.HAND_POINTING, "Pointing hand", 16, 16);
-        addCursorToMap(MainFrameConfig.PATH_TO_MINUS_CURSOR_IMAGE, CURSOR.MINUS, "Minus", 8, 0);
-        addCursorToMap(MainFrameConfig.PATH_TO_EYE_CURSOR_IMAGE, CURSOR.EYE, "Eye", 8, 0);
-        addCursorToMap(MainFrameConfig.PATH_TO_NOT_ALLOWED_CURSOR_IMAGE, CURSOR.NOT_ALLOWED, "Not allowed", 8, 0);
-        addCursorToMap(MainFrameConfig.PATH_TO_UNKNOWN_CURSOR_IMAGE, CURSOR.UNKNOWN, "Unknown", 8, 0);
+        addCursorToMap(Config.PATH_TO_PLUS_CURSOR_IMAGE, CURSOR.PLUS, "Plus", 8, 0);
+        addCursorToMap(Config.PATH_TO_SCISSORS_CURSOR_IMAGE, CURSOR.SCISSORS, "Scissors", 8, 0);
+        addCursorToMap(Config.PATH_TO_MOVE_CURSOR_IMAGE, CURSOR.MOVE, "Move", 16, 16);
+        addCursorToMap(Config.PATH_TO_HAND_GRABBING_CURSOR_IMAGE, CURSOR.HAND_GRABBING, "Grabbing hand", 16, 16);
+        addCursorToMap(Config.PATH_TO_HAND_OPEN_CURSOR_IMAGE, CURSOR.HAND_OPEN, "Open hand", 16, 16);
+        addCursorToMap(Config.PATH_TO_HAND_POINTING_CURSOR_IMAGE, CURSOR.HAND_POINTING, "Pointing hand", 16, 16);
+        addCursorToMap(Config.PATH_TO_MINUS_CURSOR_IMAGE, CURSOR.MINUS, "Minus", 8, 0);
+        addCursorToMap(Config.PATH_TO_EYE_CURSOR_IMAGE, CURSOR.EYE, "Eye", 8, 0);
+        addCursorToMap(Config.PATH_TO_NOT_ALLOWED_CURSOR_IMAGE, CURSOR.NOT_ALLOWED, "Not allowed", 8, 0);
+        addCursorToMap(Config.PATH_TO_UNKNOWN_CURSOR_IMAGE, CURSOR.UNKNOWN, "Unknown", 8, 0);
         
-        setFieldImage(MainFrameConfig.PATH_TO_DEFAULT_FIELD);
+        setFieldImage(Config.PATH_TO_DEFAULT_FIELD);
 
         addMouseListener(this);
         addMouseMotionListener(this);
@@ -162,15 +162,15 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     private static boolean  setZoomScaleX(double newZoomScale){
-        if(newZoomScale < MainFrameConfig.MIN_ZOOM_SCALE_VALUE) return false;
-        if(newZoomScale > MainFrameConfig.MAX_ZOOM_SCALE_VALUE) return false;
+        if(newZoomScale < Config.MIN_ZOOM_SCALE_VALUE) return false;
+        if(newZoomScale > Config.MAX_ZOOM_SCALE_VALUE) return false;
         zoomScaleX = newZoomScale; 
         return true;
     }
 
     private static boolean  setZoomScaleY(double newZoomScale){
-        if(newZoomScale < MainFrameConfig.MIN_ZOOM_SCALE_VALUE) return false;
-        if(newZoomScale > MainFrameConfig.MAX_ZOOM_SCALE_VALUE) return false;
+        if(newZoomScale < Config.MIN_ZOOM_SCALE_VALUE) return false;
+        if(newZoomScale > Config.MAX_ZOOM_SCALE_VALUE) return false;
         zoomScaleY= newZoomScale; 
         return true;
     }
@@ -337,14 +337,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public CartesianCoordinate convertFieldToScreenCoordinates(CartesianCoordinate field) {
-        double screenX = ( (field.getX()  * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_X_OFFSET ) * getZoomScaleX();
-        double screenY = ( (-field.getY() * MainFrameConfig.PIXELS_IN_ONE_INCH) + MainFrameConfig.CANVAS_PANEL_Y_OFFSET ) * getZoomScaleY();
+        double screenX = ( (field.getX()  * Config.PIXELS_IN_ONE_INCH) + Config.CANVAS_PANEL_X_OFFSET ) * getZoomScaleX();
+        double screenY = ( (-field.getY() * Config.PIXELS_IN_ONE_INCH) + Config.CANVAS_PANEL_Y_OFFSET ) * getZoomScaleY();
         return new CartesianCoordinate((int) screenX, (int) screenY);
     }
     
     public CartesianCoordinate convertScreenToFieldCoordinates(CartesianCoordinate screen) {
-        double fieldX = ( ( (screen.getX() / getZoomScaleX()) - MainFrameConfig.CANVAS_PANEL_X_OFFSET) / MainFrameConfig.PIXELS_IN_ONE_INCH );
-        double fieldY = ((-((screen.getY() / getZoomScaleY()) - MainFrameConfig.CANVAS_PANEL_Y_OFFSET)) / MainFrameConfig.PIXELS_IN_ONE_INCH) ;
+        double fieldX = ( ( (screen.getX() / getZoomScaleX()) - Config.CANVAS_PANEL_X_OFFSET) / Config.PIXELS_IN_ONE_INCH );
+        double fieldY = ((-((screen.getY() / getZoomScaleY()) - Config.CANVAS_PANEL_Y_OFFSET)) / Config.PIXELS_IN_ONE_INCH) ;
         return new CartesianCoordinate(fieldX, fieldY);
     }
 
@@ -457,8 +457,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
     private void updateScrollPaneSize() {
         if (fieldImage != null) {
-            int newWidth = (int) (MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSIONS.getWidth() * getZoomScaleX());
-            int newHeight = (int) (MainFrameConfig.CANVAS_PANEL_PREFERRED_DIMENSIONS.getHeight() * getZoomScaleY());
+            int newWidth = (int) (Config.CANVAS_PANEL_PREFERRED_DIMENSIONS.getWidth() * getZoomScaleX());
+            int newHeight = (int) (Config.CANVAS_PANEL_PREFERRED_DIMENSIONS.getHeight() * getZoomScaleY());
     
             this.setPreferredSize(new Dimension(newWidth, newHeight));
         }
@@ -467,19 +467,19 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     
 
     public void zoomInMouse() {
-        zoomIntoMouseBy(MainFrameConfig.ZOOM_IN_COEFFICIENT);
+        zoomIntoMouseBy(Config.ZOOM_IN_COEFFICIENT);
     }
 
     public void zoomOutMouse() {
-        zoomIntoMouseBy(MainFrameConfig.ZOOM_OUT_COEFFICIENT);
+        zoomIntoMouseBy(Config.ZOOM_OUT_COEFFICIENT);
     }
 
     public void zoomInCenter() {
-        zoomIntoCenterBy(MainFrameConfig.ZOOM_IN_COEFFICIENT);
+        zoomIntoCenterBy(Config.ZOOM_IN_COEFFICIENT);
     }
 
     public void zoomOutCenter() {
-        zoomIntoCenterBy(MainFrameConfig.ZOOM_OUT_COEFFICIENT);
+        zoomIntoCenterBy(Config.ZOOM_OUT_COEFFICIENT);
     }
 
     public ArrayList<Trajectory> getVisibleTrajectories() {

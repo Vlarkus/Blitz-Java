@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonReader;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.TrajectoriesList;
 import blitz.models.Trajectory;
 
@@ -26,7 +26,7 @@ public class Open {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Open");
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        fileChooser.setFileFilter(new FileNameExtensionFilter(MainFrameConfig.SAVE_FILE_EXTENSION_TYPE_DESCRIPTION, MainFrameConfig.SAVE_FILE_EXTENSION_TYPE.substring(1)));
+        fileChooser.setFileFilter(new FileNameExtensionFilter(Config.SAVE_FILE_EXTENSION_TYPE_DESCRIPTION, Config.SAVE_FILE_EXTENSION_TYPE.substring(1)));
         int userSelection = fileChooser.showOpenDialog(null);
     
         // Checking for correct file selection
@@ -34,9 +34,9 @@ public class Open {
             String path = fileChooser.getSelectedFile().getAbsolutePath();
             String fileName = (new File(path).getName());
             
-            String fileExtension = fileName.substring( fileName.length() - MainFrameConfig.SAVE_FILE_EXTENSION_TYPE.length() );
-            if(!fileExtension.equals(MainFrameConfig.SAVE_FILE_EXTENSION_TYPE)){
-                JOptionPane.showMessageDialog(null, "Unsupported file extension! Only \"" + MainFrameConfig.SAVE_FILE_EXTENSION_TYPE + "\" files can be opened.",
+            String fileExtension = fileName.substring( fileName.length() - Config.SAVE_FILE_EXTENSION_TYPE.length() );
+            if(!fileExtension.equals(Config.SAVE_FILE_EXTENSION_TYPE)){
+                JOptionPane.showMessageDialog(null, "Unsupported file extension! Only \"" + Config.SAVE_FILE_EXTENSION_TYPE + "\" files can be opened.",
                  "Opening Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }

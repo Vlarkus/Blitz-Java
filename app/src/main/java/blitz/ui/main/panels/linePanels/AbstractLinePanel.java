@@ -7,16 +7,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.services.Utils;
 
 public abstract class AbstractLinePanel extends JPanel{
 
     public AbstractLinePanel(){
-        setPreferredSize(MainFrameConfig.LINE_PANEL_DIMENSITONS);
-        setMinimumSize(MainFrameConfig.LINE_PANEL_DIMENSITONS);
-        setMaximumSize(MainFrameConfig.LINE_PANEL_DIMENSITONS);
+        setPreferredSize(Config.LINE_PANEL_DIMENSITONS);
+        setMinimumSize(Config.LINE_PANEL_DIMENSITONS);
+        setMaximumSize(Config.LINE_PANEL_DIMENSITONS);
         setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
     }
 
@@ -79,9 +79,9 @@ public abstract class AbstractLinePanel extends JPanel{
 
     protected void displayInteractability(){
         if(isInteractable()){
-            setBackground(MainFrameConfig.ACTIVE_LAYER_PANEL_BACKGROUND_COLOR);
+            setBackground(Config.ACTIVE_LAYER_PANEL_BACKGROUND_COLOR);
         } else {
-            setBackground(MainFrameConfig.INACTIVE_LAYER_PANEL_BACKGROUND_COLOR);
+            setBackground(Config.INACTIVE_LAYER_PANEL_BACKGROUND_COLOR);
         }
     }
 

@@ -16,7 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.models.ControlPoint;
 import blitz.models.TrajectoriesList;
@@ -35,10 +35,10 @@ public class ControlPointLayer extends JPanel{
     private final int INSETS_DEFAULT = 4;
 
     public ControlPointLayer(ControlPoint cp) {
-        setPreferredSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
-        setMaximumSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
-        setMinimumSize(MainFrameConfig.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
-        setBackground(MainFrameConfig.CONTROL_POINT_LAYER_BACKGROUND_COLOR);
+        setPreferredSize(Config.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
+        setMaximumSize(Config.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
+        setMinimumSize(Config.CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS);
+        setBackground(Config.CONTROL_POINT_LAYER_BACKGROUND_COLOR);
         setLayout(new GridBagLayout());
 
         gbc = new GridBagConstraints();
@@ -58,7 +58,7 @@ public class ControlPointLayer extends JPanel{
         gbc.gridy = 0;
         activeButton = new JButton();
         configureLayerButton(activeButton, true);
-        setLayerButtonImage(activeButton, relatedControlPoint == Active.getActiveControlPoint(), MainFrameConfig.PATH_TO_SELECTED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
+        setLayerButtonImage(activeButton, relatedControlPoint == Active.getActiveControlPoint(), Config.PATH_TO_SELECTED_LAYER_SELECTION_ICON, Config.PATH_TO_UNSELECTED_LAYER_SELECTION_ICON);
         add(activeButton, gbc);
         activeButton.addActionListener(new ActionListener() {
             @Override
@@ -79,7 +79,7 @@ public class ControlPointLayer extends JPanel{
         gbc.gridx++;
         gbc.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         nameLabel = new JLabel(relatedControlPoint.getName());
-        nameLabel.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
+        nameLabel.setPreferredSize(Config.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
         nameLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -90,7 +90,7 @@ public class ControlPointLayer extends JPanel{
     
         // Name TextField
         nameTextField = new JTextField(relatedControlPoint.getName());
-        nameTextField.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
+        nameTextField.setPreferredSize(Config.TRAJECTORY_LAYER_NAME_ELEMENT_PREFERRED_DIMENSION);
         nameTextField.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,13 +115,13 @@ public class ControlPointLayer extends JPanel{
         gbc.insets = new Insets(INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT, INSETS_DEFAULT);
         lockButton = new JButton();
         configureLayerButton(lockButton, true);
-        setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+        setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), Config.PATH_TO_LOCKED_LAYER_SELECTION_ICON, Config.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
         add(lockButton, gbc);
         lockButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 relatedControlPoint.setIsLocked(!relatedControlPoint.isLocked());
-                setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), MainFrameConfig.PATH_TO_LOCKED_LAYER_SELECTION_ICON, MainFrameConfig.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
+                setLayerButtonImage(lockButton, relatedControlPoint.isLocked(), Config.PATH_TO_LOCKED_LAYER_SELECTION_ICON, Config.PATH_TO_UNLOCKED_LAYER_SELECTION_ICON);
                 if(Active.getActiveControlPoint().equals(relatedControlPoint)){
                     Active.setActiveControlPoint(null);
                 }
@@ -135,9 +135,9 @@ public class ControlPointLayer extends JPanel{
 
     private void configureLayerButton(JButton b, boolean isRegular){
         if(isRegular){
-            b.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION);
+            b.setPreferredSize(Config.TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION);
         } else {
-            b.setPreferredSize(MainFrameConfig.TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION);
+            b.setPreferredSize(Config.TRAJECTORY_LAYER_HALF_SIZE_BUTTON_PREFERRED_DIMENSION);
         }
         b.setContentAreaFilled(false);
         b.setBorderPainted(false);

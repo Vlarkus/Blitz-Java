@@ -1,11 +1,11 @@
 package blitz.ui.main.tools;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 
 public class ShowRobotTool extends Tool{
     
     public ShowRobotTool(){
-        super(MainFrameConfig.PATH_TO_SHOW_ROBOT_TOOL_ICON, Tools.SHOW_ROBOT);
+        super(Config.PATH_TO_SHOW_ROBOT_TOOL_ICON, Tools.SHOW_ROBOT);
     }
 
     @Override

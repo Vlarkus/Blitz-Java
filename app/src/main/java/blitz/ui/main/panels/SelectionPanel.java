@@ -18,7 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.Active;
 import blitz.models.ActiveListener;
 import blitz.models.ControlPoint;
@@ -36,8 +36,8 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     
     public SelectionPanel(){
 
-        setBackground(MainFrameConfig.SELECTION_PANEL_BACKGROUND_COLOR);
-        setPreferredSize(MainFrameConfig.SELECTION_PANEL_PREFERRED_DIMENSIONS);
+        setBackground(Config.SELECTION_PANEL_BACKGROUND_COLOR);
+        setPreferredSize(Config.SELECTION_PANEL_PREFERRED_DIMENSIONS);
         setLayout(new BorderLayout());
 
         // constructHeaderPanel();
@@ -51,13 +51,13 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
 
     private void constructHeaderPanel() {
         headerPanel = new JPanel(new GridBagLayout());
-        headerPanel.setPreferredSize(MainFrameConfig.HEADER_PANEL_PREFERRED_DIMENSIONS);
-        headerPanel.setMinimumSize(MainFrameConfig.HEADER_PANEL_PREFERRED_DIMENSIONS);
-        headerPanel.setMaximumSize(MainFrameConfig.HEADER_PANEL_PREFERRED_DIMENSIONS);
-        headerPanel.setBackground(MainFrameConfig.HEADER_PANEL_COLOR);
+        headerPanel.setPreferredSize(Config.HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setMinimumSize(Config.HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setMaximumSize(Config.HEADER_PANEL_PREFERRED_DIMENSIONS);
+        headerPanel.setBackground(Config.HEADER_PANEL_COLOR);
     
         JLabel selectionLabel = new JLabel("Selection Menu", SwingConstants.CENTER);
-        selectionLabel.setFont(MainFrameConfig.SELECTION_PANEL_TITLE_LABEL_FONT);
+        selectionLabel.setFont(Config.SELECTION_PANEL_TITLE_LABEL_FONT);
     
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
@@ -76,7 +76,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
         selectionMenuPanel = new JPanel();
         selectionMenuPanel.setLayout(new BoxLayout(selectionMenuPanel, BoxLayout.Y_AXIS));
 
-        selectionMenuPanel.setBackground(MainFrameConfig.SELECTION_MENU_COLOR);
+        selectionMenuPanel.setBackground(Config.SELECTION_MENU_COLOR);
     
         selectionMenuScrollPane = new JScrollPane(selectionMenuPanel);
         selectionMenuScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -128,7 +128,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     
             if (!layer.isEmpty() && i < trajectories.size() - 1) {
                 gbc.gridy = i * 2 + 1;
-                gbc.insets = new Insets(0, 0, MainFrameConfig.SPACING_BETWEEN_TRAJECTORY_LAYERS, 0);
+                gbc.insets = new Insets(0, 0, Config.SPACING_BETWEEN_TRAJECTORY_LAYERS, 0);
                 JPanel spacer = new JPanel();
                 spacer.setOpaque(false);
                 selectionMenuPanel.add(spacer, gbc);
@@ -153,16 +153,16 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     private void constructOptionsBar() {
         optionsBarPanel = new JPanel();
         optionsBarPanel.setLayout(new BoxLayout(optionsBarPanel, BoxLayout.X_AXIS));
-        optionsBarPanel.setPreferredSize(MainFrameConfig.OPTIONS_BAR_PREFERRED_DIMENSIONS);
-        optionsBarPanel.setMinimumSize(MainFrameConfig.OPTIONS_BAR_PREFERRED_DIMENSIONS);
-        optionsBarPanel.setMaximumSize(MainFrameConfig.OPTIONS_BAR_PREFERRED_DIMENSIONS);
-        optionsBarPanel.setBackground(MainFrameConfig.OPTIONS_BAR_COLOR);
+        optionsBarPanel.setPreferredSize(Config.OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setMinimumSize(Config.OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setMaximumSize(Config.OPTIONS_BAR_PREFERRED_DIMENSIONS);
+        optionsBarPanel.setBackground(Config.OPTIONS_BAR_COLOR);
         optionsBarPanel.setAlignmentY(CENTER_ALIGNMENT);
         optionsBarPanel.add(Box.createHorizontalGlue());
     
 
         // Add Trajectory Button
-        JButton addTrajectoryButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_ADD_TRAJECTORY_OPTION_ICON));
+        JButton addTrajectoryButton = new JButton(new ImageIcon(Config.PATH_TO_ADD_TRAJECTORY_OPTION_ICON));
         configureOptionButton(addTrajectoryButton);
         addTrajectoryButton.addActionListener(new ActionListener() {
             @Override
@@ -173,10 +173,10 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
             }
         });
         optionsBarPanel.add(addTrajectoryButton);
-        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
+        optionsBarPanel.add(Box.createRigidArea(Config.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
 
         // Delete Button
-        JButton deleteButton = new JButton(new ImageIcon(MainFrameConfig.PATH_TO_DELETE_OPTION_ICON));
+        JButton deleteButton = new JButton(new ImageIcon(Config.PATH_TO_DELETE_OPTION_ICON));
         configureOptionButton(deleteButton);
         deleteButton.addActionListener(new ActionListener() {
             @Override
@@ -185,7 +185,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
             }
         });
         optionsBarPanel.add(deleteButton);
-        optionsBarPanel.add(Box.createRigidArea(MainFrameConfig.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
+        optionsBarPanel.add(Box.createRigidArea(Config.OPTIONS_BAR_EMPTY_SPACE_PREFERRED_DIMENSIONS));
     
         add(optionsBarPanel, BorderLayout.SOUTH);
     }
@@ -211,7 +211,7 @@ public class SelectionPanel extends JPanel implements ActiveListener, Trajectori
     }
 
     private void configureOptionButton(JButton b){
-        b.setPreferredSize(MainFrameConfig.OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
+        b.setPreferredSize(Config.OPTIONS_BAR_OPTION_BUTTON_PREFERRED_DIMENSIONS);
         b.setContentAreaFilled(false);
         b.setBorderPainted(false);
         b.setOpaque(false);

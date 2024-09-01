@@ -4,7 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 import blitz.models.ControlPoint;
 
 public class HelperPointer extends Pointer{
@@ -12,7 +12,7 @@ public class HelperPointer extends Pointer{
     private boolean isStart;
 
     public HelperPointer(int x, int y, ControlPoint relatedCP, boolean isStart){
-        super(x, y, MainFrameConfig.HIGHLIGHTED_CONTROL_POINTER_COLOR, MainFrameConfig.HELPER_POINTER_DIAMETER, relatedCP);
+        super(x, y, Config.HIGHLIGHTED_CONTROL_POINTER_COLOR, Config.HELPER_POINTER_DIAMETER, relatedCP);
         setIsStart(isStart);
     }
 

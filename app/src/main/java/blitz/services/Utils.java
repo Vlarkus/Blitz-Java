@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 
-import blitz.configs.ServicesConfig;
+import blitz.configs.Config;
 
 public class Utils {
     
@@ -68,7 +68,7 @@ public class Utils {
 
             if (files != null) {
                 for (File file : files) {
-                    if (file.isFile() && file.getName().toLowerCase().endsWith(ServicesConfig.FIELD_IMAGE_EXTENSION)) {
+                    if (file.isFile() && file.getName().toLowerCase().endsWith(Config.FIELD_IMAGE_EXTENSION)) {
                         try{
                             FieldImage image = new FieldImage(file.getPath());
                             fieldImages.add(image);

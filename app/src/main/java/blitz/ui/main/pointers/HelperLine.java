@@ -7,7 +7,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JComponent;
 
-import blitz.configs.MainFrameConfig;
+import blitz.configs.Config;
 
 public class HelperLine extends JComponent {
 
@@ -36,8 +36,8 @@ public class HelperLine extends JComponent {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        g2.setStroke(new BasicStroke(MainFrameConfig.HELPER_LINE_THICKNESS));
-        g2.setColor(MainFrameConfig.HELPER_LINE_COLOR);
+        g2.setStroke(new BasicStroke(Config.HELPER_LINE_THICKNESS));
+        g2.setColor(Config.HELPER_LINE_COLOR);
         g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.5f));
         g2.drawLine(x1 - getX(), y1 - getY(), x2 - getX(), y2 - getY());
     }
