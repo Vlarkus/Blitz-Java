@@ -1,7 +1,6 @@
 
 IMPLEMENT:
 - Speed Menu with voltage calculations.
-- Exporting with speed variable.
 - Viewing modes: Basic, Speed.
 - Add Window to edit speed of the curve.
 - Add Tutorials to the Help Menu Option.
@@ -14,6 +13,7 @@ COOL TO HAVE:
 - Ability to change color of different trajectories.
 - Edit Time Frame has buttons with preset actions (set all max, set average, reser to last saved change, save button, etc.)
 - CTRL + Z
+- User can choose what coordinate system they want to use upon export. Examples: 0,0 in the center, 0,0 is the starting control point, 0,0 is some another place.
 
 OPTIMIZATIONS:
 - Add optimization mode, so that when you move a curve, it uses smaller coeff-s for calculating curves, but once you release them, it is recalculated with a higher precision.
