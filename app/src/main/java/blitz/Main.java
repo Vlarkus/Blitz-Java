@@ -3,6 +3,7 @@ package blitz;
 import javax.swing.SwingUtilities;
 
 import blitz.configs.Config;
+import blitz.services.Utils;
 import blitz.ui.application.MainFrame;
 
 public class Main {
@@ -16,14 +17,10 @@ public class Main {
     }
 
     private static void setupMacOS() {
-        if (isMac()) {
+        if (Utils.isMac()) {
             System.setProperty("apple.laf.useScreenMenuBar", "true");
             System.setProperty("apple.awt.application.name", "Blitz");
         }
-    }
-
-    private static boolean isMac() {
-        return System.getProperty("os.name").toLowerCase().contains("mac");
     }
 
     private static String BlitzTerminalLogo(){

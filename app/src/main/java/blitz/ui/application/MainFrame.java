@@ -345,21 +345,27 @@ public class MainFrame extends JFrame {
         fillMainPanelWithContent();
         add(mainPanel);
 
-        Image icon = null;
-        try {
-            icon = ImageIO.read(new File(Config.PATH_TO_APP_ICON));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Set the icon for the application
-        if (icon != null) {
-            Taskbar.getTaskbar().setIconImage(icon);
-            this.setIconImage(icon);
-        }
+        setAppIconOnMac();
 
         pack();
         setVisible(true);
+    }
+
+    private void setAppIconOnMac(){
+        if(Utils.isMac()){
+            Image icon = null;
+            try {
+                icon = ImageIO.read(new File(Config.PATH_TO_APP_ICON));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Set the icon for the application
+            if (icon != null) {
+                Taskbar.getTaskbar().setIconImage(icon);
+                this.setIconImage(icon);
+            }
+        }
     }
 
     private void fillMainPanelWithContent() {
