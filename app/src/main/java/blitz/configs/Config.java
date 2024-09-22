@@ -8,11 +8,12 @@ import blitz.services.HexColor;
 
 public class Config {
  
-    // MainFrame
+    // -=-=-=- MainFrame -=-=-=-
 
     public static final String FRAME_TITLE = "Blitz";
     public static final Dimension MINIMUM_FRAME_DIMENSIONS = new Dimension(1000, 720);
     public static final Dimension DEFAULT_FRAME_DIMENSIONS = MINIMUM_FRAME_DIMENSIONS;
+    public static final HexColor PANEL_BORDER_COLOR = new HexColor("#dddddd");
 
     public static final String SAVE_FILE_EXTENSION_TYPE = ".json";
     public static final String SAVE_FILE_EXTENSION_TYPE_DESCRIPTION = "BLITZ JSON";
@@ -20,27 +21,25 @@ public class Config {
 
     public static final String PATH_TO_APP_ICON = "app/src/main/java/blitz/resources/images/icons/app/Blitz App Icon.png";
     
-    public static final HexColor PANEL_BORDER_COLOR = new HexColor("#dddddd");
 
     
-    
-    // Calculations
+    // -=-=-=- Calculations -=-=-=-
 
     public static final int TABLE_DIVISION_COEFF = 100;
 
 
 
-    // MenuBar
+    // -=-=-=- MenuBar -=-=-=-
 
     public static final String PATH_TO_FIELDS_DIRECTORY = "app/src/main/java/blitz/resources/images/fields";
     
-    // Export Dialogue
+    // -=-=-=- Export Dialogue -=-=-=-
 
     public static final Dimension EXPORT_DIALOGUE_DIMENSIONS = new Dimension(300, 140);
 
 
 
-    // ToolPanel
+    // -=-=-=- ToolPanel -=-=-=-
 
     public static final Dimension TOOL_PANEL_PREFERRED_DIMENSIONS = new Dimension(75, 0);
     public static final Dimension TOOL_DIMENSIONS = new Dimension(64, 64);
@@ -67,13 +66,13 @@ public class Config {
 
 
 
-    // sidePanel
+    // -=-=-=- sidePanel -=-=-=-
 
     public static final Dimension SIDE_PANEL_PREFERRED_DIMENSIONS = new Dimension(350, 0);
 
     
 
-    // CanvasPanel
+    // -=-=-=- CanvasPanel -=-=-=-
 
     public static final Dimension CANVAS_PANEL_PREFERRED_DIMENSIONS = new Dimension(3000, 3000);
     public static final HexColor CANVAS_PANEL_BACKGROUND_COLOR = new HexColor("#666666");
@@ -104,9 +103,9 @@ public class Config {
 
     
 
-    // Pointers
+    // -=-=-=- Pointers -=-=-=-
 
-    // ControlPointer
+    // -=- ControlPointer -=-
 
     public static final HexColor UNSELECTED_CONTROL_POINTER_COLOR = new HexColor("#3441ed");
     public static final HexColor HIGHLIGHTED_CONTROL_POINTER_COLOR = new HexColor("#fcdf3a");
@@ -119,26 +118,26 @@ public class Config {
     public static final HexColor HIGHLIGHTED_FOLLOW_POINTER_COLOR = new HexColor("#fcdf3a");
     public  static final int FOLLOW_POINTER_DIAMETER = 8;
 
-    // HelperPointer
+    // -=- HelperPointer -=-
 
     public static final HexColor DEFAULT_HELPER_POINTER_COLOR = new HexColor("#f57e1d");
     public  static final int HELPER_POINTER_DIAMETER = 12;
 
-    // HelperLine
+    // -=- HelperLine -=-
 
     public static final float HELPER_LINE_THICKNESS = 2f;
     public static final HexColor HELPER_LINE_COLOR = new HexColor("f57e1d");
 
 
 
-    // CanvasInteractionPanel
+    // -=-=-=- CanvasInteractionPanel -=-=-=-
 
     public static final Dimension  MOUSE_INFO_PANEL_PREFERRED_DIMENSIONS = new Dimension(CANVAS_PANEL_PREFERRED_DIMENSIONS.width, 30);
     public static final HexColor MOUSE_INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
 
 
-    // InfoPanel
+    // -=-=-=- InfoPanel -=-=-=-
     
         public static final Dimension CP_EDIT_PANEL_PREFERRED_DIMENSIONS = new Dimension( (int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 120);
         public static final HexColor INFO_PANEL_BACKGROUND_COLOR = new HexColor("#eeeeee");
@@ -147,7 +146,7 @@ public class Config {
         public static final String STANDART_TEXT_FIELD_DOUBLE_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
         public static final String STANDART_TEXT_FIELD_INT_REGEX = "-?\\d{0,3}?";
 
-    // LinePanel
+    // -=-=-=- LinePanel -=-=-=-
 
     public static final Dimension LINE_PANEL_DIMENSITONS = new Dimension(Config.SIDE_PANEL_PREFERRED_DIMENSIONS.width, 40);
     public static final Dimension LINE_PANEL_COMBO_BOX_DIMENSITONS = new Dimension(125, 30);
@@ -156,7 +155,7 @@ public class Config {
 
 
 
-   // SelectionPanel
+   // -=-=-=- SelectionPanel -=-=-=-
 
     public static final Dimension SELECTION_PANEL_PREFERRED_DIMENSIONS = new Dimension((int) SIDE_PANEL_PREFERRED_DIMENSIONS.getWidth(), 300);
     public static final Dimension HEADER_PANEL_PREFERRED_DIMENSIONS = new Dimension((int) SELECTION_PANEL_PREFERRED_DIMENSIONS.getWidth(), 40);
@@ -202,7 +201,7 @@ public class Config {
     public static final String PATH_TO_UNLOCKED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unlocked-layer-selection-icon.png";
     public static final String PATH_TO_UNSELECTED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unselected-layer-selection-icon.png";
 
-    // Models Config
+    // -=-=-=- Models Config -=-=-=-
 
     public static final double CONTROL_POINT_DEFAULT_X = 0;
     public static final double CONTROL_POINT_DEFAULT_Y = 0;
@@ -217,7 +216,7 @@ public class Config {
     public static final double CONTROL_POINT_MIN_TIME = 0;
 
 
-    // Services Config
+    // -=-=-=- Services Config -=-=-=-
 
     public static final String FIELD_IMAGE_DIMENSIONS_SUFFIX = "_size";
     public static final String FIELD_IMAGE_DIMENSIONS_SEPARATOR = "x";

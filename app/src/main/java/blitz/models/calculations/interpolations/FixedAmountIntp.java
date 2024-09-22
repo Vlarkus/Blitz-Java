@@ -9,8 +9,37 @@ import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 import blitz.services.CartesianCoordinate;
 
-public class FixedAmountIntp extends AbstractInterpolation{
+/**
+ * Fixed amount interpolation algorithm that calculates a set number of follow points 
+ * for each segment between control points, based on the number of segments defined 
+ * for each control point.
+ * 
+ * This class extends {@link AbstractInterpolation}.
+ * 
+ * <p>This method ensures that each curve segment between control points is subdivided 
+ * into a fixed number of equally spaced follow points, regardless of arc length.</p>
+ * 
+ * @see AbstractInterpolation
+ * @see Trajectory
+ * @see ControlPoint
+ * @see FollowPoint
+ * @see AbstractSpline
+ * 
+ * <p>Each segment between control points will have the same number of follow points 
+ * determined by the number of segments defined in the first control point of the segment.</p>
+ * 
+ * @author Valery
+ */
+public class FixedAmountIntp extends AbstractInterpolation {
 
+    /**
+     * Calculates a list of follow points for the given trajectory using a fixed number 
+     * of points for each segment between control points.
+     * 
+     * @param tr the trajectory for which to calculate follow points
+     * @param splineObj the spline object used to evaluate the curve between control points
+     * @return an {@link ArrayList} of {@link FollowPoint} objects representing follow points along the trajectory
+     */
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
 
@@ -26,38 +55,42 @@ public class FixedAmountIntp extends AbstractInterpolation{
 
         boolean isLastCurve;
 
-        for (int i = 0; i < controlPoints.size()-1; i++) {
+        // Loop through control points to calculate follow points for each segment
+        for (int i = 0; i < controlPoints.size() - 1; i++) {
 
             ControlPoint p0 = controlPoints.get(i);
             ControlPoint p1 = controlPoints.get(i + 1);
-            int numSegments = p0.getNumSegments();
+            int numSegments = p0.getNumSegments(); // Number of segments to divide the curve into
 
             isLastCurve = (p1 == tr.getLast());
 
+            // Generate follow points for each segment based on the number of segments
             for (int j = 0; j < numSegments; j++) {
                 
-                double t = (double) j / numSegments;
-                CartesianCoordinate coord = splineObj.evaluate(p0, p1, t);
+                double t = (double) j / numSegments; // Parameter t along the curve
+                CartesianCoordinate coord = splineObj.evaluate(p0, p1, t); // Evaluate point on spline
                 double currentSpeed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
-                if(isLastCurve){
+                
+                // Adjust speed for the last curve
+                if (isLastCurve) {
                     double decliningSpeed = maxSpeed - (maxSpeed - minSpeed) * t;
-                    if(decliningSpeed < currentSpeed){
+                    if (decliningSpeed < currentSpeed) {
                         currentSpeed = decliningSpeed;
                     }
                 }
-                FollowPoint p = new FollowPoint(coord, currentSpeed, p0);
-                followPoints.add(p);
 
+                FollowPoint p = new FollowPoint(coord, currentSpeed, p0); // Create follow point
+                followPoints.add(p); // Add follow point to list
             }
 
         }
 
+        // Add the last control point with speed 0
         ControlPoint last = tr.getLast();
         FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
         followPoints.add(fp);
 
         return followPoints;
-
     }
-    
+
 }

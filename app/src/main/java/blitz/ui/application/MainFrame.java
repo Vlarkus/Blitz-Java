@@ -275,10 +275,13 @@ public class MainFrame extends JFrame {
 
         fillChangeFieldMenu(changeFieldMenu);
 
-        // View Options
-        JMenuItem viewSettingsMenu = new JMenuItem("View Options");
-        viewMenu.add(viewSettingsMenu);
-        viewSettingsMenu.addActionListener((ActionEvent e) -> {});
+        // Import Field
+        JMenuItem importFieldMenu = new JMenuItem("Import Field");
+        viewMenu.add(importFieldMenu);
+
+        // One-Time-Use Field
+        JMenuItem OneTimeUseFieldMenu = new JMenuItem("One-Time-Use Field");
+        viewMenu.add(OneTimeUseFieldMenu);
 
 
 

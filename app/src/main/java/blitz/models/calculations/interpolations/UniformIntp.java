@@ -11,8 +11,38 @@ import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 import blitz.services.CartesianCoordinate;
 import blitz.services.Table;
 
+/**
+ * Uniform interpolation algorithm that calculates follow points 
+ * along the trajectory based on uniform arc length spacing.
+ * 
+ * This class ensures that the points along the curve are spaced uniformly 
+ * based on arc length, regardless of curvature or segment length.
+ * 
+ * This class extends {@link AbstractInterpolation}.
+ * 
+ * @see AbstractInterpolation
+ * @see Trajectory
+ * @see ControlPoint
+ * @see FollowPoint
+ * @see AbstractSpline
+ * 
+ * <p>Each segment between control points is subdivided into a uniform number 
+ * of follow points based on arc length, ensuring consistent spacing.</p>
+ * 
+ * <p>The speed at each follow point is calculated based on curvature and distance.</p>
+ * 
+ * @author Valery
+ */
 public class UniformIntp extends AbstractInterpolation {
 
+    /**
+     * Calculates a list of follow points along the trajectory, ensuring uniform 
+     * spacing based on the arc length of each curve segment between control points.
+     * 
+     * @param tr the trajectory for which to calculate follow points
+     * @param splineObj the spline object used to evaluate the curve between control points
+     * @return an {@link ArrayList} of {@link FollowPoint} objects representing the follow points along the trajectory
+     */
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
 
@@ -27,6 +57,7 @@ public class UniformIntp extends AbstractInterpolation {
         ArrayList<ControlPoint> controlPoints = tr.getAllControlPoints();
         boolean isLastCurve;
         
+        // Loop through each segment between consecutive control points
         for (int i = 0; i < controlPoints.size() - 1; i++) {
 
             ControlPoint p0 = controlPoints.get(i);
@@ -36,6 +67,7 @@ public class UniformIntp extends AbstractInterpolation {
 
             double arcLength = splineObj.getArcLength(p0, p1, 0, 1);
             
+            // Create a lookup table for t values based on arc length
             Table table = new Table(0, arcLength, 0, 1);
             for (int j = 0; j < Config.TABLE_DIVISION_COEFF; j++) {
                 double t = (double) j / Config.TABLE_DIVISION_COEFF;
@@ -43,31 +75,34 @@ public class UniformIntp extends AbstractInterpolation {
             }
             
             double accumulatedLength = 0;
-            double spacing = arcLength / p0.getNumSegments();
+            double spacing = arcLength / p0.getNumSegments(); // Uniform spacing based on number of segments
 
-            while(accumulatedLength < arcLength){
+            // Calculate follow points along the curve
+            while (accumulatedLength < arcLength) {
                 double t = table.approximate(accumulatedLength);
                 CartesianCoordinate c = splineObj.evaluate(p0, p1, t);
                 double currentSpeed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
-                if(isLastCurve){
+                
+                // Adjust speed for the last curve
+                if (isLastCurve) {
                     double decliningSpeed = maxSpeed - (maxSpeed - minSpeed) * (accumulatedLength / arcLength);
-                    if(decliningSpeed < currentSpeed){
+                    if (decliningSpeed < currentSpeed) {
                         currentSpeed = decliningSpeed;
                     }
                 }
+                
                 FollowPoint fp = new FollowPoint(c, currentSpeed, p0);
                 followPoints.add(fp);
                 accumulatedLength += spacing;
             }
-
         }
 
+        // Add the last control point with speed 0
         ControlPoint last = tr.getLast();
         FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
         followPoints.add(fp);
 
         return followPoints;
     }
-
 
 }

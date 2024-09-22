@@ -8,11 +8,9 @@ import blitz.ui.application.MainFrame;
 public class Main {
     
     public static void main(String[] args) {
-        System.out.println(BlitzTerminalLogo());
-        setupMacOS();
-        SwingUtilities.invokeLater(() -> {
-            new MainFrame();
-        });
+        System.out.println(BlitzTerminalLogo()); // Print terminal logo
+        setupMacOS(); // Setup macOS-specific properties
+        SwingUtilities.invokeLater(() -> new MainFrame()); // Launch UI on the EDT
     }
 
     private static void setupMacOS() {
@@ -26,16 +24,7 @@ public class Main {
         return System.getProperty("os.name").toLowerCase().contains("mac");
     }
 
-    private static String BlitzTerminalLogo(){
-        String blitzLogo = new String();
-        blitzLogo += "\n";
-        blitzLogo += "\n";
-        blitzLogo += "\n";
-        blitzLogo += Config.BLITZ_TERMINAL_ICON;
-        blitzLogo += "\n";
-        blitzLogo += "\n";
-        blitzLogo += "\n";
-        return blitzLogo;
+    private static String BlitzTerminalLogo() {
+        return "\n\n\n" + Config.BLITZ_TERMINAL_ICON + "\n\n\n";
     }
-
 }

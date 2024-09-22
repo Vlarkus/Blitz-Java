@@ -4,8 +4,39 @@ import blitz.models.calculations.AbstractSpline;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.CartesianCoordinate;
 
-public class BezierSpline extends  AbstractSpline{
+/**
+ * Represents a Bezier spline that calculates the positions, arc length, 
+ * and bent rate for a trajectory segment defined by two control points.
+ * 
+ * This class extends {@link AbstractSpline}.
+ * 
+ * <p>The Bezier spline uses cubic Bezier curves to interpolate between the 
+ * control points, which includes the control points themselves and two helper 
+ * points for adjusting the curve.</p>
+ * 
+ * @see AbstractSpline
+ * @see ControlPoint
+ * @see CartesianCoordinate
+ * 
+ * <p>This implementation provides methods to evaluate points along the curve, 
+ * calculate the arc length of a segment, and calculate the bent rate (curvature) 
+ * at a given point along the curve.</p>
+ * 
+ * <p>It assumes the curve is cubic, i.e., it uses four control points for 
+ * interpolation: two actual control points and two helper points.</p>
+ * 
+ * @author Valery
+ */
+public class BezierSpline extends AbstractSpline {
 
+    /**
+     * Evaluates the Cartesian coordinates of a point on the Bezier curve at the given parameter t.
+     * 
+     * @param cpStart the starting control point
+     * @param cpEnd the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return the Cartesian coordinate of the point on the curve at parameter t
+     */
     @Override
     public CartesianCoordinate evaluate(ControlPoint cpStart, ControlPoint cpEnd, double t) {
         if (cpStart == null || cpEnd == null) {
@@ -27,6 +58,7 @@ public class BezierSpline extends  AbstractSpline{
             return null;
         }
 
+        // Calculate the x and y coordinates using cubic Bezier formula
         double x = Math.pow(1 - t, 3) * p0.getX() +
                 3 * Math.pow(1 - t, 2) * t * p1.getX() +
                 3 * (1 - t) * Math.pow(t, 2) * p2.getX() +
@@ -40,14 +72,23 @@ public class BezierSpline extends  AbstractSpline{
         return new CartesianCoordinate(x, y);
     }
 
-
+    /**
+     * Calculates the arc length of the Bezier curve between the two control points.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param tMin the start of the parameter range (0 ≤ tMin ≤ tMax ≤ 1)
+     * @param tMax the end of the parameter range (0 ≤ tMin ≤ tMax ≤ 1)
+     * @return the arc length of the curve segment between tMin and tMax
+     * @throws IllegalArgumentException if the control points are null, or if tMin or tMax are out of bounds
+     */
     @Override
     public double getArcLength(ControlPoint p0, ControlPoint p1, double tMin, double tMax) {
 
         if (p0 == null || p1 == null || tMin < 0 || tMax > 1 || tMin > tMax) {
             throw new IllegalArgumentException("Invalid input parameters");
         }
-        if(tMin == tMax){
+        if (tMin == tMax) {
             return 0;
         }
 
@@ -57,7 +98,8 @@ public class BezierSpline extends  AbstractSpline{
 
         CartesianCoordinate prevPoint = evaluate(p0, p1, tMin);
         
-        while(t < tMax) {
+        // Numerical approximation of the arc length by sampling small segments along the curve
+        while (t < tMax) {
             t += step;
             if (t > tMax) t = tMax;
 
@@ -73,7 +115,14 @@ public class BezierSpline extends  AbstractSpline{
         return arcLength;
     }
 
-
+    /**
+     * Calculates the bent rate (curvature) of the Bezier curve at the given parameter t.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return the bent rate (curvature) of the curve at parameter t
+     */
     @Override
     public double calculateBentRate(ControlPoint p0, ControlPoint p1, double t) {
 
@@ -85,11 +134,11 @@ public class BezierSpline extends  AbstractSpline{
         double xDoublePrime = secondDerivative[0];
         double yDoublePrime = secondDerivative[1];
 
+        // Curvature formula: |x' * y'' - y' * x''| / (x'^2 + y'^2)^(3/2)
         double numerator = Math.abs(xPrime * yDoublePrime - yPrime * xDoublePrime);
         double denominator = Math.pow(xPrime * xPrime + yPrime * yPrime, 1.5);
 
         return numerator / denominator;
-
     }
     
 }

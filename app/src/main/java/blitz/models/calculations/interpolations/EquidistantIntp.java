@@ -11,8 +11,26 @@ import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 import blitz.services.CartesianCoordinate;
 import blitz.services.Table;
 
+/**
+ * Equidistant interpolation algorithm that calculates a set of equidistant
+ * follow points along the trajectory. It ensures that the points are evenly
+ * spaced based on the arc length between control points while adjusting for
+ * speed changes based on curve bent rates and trajectory spacing.
+ * 
+ * This class extends {@link AbstractInterpolation}.
+ * 
+ * @author Valery
+ */
 public class EquidistantIntp extends AbstractInterpolation {
 
+    /**
+     * Calculates a list of follow points for the given trajectory based on the
+     * equidistant interpolation algorithm.
+     * 
+     * @param tr the trajectory for which to calculate follow points
+     * @param splineObj the spline object representing the curve between control points
+     * @return an {@link ArrayList} of {@link FollowPoint} objects representing the equidistant points along the trajectory
+     */
     @Override
     public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
 
@@ -30,7 +48,8 @@ public class EquidistantIntp extends AbstractInterpolation {
         double spacing = tr.getSpacing();
 
         boolean isLastCurve;
-        
+
+        // Loop through each segment between consecutive control points
         for (int i = 0; i < controlPoints.size() - 1; i++) {
 
             ControlPoint p0 = controlPoints.get(i);
@@ -48,31 +67,32 @@ public class EquidistantIntp extends AbstractInterpolation {
 
             double accumulatedLength = offset;
 
-            while(accumulatedLength < arcLength){
+            // Accumulate follow points based on the calculated arc length
+            while (accumulatedLength < arcLength) {
                 double t = table.approximate(accumulatedLength);
                 CartesianCoordinate c = splineObj.evaluate(p0, p1, t);
                 double currentSpeed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
-                if(isLastCurve){
+                
+                if (isLastCurve) {
                     double decliningSpeed = maxSpeed - (maxSpeed - minSpeed) * (accumulatedLength / arcLength);
-                    if(decliningSpeed < currentSpeed){
+                    if (decliningSpeed < currentSpeed) {
                         currentSpeed = decliningSpeed;
                     }
                 }
+                
                 FollowPoint fp = new FollowPoint(c, currentSpeed, p0);
                 followPoints.add(fp);
                 accumulatedLength += spacing;
             }
 
             offset = accumulatedLength - arcLength;
-
         }
 
+        // Add the final follow point at the last control point with a speed of 0
         ControlPoint last = tr.getLast();
         FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
         followPoints.add(fp);
 
         return followPoints;
     }
-
-
 }

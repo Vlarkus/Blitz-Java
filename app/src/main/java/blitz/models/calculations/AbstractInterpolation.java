@@ -6,19 +6,60 @@ import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 
+/**
+ * Abstract base class for interpolation algorithms that generate follow points along a trajectory.
+ * 
+ * This class provides the framework for specific interpolation implementations by defining the 
+ * abstract {@link #calculate(Trajectory, AbstractSpline)} method and a helper method for calculating 
+ * the speed at a given parameter t based on the curvature (bent rate) of the spline.
+ * 
+ * Subclasses should implement the {@link #calculate(Trajectory, AbstractSpline)} method to generate 
+ * follow points based on the specific interpolation strategy.
+ * 
+ * @see AbstractSpline
+ * @see Trajectory
+ * @see ControlPoint
+ * @see FollowPoint
+ * 
+ * @author Valery
+ */
 public abstract class AbstractInterpolation {
 
-        protected AbstractSpline splineObj;
+    /**
+     * The spline object used for interpolation, providing methods to evaluate the curve and 
+     * calculate bent rate (curvature).
+     */
+    protected AbstractSpline splineObj;
 
-        public abstract ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj);
+    /**
+     * Calculates the list of follow points for a given trajectory using the specified spline object.
+     * 
+     * @param tr the trajectory for which to calculate follow points
+     * @param splineObj the spline object representing the curve between control points
+     * @return an {@link ArrayList} of {@link FollowPoint} objects representing the calculated follow points
+     */
+    public abstract ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj);
 
-        protected double calculateSpeedAtT(double minSpeed, double maxSpeed, double minBentRate, double maxBentRate, ControlPoint p0, ControlPoint p1, double t) {
-    
-                double bentRate = splineObj.calculateBentRate(p0, p1, t);
-                bentRate = Math.max(minBentRate, Math.min(bentRate, maxBentRate));
-                double speed = maxSpeed - (bentRate - minBentRate) * (maxSpeed - minSpeed) / (maxBentRate - minBentRate);
-                return Math.max(minSpeed, speed);
+    /**
+     * Calculates the speed at a given parameter t based on the curvature (bent rate) of the spline 
+     * and the minimum and maximum speed constraints.
+     * 
+     * @param minSpeed the minimum allowable speed
+     * @param maxSpeed the maximum allowable speed
+     * @param minBentRate the minimum bent rate (curvature)
+     * @param maxBentRate the maximum bent rate (curvature)
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return the calculated speed at parameter t, constrained between minSpeed and maxSpeed
+     */
+    protected double calculateSpeedAtT(double minSpeed, double maxSpeed, double minBentRate, double maxBentRate, ControlPoint p0, ControlPoint p1, double t) {
 
-        }
+        double bentRate = splineObj.calculateBentRate(p0, p1, t);
+        bentRate = Math.max(minBentRate, Math.min(bentRate, maxBentRate));
+        double speed = maxSpeed - (bentRate - minBentRate) * (maxSpeed - minSpeed) / (maxBentRate - minBentRate);
+        return Math.max(minSpeed, speed);
+
+    }
     
 }

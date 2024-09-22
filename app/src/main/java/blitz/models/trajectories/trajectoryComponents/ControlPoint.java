@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import blitz.configs.Config;
-import blitz.models.trajectories.trajectoryComponents.ControlPoint.SYMMETRY;
 import blitz.services.CartesianCoordinate;
 import blitz.services.PolarCoordinate;
 import blitz.services.Utils;

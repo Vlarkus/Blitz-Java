@@ -3,14 +3,63 @@ package blitz.models.calculations;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.CartesianCoordinate;
 
+/**
+ * Abstract base class for spline calculations, providing methods for evaluating points 
+ * on a curve, calculating arc length, and determining the bent rate (curvature).
+ * 
+ * This class also includes helper methods for calculating the first and second 
+ * derivatives of the spline at a given point.
+ * 
+ * Subclasses should implement the {@link #evaluate(ControlPoint, ControlPoint, double)}, 
+ * {@link #getArcLength(ControlPoint, ControlPoint, double, double)}, and 
+ * {@link #calculateBentRate(ControlPoint, ControlPoint, double)} methods.
+ * 
+ * @see ControlPoint
+ * @see CartesianCoordinate
+ * 
+ * @author Valery
+ */
 public abstract class AbstractSpline {
     
+    /**
+     * Evaluates the Cartesian coordinates of a point on the spline between two control points at the given parameter t.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return the Cartesian coordinate of the point on the curve at parameter t
+     */
     public abstract CartesianCoordinate evaluate(ControlPoint p0, ControlPoint p1, double t);
-    
+
+    /**
+     * Calculates the arc length of the spline between two control points over a specified range of t.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param tMin the minimum parameter (0 ≤ tMin ≤ tMax ≤ 1)
+     * @param tMax the maximum parameter (0 ≤ tMin ≤ tMax ≤ 1)
+     * @return the arc length of the curve segment between tMin and tMax
+     */
     public abstract double getArcLength(ControlPoint p0, ControlPoint p1, double tMin, double tMax);
-    
+
+    /**
+     * Calculates the bent rate (curvature) of the spline at the given parameter t.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return the bent rate (curvature) of the spline at parameter t
+     */
     public abstract double calculateBentRate(ControlPoint p0, ControlPoint p1, double t);
 
+    /**
+     * Calculates the first derivative of the spline at a given parameter t using a small delta for numerical differentiation.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return an array containing the first derivative in x and y coordinates
+     */
     protected double[] firstDerivative(ControlPoint p0, ControlPoint p1, double t) {
         double delta = 1e-5;
     
@@ -27,6 +76,14 @@ public abstract class AbstractSpline {
         return new double[]{dx, dy};
     }
 
+    /**
+     * Calculates the second derivative of the spline at a given parameter t using a small delta for numerical differentiation.
+     * 
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return an array containing the second derivative in x and y coordinates
+     */
     protected double[] secondDerivative(ControlPoint p0, ControlPoint p1, double t) {
         double delta = 1e-5;
     
@@ -43,6 +100,4 @@ public abstract class AbstractSpline {
     
         return new double[]{d2x, d2y};
     }
-    
-
 }

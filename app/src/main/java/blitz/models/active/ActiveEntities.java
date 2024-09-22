@@ -7,7 +7,7 @@ import blitz.models.trajectories.trajectoriesList.TrajectoriesList;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 
 /**
- * Represents the active trajectory and control point with listener support for changes.
+ * Manages the active trajectory and control point with listener support.
  * 
  * @author Valery
  */
@@ -18,37 +18,39 @@ public class ActiveEntities {
     private static ArrayList<ActiveEntitiesListener> listeners = new ArrayList<>();
 
     /**
-     * Returns the active trajectory.
+     * Gets the currently active trajectory.
      * 
-     * @return the active trajectory
+     * @return the active trajectory, or {@code null} if none is set
      */
     public static Trajectory getActiveTrajectory() {
         return activeTrajectory;
     }
 
     /**
-     * Returns the active control point.
+     * Gets the currently active control point.
      * 
-     * @return the active control point
+     * @return the active control point, or {@code null} if none is set
      */
     public static ControlPoint getActiveControlPoint() {
         return activeControlPoint;
     }
 
     /**
-     * Sets the active trajectory.
+     * Sets the active trajectory and notifies listeners about the change.
+     * If the given trajectory is {@code null}, both the active trajectory 
+     * and control point are cleared.
      * 
-     * @param activeTrajectory the trajectory to set as active
+     * @param activeTrajectory the trajectory to set as active, or {@code null} to clear
      */
     public static void setActiveTrajectory(Trajectory activeTrajectory) {
-        if(activeTrajectory == null){
+        if (activeTrajectory == null) {
             ActiveEntities.activeTrajectory = null;
             ActiveEntities.activeControlPoint = null;
             notifyActiveTrajectoryChanged();
             notifyActiveControlPointChanged();
             return;
         }
-        if(activeTrajectory.isLocked() || !activeTrajectory.isVisible()) { return; }
+        if (activeTrajectory.isLocked() || !activeTrajectory.isVisible()) { return; }
         ActiveEntities.activeTrajectory = activeTrajectory;
         ActiveEntities.activeControlPoint = null;
         notifyActiveTrajectoryChanged();
@@ -57,35 +59,30 @@ public class ActiveEntities {
 
     /**
      * Sets the active control point and updates the active trajectory accordingly.
+     * If the given control point is {@code null}, the active control point is cleared.
      * 
-     * @param activeControlPoint the control point to set as active
-     * @throws IllegalArgumentException if the corresponding trajectory is not found
+     * @param activeControlPoint the control point to set as active, or {@code null} to clear
      */
     public static void setActiveControlPoint(ControlPoint activeControlPoint) {
-        
-        if(activeControlPoint == null) {
+        if (activeControlPoint == null) {
             ActiveEntities.activeControlPoint = null;
             notifyActiveControlPointChanged();
             return;
         }
+        if (activeControlPoint.isLocked()) { return; }
 
-        if(activeControlPoint.isLocked()) { return; }
-        
         Trajectory newTrajectory = TrajectoriesList.getTrajectoryByControlPoint(activeControlPoint);
-
-        if(newTrajectory == null) { return; }
-
-        if(newTrajectory.isLocked() || !newTrajectory.isVisible()) { return; }
+        if (newTrajectory == null || newTrajectory.isLocked() || !newTrajectory.isVisible()) { return; }
 
         ActiveEntities.activeControlPoint = activeControlPoint;
         ActiveEntities.activeTrajectory = newTrajectory;
         notifyActiveControlPointChanged();
         notifyActiveTrajectoryChanged();
-
     }
 
     /**
-     * Adds a listener to the list of active listeners.
+     * Adds a listener to the list of listeners that will be notified of 
+     * changes to active entities.
      * 
      * @param listener the listener to add
      */
@@ -94,7 +91,8 @@ public class ActiveEntities {
     }
 
     /**
-     * Removes a listener from the list of active listeners.
+     * Removes a listener from the list of listeners that are notified of
+     * changes to active entities.
      * 
      * @param listener the listener to remove
      */
@@ -102,25 +100,37 @@ public class ActiveEntities {
         listeners.remove(listener);
     }
 
+    /**
+     * Notifies all listeners that the active trajectory has changed.
+     */
     private static void notifyActiveTrajectoryChanged() {
         for (ActiveEntitiesListener listener : listeners) {
             listener.activeTrajectoryChanged(activeTrajectory);
         }
     }
 
+    /**
+     * Notifies all listeners that the active control point has changed.
+     */
     private static void notifyActiveControlPointChanged() {
         for (ActiveEntitiesListener listener : listeners) {
             listener.activeControlPointChanged(activeControlPoint);
         }
     }
 
-    public static void notifyActiveControlPointStateEdited(){
+    /**
+     * Notifies all listeners that the state of the active control point has been edited.
+     */
+    public static void notifyActiveControlPointStateEdited() {
         for (ActiveEntitiesListener listener : listeners) {
             listener.activeControlPointStateEdited(activeControlPoint);
         }
     }
 
-    public static void notifyActiveTrajectoryStateEdited(){
+    /**
+     * Notifies all listeners that the state of the active trajectory has been edited.
+     */
+    public static void notifyActiveTrajectoryStateEdited() {
         for (ActiveEntitiesListener listener : listeners) {
             listener.activeTrajectoryStateEdited(activeTrajectory);
         }
