@@ -141,4 +141,8 @@ public class Utils {
         return theta;
     }
 
+    public static boolean isMac() {
+        return System.getProperty("os.name").toLowerCase().contains("mac");
+    }
+
 }

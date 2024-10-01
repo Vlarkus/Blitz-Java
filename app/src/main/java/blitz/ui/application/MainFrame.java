@@ -429,20 +429,7 @@ public class MainFrame extends JFrame {
         mainPanel.setLayout(new BorderLayout());
         fillMainPanelWithContent();
         add(mainPanel);
-
-        // Setting the application icon
-        Image icon = null;
-        try {
-            icon = ImageIO.read(new File(Config.PATH_TO_APP_ICON));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Set the icon for the application
-        if (icon != null) {
-            Taskbar.getTaskbar().setIconImage(icon);
-            this.setIconImage(icon);
-        }
+        setAppIconOnMac();
 
         pack();
         setVisible(true);
@@ -455,6 +442,23 @@ public class MainFrame extends JFrame {
      * It sets up the tool panel on the west, the canvas in the center with interaction capabilities,
      * and the side panel on the east containing information and selection panels.
      */
+    private void setAppIconOnMac(){
+        if(Utils.isMac()){
+            Image icon = null;
+            try {
+                icon = ImageIO.read(new File(Config.PATH_TO_APP_ICON));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // Set the icon for the application
+            if (icon != null) {
+                Taskbar.getTaskbar().setIconImage(icon);
+                this.setIconImage(icon);
+            }
+        }
+    }
+
     private void fillMainPanelWithContent() {
         // Initialize and add the Tool Panel to the west
         toolPanel = new ToolPanel();
