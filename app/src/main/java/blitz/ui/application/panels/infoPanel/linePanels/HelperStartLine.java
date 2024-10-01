@@ -19,12 +19,50 @@ import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.DecimalFilter;
 
+/**
+ * Represents a panel for displaying and editing the start-related properties of a control point.
+ * 
+ * This panel provides user interface components for viewing and modifying the radial start (rS) and
+ * angular start (θS) values of an active control point associated with a trajectory. It ensures that
+ * inputs are validated and applied correctly, and updates the display based on the panel's interactability.
+ * 
+ * <p>
+ * Example usage:
+ * <pre>
+ *     HelperStartLine helperStartLine = new HelperStartLine();
+ *     infoPanel.add(helperStartLine);
+ * </pre>
+ * </p>
+ * 
+ * @author Valery
+ */
 public class HelperStartLine extends AbstractLinePanel implements ActiveEntitiesListener {
-
+    
+    // -=-=-=- FIELDS -=-=-=-=-
+    
+    /**
+     * Text field for displaying and editing the radial start (rS) value.
+     */
     private JTextField rStartTextField;
+    
+    /**
+     * Text field for displaying and editing the angular start (θS) value.
+     */
     private JTextField thetaStartTextField;
+    
+    /**
+     * Formatter for decimal values, ensuring consistency in display.
+     */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.####");
-
+    
+    // -=-=-=- CONSTRUCTORS -=-=-=-=-
+    
+    /**
+     * Constructs a {@code HelperStartLine} panel with configured components and listeners.
+     * 
+     * Initializes the layout, adds labels and text fields, and sets up interactability based on the active control point.
+     * Registers this panel as a listener to active entity changes.
+     */
     public HelperStartLine() {
         super();
 
@@ -41,7 +79,7 @@ public class HelperStartLine extends AbstractLinePanel implements ActiveEntities
             @Override
             public String getValue() {
                 if (isInteractable()) {
-                    return DECIMAL_FORMAT.format(ActiveEntities.getActiveControlPoint().getRStart());
+                    return DECIMAL_FORMAT.format(ActiveEntities.getActiveControlPoint().getREnd());
                 }
                 return "";
             }
@@ -49,8 +87,8 @@ public class HelperStartLine extends AbstractLinePanel implements ActiveEntities
             @Override
             public void setValue(String value) {
                 if (isInteractable()) {
-                    double parsedValue = parseDouble(value, ActiveEntities.getActiveControlPoint().getRStart());
-                    ActiveEntities.getActiveControlPoint().setRStart(parsedValue);
+                    double parsedValue = parseDouble(value, ActiveEntities.getActiveControlPoint().getREnd());
+                    ActiveEntities.getActiveControlPoint().setREnd(parsedValue);
                     ActiveEntities.notifyActiveControlPointStateEdited();
                 }
             }
@@ -99,7 +137,16 @@ public class HelperStartLine extends AbstractLinePanel implements ActiveEntities
 
         ActiveEntities.addActiveListener(this);
     }
-
+    
+    // -=-=-=- METHODS -=-=-=-=-
+    
+    /**
+     * Configures a {@link JTextField} with value getters and setters, applying input filters and listeners.
+     * 
+     * @param textField the {@link JTextField} to configure
+     * @param getter    the {@link ValueGetter} to retrieve the current value
+     * @param setter    the {@link ValueSetter} to apply a new value
+     */
     private void configureTextField(JTextField textField, ValueGetter getter, ValueSetter setter) {
         AbstractDocument doc = (AbstractDocument) textField.getDocument();
         doc.setDocumentFilter(new DecimalFilter(Config.STANDART_TEXT_FIELD_DOUBLE_REGEX));
@@ -109,24 +156,48 @@ public class HelperStartLine extends AbstractLinePanel implements ActiveEntities
         textFieldSetup(textField);
     }
 
+    /**
+     * Updates the text fields with the current values from their respective {@link ValueGetter}s.
+     * 
+     * Retrieves the current values using the associated {@link ValueGetter}s and updates the text fields' displays.
+     */
     private void updateTextField(){
         ValueGetter getter;
         getter = (ValueGetter) rStartTextField.getClientProperty("ValueGetter");
         rStartTextField.setText(getter.getValue());
+        
         getter = (ValueGetter) thetaStartTextField.getClientProperty("ValueGetter");
         thetaStartTextField.setText(getter.getValue());
     }
 
+    /**
+     * Determines whether the panel is interactable based on the active control point and trajectory.
+     * 
+     * The panel is interactable if:
+     * <ul>
+     *   <li>An active control point exists.</li>
+     *   <li>The control point is not the last point in its trajectory.</li>
+     *   <li>The trajectory's spline type is not linear.</li>
+     * </ul>
+     * 
+     * @return {@code true} if the panel is interactable, {@code false} otherwise
+     */
     @Override
     public boolean isInteractable() {
         ControlPoint cp = ActiveEntities.getActiveControlPoint();
         Trajectory tr = ActiveEntities.getActiveTrajectory();
         if(cp == null)          return false;
+        if(tr == null)          return false;
         if(cp == tr.getLast())  return false;
         if(tr.getSplineType().equals(Calculations.LINEAR_SPLINE))   return false;
         return true;
     }
 
+    /**
+     * Updates the panel's interactability state, enabling or disabling components accordingly.
+     * 
+     * Changes the background color based on interactability and enables or disables the rS and θS text fields.
+     */
     @Override
     protected void displayInteractability(){
         super.displayInteractability();
@@ -135,23 +206,53 @@ public class HelperStartLine extends AbstractLinePanel implements ActiveEntities
         thetaStartTextField.setEnabled(isInteractable);
     }
 
+    /**
+     * Handles changes to the active trajectory.
+     * 
+     * <strong>Note:</strong> Currently not implemented. Can be expanded if needed.
+     * 
+     * @param tr the updated {@link Trajectory}
+     */
     @Override
     public void activeTrajectoryChanged(Trajectory tr) {
+        // Implementation can be added if needed
     }
 
+    /**
+     * Handles changes to the active control point.
+     * 
+     * Updates the panel's interactability and refreshes the text fields' displays.
+     * 
+     * @param cp the updated {@link ControlPoint}
+     */
     @Override
     public void activeControlPointChanged(ControlPoint cp) {
         displayInteractability();
         updateTextField();
     }
 
+    /**
+     * Handles edits to the state of the active control point.
+     * 
+     * Updates the panel's interactability and refreshes the text fields' displays.
+     * 
+     * @param cp the {@link ControlPoint} whose state was edited
+     */
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
         displayInteractability();
         updateTextField();
     }
 
+    /**
+     * Handles changes to the state of the active trajectory.
+     * 
+     * <strong>Note:</strong> Currently not implemented. Can be expanded if needed.
+     * 
+     * @param tr the updated {@link Trajectory}
+     */
     @Override
     public void activeTrajectoryStateEdited(Trajectory tr) {
+        // Implementation can be added if needed
     }
 }

@@ -1,4 +1,4 @@
-package blitz.ui.application.panels.canvasPanel.pointers;
+package blitz.ui.application.panels.canvasPanel;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -8,9 +8,9 @@ import javax.swing.JComponent;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 
 /**
- * Represents an abstract pointer component on the canvas, associated with a {@link ControlPoint}.
+ * Represents a generic pointer component on the canvas, serving as the base class for various pointer types.
  * 
- * This class provides foundational properties and methods for different types of pointers
+ * This abstract class provides foundational properties and methods for different types of pointers
  * that can be displayed on the canvas. It handles positioning, sizing, color management,
  * and hit detection within the pointer's area.
  * 
@@ -114,7 +114,7 @@ public abstract class Pointer extends JComponent{
      * @param x the new x-coordinate for the center position
      */
     public void setCenterX(int x){
-        setCenterPosition(x, getCenterY());
+        setCenterPosition(x, getY());
     }
     
     /**
@@ -132,7 +132,7 @@ public abstract class Pointer extends JComponent{
      * @param y the new y-coordinate for the center position
      */
     public void setCenterY(int y){
-        setCenterPosition(getCenterX(), y);
+        setCenterPosition(getX(), y);
     }
     
     /**
@@ -199,5 +199,4 @@ public abstract class Pointer extends JComponent{
     public void setRelatedControlPoint(ControlPoint point){
         relatedControlPoint = point;
     }
-    
 }

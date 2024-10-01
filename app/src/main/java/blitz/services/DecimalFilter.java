@@ -4,15 +4,41 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DocumentFilter;
 
+/**
+ * A custom document filter that validates input based on a regular expression.
+ * Primarily used for restricting input to decimal formats.
+ * 
+ * @author Valery
+ */
 public class DecimalFilter extends DocumentFilter {
+
+    // -=-=-=- FIELDS -=-=-=-
 
     private String regex;
 
-    public DecimalFilter(String r){
+    // -=-=-=- CONSTRUCTORS -=-=-=-
+
+    /**
+     * Initializes the DecimalFilter with a given regular expression.
+     * 
+     * @param r the regular expression to validate input against
+     */
+    public DecimalFilter(String r) {
         super();
         regex = r;
     }
 
+    // -=-=-=- METHODS -=-=-=-
+
+    /**
+     * Called when text is inserted into the document. Validates the new text based on the regex.
+     * 
+     * @param fb    the FilterBypass to use for insert
+     * @param offset the offset into the document to insert the content
+     * @param text  the string to insert
+     * @param attr  the attributes of the inserted content
+     * @throws BadLocationException if the insertion is not valid
+     */
     @Override
     public void insertString(FilterBypass fb, int offset, String text, AttributeSet attr) throws BadLocationException {
         StringBuilder sb = new StringBuilder();
@@ -24,6 +50,16 @@ public class DecimalFilter extends DocumentFilter {
         }
     }
 
+    /**
+     * Called when text in the document is replaced. Validates the new text based on the regex.
+     * 
+     * @param fb      the FilterBypass to use for replacement
+     * @param offset  the offset into the document to start replacing
+     * @param length  the number of characters to replace
+     * @param text    the string to replace the content with
+     * @param attrs   the attributes of the inserted content
+     * @throws BadLocationException if the replacement is not valid
+     */
     @Override
     public void replace(FilterBypass fb, int offset, int length, String text, AttributeSet attrs) throws BadLocationException {
         StringBuilder sb = new StringBuilder();
@@ -35,6 +71,12 @@ public class DecimalFilter extends DocumentFilter {
         }
     }
 
+    /**
+     * Checks if the given text matches the regular expression.
+     * 
+     * @param text the text to validate
+     * @return true if the text is valid according to the regex, false otherwise
+     */
     private boolean isValid(String text) {
         return text.isEmpty() || text.matches(regex);
     }

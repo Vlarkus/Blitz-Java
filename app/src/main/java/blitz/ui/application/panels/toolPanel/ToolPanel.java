@@ -26,14 +26,69 @@ import blitz.ui.application.panels.toolPanel.tools.Tool;
 import blitz.ui.application.panels.toolPanel.tools.Tool.Tools;
 import blitz.ui.application.panels.toolPanel.tools.ToolListener;
 
+/**
+ * Represents the tool panel that contains various tools for user interaction.
+ * 
+ * This panel organizes different tools such as Move, Add, Insert, Remove, Cut, Pan, etc.,
+ * allowing users to perform actions within the application. It manages the selection
+ * of tools and handles tool-related events through the {@link ToolListener} interface.
+ * 
+ * <p>
+ * Example usage:
+ * <pre>
+ *     ToolPanel toolPanel = new ToolPanel();
+ *     mainContainer.add(toolPanel);
+ * </pre>
+ * </p>
+ * 
+ * @autor Valery
+ */
 public class ToolPanel extends JPanel implements ToolListener{
 
-    private JPanel toolsPanel, optionsPanel, extrasPanel;
+    // -=-=-=- FIELDS -=-=-=-=-
+    
+    /**
+     * Panel that holds the primary tools.
+     */
+    private JPanel toolsPanel;
+    
+    /**
+     * Panel that holds option-related tools or settings.
+     */
+    private JPanel optionsPanel;
+    
+    /**
+     * Panel that holds additional tools or extras.
+     */
+    private JPanel extrasPanel;
+    
+    /**
+     * Group to ensure only one tool is selected at a time.
+     */
     private ButtonGroup toolGroup;
+    
+    /**
+     * Constraints used for layout management within the tool panels.
+     */
     private GridBagConstraints gbc;
+    
+    /**
+     * List of all tools added to the tool panel.
+     */
     private ArrayList<Tool> toolList;
+    
+    /**
+     * Index to track the vertical position of tools in the layout.
+     */
     private int toolYIndex;
 
+    // -=-=-=- CONSTRUCTORS -=-=-=-=-
+    
+    /**
+     * Constructs a {@code ToolPanel} with initialized panels and tools.
+     * 
+     * Sets up the layout, initializes the tools, and registers the tool listener.
+     */
     public ToolPanel() {
 
         setBackground(Config.TOOL_PANEL_BACKGROUND_COLOR);
@@ -41,7 +96,7 @@ public class ToolPanel extends JPanel implements ToolListener{
 
         setLayout(new GridBagLayout());
 
-        // Add these GridBagConstraints for the toolsPanel panel
+        // Initialize and configure the toolsPanel
         toolsPanel = new JPanel();
         toolsPanel.setLayout(new GridBagLayout());
         toolsPanel.setBackground(Config.TOOL_PANEL_TOOLS_BACKGROUND_COLOR);
@@ -53,8 +108,7 @@ public class ToolPanel extends JPanel implements ToolListener{
         gbcTools.fill = GridBagConstraints.HORIZONTAL;
         add(toolsPanel, gbcTools);
 
-
-
+        // Initialize and configure the optionsPanel
         optionsPanel = new JPanel();
         optionsPanel.setBackground(Config.TOOL_PANEL_OPTIONS_BACKGROUND_COLOR);
         optionsPanel.setLayout(new GridBagLayout());
@@ -66,7 +120,7 @@ public class ToolPanel extends JPanel implements ToolListener{
         gbcOptions.fill = GridBagConstraints.HORIZONTAL;
         add(optionsPanel, gbcOptions);
         
-        // Add these GridBagConstraints for the extrasPanel panel
+        // Initialize and configure the extrasPanel
         extrasPanel = new JPanel();
         extrasPanel.setBackground(Config.TOOL_PANEL_EXTRA_BACKGROUND_COLOR);
         extrasPanel.setLayout(new GridBagLayout());
@@ -79,14 +133,17 @@ public class ToolPanel extends JPanel implements ToolListener{
         add(extrasPanel, gbcExtra);
         // toolsPanel.setPreferredSize(MainFrameConfig.TOOL_DIMENSIONS);
 
+        // Initialize GridBagConstraints for tool placement
         gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.anchor = GridBagConstraints.NORTHWEST;
         toolYIndex = 0;
 
+        // Initialize the ButtonGroup and tool list
         toolGroup = new ButtonGroup();
         toolList = new ArrayList<>();
 
+        // Add tools to the tool panel
         addTool(new MoveTool());
         addTool(new AddTool());
         addTool(new InsertTool());
@@ -94,10 +151,18 @@ public class ToolPanel extends JPanel implements ToolListener{
         addTool(new CutTool());
         addTool(new PanTool());
 
+        // Register this panel as a listener for tool events
         Tool.addToolListener(this);
 
     }
 
+    // -=-=-=- METHODS -=-=-=-=-
+    
+    /**
+     * Adds a tool to the tools panel and registers it within the tool group.
+     * 
+     * @param tool the {@link Tool} to add
+     */
     private void addTool(Tool tool) {
         gbc.gridx = 0;
         gbc.gridy = toolYIndex++;
@@ -107,6 +172,15 @@ public class ToolPanel extends JPanel implements ToolListener{
         toolList.add(tool);
     }
 
+    /**
+     * Handles changes to the selected tool.
+     * 
+     * This method is invoked when the selected tool changes. It performs actions based
+     * on the new selected tool, such as rendering all elements if the {@code RENDER_ALL}
+     * tool is selected.
+     * 
+     * @param newSelectedTool the newly selected {@link Tools} enum value
+     */
     @Override
     public void selectedToolChanged(Tools newSelectedTool) {
         switch (newSelectedTool) {
@@ -124,6 +198,12 @@ public class ToolPanel extends JPanel implements ToolListener{
 
     }
 
+    /**
+     * Retrieves a tool based on its type.
+     * 
+     * @param t the {@link Tools} enum value representing the tool type
+     * @return the corresponding {@link Tool} if found, {@code null} otherwise
+     */
     private Tool getTool(Tools t){
         for (Tool tool : toolList) {
             if(tool.getTool() == t){
@@ -133,11 +213,21 @@ public class ToolPanel extends JPanel implements ToolListener{
         return null;
     }
 
+    /**
+     * Sets the specified tool as active.
+     * 
+     * Clears the current selection and selects the tool corresponding to the provided type.
+     * 
+     * @param t the {@link Tools} enum value representing the tool to activate
+     */
     public void setActiveTool(Tools t){
         toolGroup.clearSelection();
-        getTool(t).setSelected(true);
+        Tool tool = getTool(t);
+        if(tool != null){
+            tool.setSelected(true);
+        }
     }
 
-    
+    // Additional methods and logic can be added here as needed
 
 }

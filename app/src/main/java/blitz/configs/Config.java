@@ -33,6 +33,8 @@ public class Config {
 
     public static final String PATH_TO_FIELDS_DIRECTORY = "app/src/main/java/blitz/resources/images/fields";
     
+
+
     // -=-=-=- Export Dialogue -=-=-=-
 
     public static final Dimension EXPORT_DIALOGUE_DIMENSIONS = new Dimension(300, 140);
@@ -146,6 +148,8 @@ public class Config {
         public static final String STANDART_TEXT_FIELD_DOUBLE_REGEX = "-?\\d{0,3}(\\.\\d{0,4})?";
         public static final String STANDART_TEXT_FIELD_INT_REGEX = "-?\\d{0,3}?";
 
+
+
     // -=-=-=- LinePanel -=-=-=-
 
     public static final Dimension LINE_PANEL_DIMENSITONS = new Dimension(Config.SIDE_PANEL_PREFERRED_DIMENSIONS.width, 40);
@@ -201,6 +205,8 @@ public class Config {
     public static final String PATH_TO_UNLOCKED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unlocked-layer-selection-icon.png";
     public static final String PATH_TO_UNSELECTED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unselected-layer-selection-icon.png";
 
+
+
     // -=-=-=- Models Config -=-=-=-
 
     public static final double CONTROL_POINT_DEFAULT_X = 0;
@@ -215,6 +221,7 @@ public class Config {
     public static final double CONTROL_POINT_MAX_NUM_SEGMENTS = 200;
     public static final double CONTROL_POINT_MIN_TIME = 0;
 
+    
 
     // -=-=-=- Services Config -=-=-=-
 

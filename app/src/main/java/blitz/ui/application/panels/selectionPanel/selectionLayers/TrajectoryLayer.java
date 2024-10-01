@@ -27,30 +27,121 @@ import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.visibleTrajectories.VisibleTrajectories;
 import blitz.services.Utils;
 
+/**
+ * Represents a layer for displaying and managing a trajectory within the selection panel.
+ * 
+ * This panel provides user interface components for interacting with a {@link Trajectory},
+ * including buttons to activate, lock, move, and collapse the trajectory, labels to display
+ * its index and name, and a text field for editing the trajectory's name. It also manages
+ * a list of {@link ControlPointLayer} instances associated with the trajectory, allowing
+ * users to interact with individual control points.
+ * 
+ * <p>
+ * Example usage:
+ * <pre>
+ *     Trajectory tr = new Trajectory(...);
+ *     TrajectoryLayer trLayer = new TrajectoryLayer(tr);
+ *     selectionPanel.add(trLayer);
+ * </pre>
+ * </p>
+ * 
+ * @author Valery
+ */
 public class TrajectoryLayer extends JPanel {
 
+    // -=-=-=- FIELDS -=-=-=-=-
+    
+    /**
+     * The trajectory associated with this layer.
+     */
     private Trajectory relatedTrajectory;
 
+    /**
+     * Panel that stores and displays the control point layers.
+     */
     private JPanel controlPointsPanel; // Stores ControlPointLayers
+    
+    /**
+     * List of {@link ControlPointLayer} instances associated with this trajectory.
+     */
     private ArrayList<ControlPointLayer> controlPointLayers;
 
+    /**
+     * Panel containing the trajectory's interactive elements (buttons and labels).
+     */
     private JPanel trajectoryPanelElements;
+    
+    /**
+     * Button to set/show the trajectory as active.
+     */
     private JButton activeButton; // Set/show active trajectory
+    
+    /**
+     * Button to toggle the trajectory's visibility on or off.
+     */
     private JButton visibilityButton; // Set visible on/off
+    
+    /**
+     * Button to lock or unlock all control points within the trajectory.
+     */
     private JButton lockButton; // Lock all ControlPoints
+    
+    /**
+     * Button to move the trajectory up in the list.
+     */
     private JButton moveUpButton; // Bring trajectory up
+    
+    /**
+     * Button to move the trajectory down in the list.
+     */
     private JButton moveDownButton; // Bring trajectory down
+    
+    /**
+     * Button to collapse or expand the display of all control points.
+     */
     private JButton collapseButton; // Hide/show all ControlPoints
+    
+    /**
+     * Label to display the trajectory's index in the trajectories list.
+     */
     private JLabel indexLabel; // Display trajectory's index in the trajectoriesList
+    
+    /**
+     * Label to display the trajectory's name.
+     */
     private JLabel nameLabel; // Display name
+    
+    /**
+     * Text field to edit the trajectory's name.
+     */
     private JTextField nameTextField; // Edit name
+    
+    /**
+     * Constraints used for layout management of the trajectory panel elements.
+     */
     private GridBagConstraints trLayerGBC;
 
+    /**
+     * Flag indicating whether the control points are collapsed (hidden) or expanded (visible).
+     */
     private boolean isCollapsed;
 
 
+    /**
+     * Default insets for component spacing.
+     */
     private final int INSETS_DEFAULT = 4;
 
+    // -=-=-=- CONSTRUCTORS -=-=-=-=-
+    
+    /**
+     * Constructs a {@code TrajectoryLayer} panel for the specified trajectory.
+     * 
+     * Initializes the panel's layout, background color, and size. It sets up the trajectory's
+     * interactive elements and initializes the control points panel.
+     * 
+     * @param tr the {@link Trajectory} to associate with this layer
+     */
     public TrajectoryLayer(Trajectory tr) {
         setLayout(new BorderLayout());
     
@@ -64,6 +155,15 @@ public class TrajectoryLayer extends JPanel {
     }
     
 
+    // -=-=-=- METHODS -=-=-=-=-
+    
+    /**
+     * Constructs and adds the trajectory panel elements (buttons and labels) to the panel.
+     * 
+     * This method sets up the active button, index label, name label and text field,
+     * visibility button, lock button, move up and move down buttons, and collapse button.
+     * It also configures their behaviors and appearances.
+     */
     private void constructTrajectoryPanelElements() {
         trajectoryPanelElements = new JPanel(new GridBagLayout());
         trajectoryPanelElements.setPreferredSize(Config.TRAJECTORY_LAYER_PREFERRED_DIMENSION);
@@ -238,10 +338,21 @@ public class TrajectoryLayer extends JPanel {
     
     }
 
+    /**
+     * Returns whether the control points are currently collapsed.
+     * 
+     * @return {@code true} if the control points are collapsed, {@code false} otherwise
+     */
     public boolean isCollapsed() {
         return isCollapsed;
     }
 
+    /**
+     * Configures a {@link JButton} with specified dimensions and appearance settings.
+     * 
+     * @param b         the {@link JButton} to configure
+     * @param isRegular {@code true} if the button is a regular size button, {@code false} otherwise
+     */
     private void configureLayerButton(JButton b, boolean isRegular){
         if(isRegular){
             b.setPreferredSize(Config.TRAJECTORY_LAYER_REGULAR_BUTTON_PREFERRED_DIMENSION);
@@ -255,6 +366,14 @@ public class TrajectoryLayer extends JPanel {
         b.setMaximumSize(b.getPreferredSize());
     }
 
+    /**
+     * Sets the image icon of a layer button based on a condition.
+     * 
+     * @param b         the {@link JButton} to set the icon for
+     * @param condition {@code true} to set the first image, {@code false} to set the second image
+     * @param path1     the file path to the first image icon
+     * @param path2     the file path to the second image icon
+     */
     private void setLayerButtonImage(JButton b, Boolean condition, String path1, String path2){
         ImageIcon image;
         if(condition){
@@ -265,6 +384,13 @@ public class TrajectoryLayer extends JPanel {
         b.setIcon(image);
     }
     
+    /**
+     * Constructs and adds the control points panel to the trajectory layer.
+     * 
+     * This method initializes the controlPointsPanel with a vertical box layout and populates it
+     * with {@link ControlPointLayer} instances corresponding to each control point in the trajectory.
+     * The panel's visibility is managed based on the collapsed state.
+     */
     private void constructControlPointsPanel() {
         // Filler Panel
         JPanel fillerPanel = new JPanel();
@@ -291,6 +417,11 @@ public class TrajectoryLayer extends JPanel {
     }
       
 
+    /**
+     * Switches the display from the name label to the name text field for editing.
+     * 
+     * Makes the name label invisible and the text field visible, then requests focus on the text field.
+     */
     private void switchToTextField() {
         nameLabel.setVisible(false);
         nameTextField.setVisible(true);
@@ -298,6 +429,12 @@ public class TrajectoryLayer extends JPanel {
         nameTextField.selectAll();
     }
 
+    /**
+     * Switches the display from the name text field back to the name label after editing.
+     * 
+     * Updates the trajectory's name with the text field's content, makes the text field invisible,
+     * and the name label visible. It also requests focus back to the text field.
+     */
     private void switchToLabel() {
         relatedTrajectory.setName(nameTextField.getText());
         nameLabel.setText(relatedTrajectory.getName());
@@ -306,18 +443,39 @@ public class TrajectoryLayer extends JPanel {
         Utils.requestFocusInWindowFor(nameTextField);
     }
 
+    /**
+     * Sets the index label to the specified index.
+     * 
+     * @param index the new index to display
+     */
     public void setIndexLabel(int index) {
         indexLabel.setText("" + index);
     }
 
+    /**
+     * Returns the trajectory associated with this layer.
+     * 
+     * @return the {@link Trajectory} associated with this layer
+     */
     public Trajectory getRelatedTrajectory(){
         return relatedTrajectory;
     }
 
+    /**
+     * Checks if the trajectory layer has no associated control points.
+     * 
+     * @return {@code true} if there are no control points, {@code false} otherwise
+     */
     public boolean isEmpty() {
         return controlPointLayers.isEmpty();
     }
 
+    /**
+     * Collapses the control points panel, hiding all control points.
+     * 
+     * Sets the isCollapsed flag to {@code true}, hides the controlPointsPanel, updates the
+     * collapse button icon, and refreshes the panel's layout.
+     */
     public void collapse() {
         isCollapsed = true;
         controlPointsPanel.setVisible(false);
@@ -327,6 +485,12 @@ public class TrajectoryLayer extends JPanel {
         repaint();
     }
     
+    /**
+     * Expands the control points panel, showing all control points.
+     * 
+     * Sets the isCollapsed flag to {@code false}, shows the controlPointsPanel, updates the
+     * collapse button icon, and refreshes the panel's layout.
+     */
     public void expand() {
         isCollapsed = false;
         controlPointsPanel.setVisible(true);
@@ -335,6 +499,5 @@ public class TrajectoryLayer extends JPanel {
         revalidate();
         repaint();
     }
-    
     
 }

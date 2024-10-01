@@ -19,12 +19,52 @@ import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.DecimalFilter;
 
+/**
+ * Represents a panel for displaying and editing the distance-related properties of a trajectory.
+ * 
+ * This panel provides a user interface for viewing and modifying the spacing between control points
+ * of an active trajectory. It includes text fields for inputting distance values and ensures that
+ * inputs are validated and applied correctly.
+ * 
+ * <p>
+ * Example usage:
+ * <pre>
+ *     DistanceLine distanceLine = new DistanceLine();
+ *     infoPanel.add(distanceLine);
+ * </pre>
+ * </p>
+ * 
+ * @author Valery
+ */
 public class DistanceLine extends AbstractLinePanel implements ActiveEntitiesListener {
-
+    
+    // -=-=-=- FIELDS -=-=-=-=-
+    
+    /**
+     * Text field for displaying and editing the distance value.
+     */
     private JTextField distanceTextField;
+    
+    /**
+     * Text field for displaying and editing the theta end value.
+     * 
+     * <strong>Note:</strong> Although declared, this field is not initialized or used in the current implementation.
+     */
     private JTextField thetaEndTextField;
+    
+    /**
+     * Formatter for decimal values, ensuring consistency in display.
+     */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.####");
-
+    
+    // -=-=-=- CONSTRUCTORS -=-=-=-=-
+    
+    /**
+     * Constructs a {@code DistanceLine} panel with configured components and listeners.
+     * 
+     * Initializes the layout, adds labels and text fields, and sets up interactability based on the active trajectory.
+     * Registers this panel as a listener to active entity changes.
+     */
     public DistanceLine() {
         super();
 
@@ -34,7 +74,6 @@ public class DistanceLine extends AbstractLinePanel implements ActiveEntitiesLis
         gbc.anchor = GridBagConstraints.WEST;
 
         JLabel distanceLabel = new JLabel("Distance:");
-
 
         distanceTextField = new JTextField(6);
         configureTextField(distanceTextField, new ValueGetter() {
@@ -73,7 +112,16 @@ public class DistanceLine extends AbstractLinePanel implements ActiveEntitiesLis
 
         ActiveEntities.addActiveListener(this);
     }
-
+    
+    // -=-=-=- METHODS -=-=-=-=-
+    
+    /**
+     * Configures a {@link JTextField} with value getters and setters, applying input filters and listeners.
+     * 
+     * @param textField the {@link JTextField} to configure
+     * @param getter    the {@link ValueGetter} to retrieve the current value
+     * @param setter    the {@link ValueSetter} to apply a new value
+     */
     private void configureTextField(JTextField textField, ValueGetter getter, ValueSetter setter) {
         AbstractDocument doc = (AbstractDocument) textField.getDocument();
         doc.setDocumentFilter(new DecimalFilter(Config.STANDART_TEXT_FIELD_DOUBLE_REGEX));
@@ -83,12 +131,22 @@ public class DistanceLine extends AbstractLinePanel implements ActiveEntitiesLis
         textFieldSetup(textField);
     }
 
+    /**
+     * Updates the text field with the current value from the {@link ValueGetter}.
+     * 
+     * Retrieves the current value using the associated {@link ValueGetter} and updates the text field's display.
+     */
     private void updateTextField(){
         ValueGetter getter;
         getter = (ValueGetter) distanceTextField.getClientProperty("ValueGetter");
         distanceTextField.setText(getter.getValue());
     }
 
+    /**
+     * Determines whether the panel is interactable based on the active trajectory's interpolation type.
+     * 
+     * @return {@code true} if the active trajectory allows interaction, {@code false} otherwise
+     */
     @Override
     public boolean isInteractable() {
         ControlPoint cp = ActiveEntities.getActiveControlPoint();
@@ -99,6 +157,11 @@ public class DistanceLine extends AbstractLinePanel implements ActiveEntitiesLis
         return true;
     }
 
+    /**
+     * Updates the panel's interactability state, enabling or disabling components accordingly.
+     * 
+     * Changes the background color based on interactability and enables or disables the distance text field.
+     */
     @Override
     protected void displayInteractability(){
         super.displayInteractability();
@@ -106,23 +169,53 @@ public class DistanceLine extends AbstractLinePanel implements ActiveEntitiesLis
         distanceTextField.setEnabled(isInteractable);
     }
 
+    /**
+     * Handles changes to the active trajectory.
+     * 
+     * <strong>Note:</strong> Currently not implemented.
+     * 
+     * @param tr the updated {@link Trajectory}
+     */
     @Override
     public void activeTrajectoryChanged(Trajectory tr) {
+        // Implementation can be added if needed
     }
 
+    /**
+     * Handles changes to the active control point.
+     * 
+     * Updates the panel's interactability and refreshes the text field display.
+     * 
+     * @param cp the updated {@link ControlPoint}
+     */
     @Override
     public void activeControlPointChanged(ControlPoint cp) {
         displayInteractability();
         updateTextField();
     }
 
+    /**
+     * Handles edits to the state of the active control point.
+     * 
+     * Updates the panel's interactability and refreshes the text field display.
+     * 
+     * @param cp the {@link ControlPoint} whose state was edited
+     */
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
         displayInteractability();
         updateTextField();
     }
 
+    /**
+     * Handles changes to the state of the active trajectory.
+     * 
+     * <strong>Note:</strong> Currently not implemented.
+     * 
+     * @param tr the updated {@link Trajectory}
+     */
     @Override
     public void activeTrajectoryStateEdited(Trajectory tr) {
+        // Implementation can be added if needed
     }
 }

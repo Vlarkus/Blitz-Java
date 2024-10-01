@@ -19,12 +19,50 @@ import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.services.DecimalFilter;
 
+/**
+ * Represents a panel for displaying and editing the end-related properties of a control point.
+ * 
+ * This panel provides user interface components for viewing and modifying the radial end (rE) and
+ * angular end (θE) values of an active control point associated with a trajectory. It ensures that
+ * inputs are validated and applied correctly, and updates the display based on the panel's interactability.
+ * 
+ * <p>
+ * Example usage:
+ * <pre>
+ *     HelperEndLine helperEndLine = new HelperEndLine();
+ *     infoPanel.add(helperEndLine);
+ * </pre>
+ * </p>
+ * 
+ * @author Valery
+ */
 public class HelperEndLine extends AbstractLinePanel implements ActiveEntitiesListener {
-
+    
+    // -=-=-=- FIELDS -=-=-=-=-
+    
+    /**
+     * Text field for displaying and editing the radial end (rE) value.
+     */
     private JTextField rEndTextField;
+    
+    /**
+     * Text field for displaying and editing the angular end (θE) value.
+     */
     private JTextField thetaEndTextField;
+    
+    /**
+     * Formatter for decimal values, ensuring consistency in display.
+     */
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("0.####");
-
+    
+    // -=-=-=- CONSTRUCTORS -=-=-=-=-
+    
+    /**
+     * Constructs a {@code HelperEndLine} panel with configured components and listeners.
+     * 
+     * Initializes the layout, adds labels and text fields, and sets up interactability based on the active control point.
+     * Registers this panel as a listener to active entity changes.
+     */
     public HelperEndLine() {
         super();
 
@@ -99,7 +137,16 @@ public class HelperEndLine extends AbstractLinePanel implements ActiveEntitiesLi
 
         ActiveEntities.addActiveListener(this);
     }
-
+    
+    // -=-=-=- METHODS -=-=-=-=-
+    
+    /**
+     * Configures a {@link JTextField} with value getters and setters, applying input filters and listeners.
+     * 
+     * @param textField the {@link JTextField} to configure
+     * @param getter    the {@link ValueGetter} to retrieve the current value
+     * @param setter    the {@link ValueSetter} to apply a new value
+     */
     private void configureTextField(JTextField textField, ValueGetter getter, ValueSetter setter) {
         AbstractDocument doc = (AbstractDocument) textField.getDocument();
         doc.setDocumentFilter(new DecimalFilter(Config.STANDART_TEXT_FIELD_DOUBLE_REGEX));
@@ -109,24 +156,48 @@ public class HelperEndLine extends AbstractLinePanel implements ActiveEntitiesLi
         textFieldSetup(textField);
     }
 
+    /**
+     * Updates the text fields with the current values from their respective {@link ValueGetter}s.
+     * 
+     * Retrieves the current values using the associated {@link ValueGetter}s and updates the text fields' displays.
+     */
     private void updateTextField(){
         ValueGetter getter;
         getter = (ValueGetter) rEndTextField.getClientProperty("ValueGetter");
         rEndTextField.setText(getter.getValue());
+        
         getter = (ValueGetter) thetaEndTextField.getClientProperty("ValueGetter");
         thetaEndTextField.setText(getter.getValue());
     }
 
+    /**
+     * Determines whether the panel is interactable based on the active control point and trajectory.
+     * 
+     * The panel is interactable if:
+     * <ul>
+     *   <li>An active control point exists.</li>
+     *   <li>The control point is not the first point in its trajectory.</li>
+     *   <li>The trajectory's spline type is not linear.</li>
+     * </ul>
+     * 
+     * @return {@code true} if the panel is interactable, {@code false} otherwise
+     */
     @Override
     public boolean isInteractable() {
         ControlPoint cp = ActiveEntities.getActiveControlPoint();
         Trajectory tr = ActiveEntities.getActiveTrajectory();
         if(cp == null)          return false;
+        if(tr == null)          return false;
         if(cp == tr.getFirst()) return false;
         if(tr.getSplineType().equals(Calculations.LINEAR_SPLINE))   return false;
         return true;
     }
 
+    /**
+     * Updates the panel's interactability state, enabling or disabling components accordingly.
+     * 
+     * Changes the background color based on interactability and enables or disables the distance and theta end text fields.
+     */
     @Override
     protected void displayInteractability(){
         super.displayInteractability();
@@ -135,23 +206,53 @@ public class HelperEndLine extends AbstractLinePanel implements ActiveEntitiesLi
         thetaEndTextField.setEnabled(isInteractable);
     }
 
+    /**
+     * Handles changes to the active trajectory.
+     * 
+     * <strong>Note:</strong> Currently not implemented. Can be expanded if needed.
+     * 
+     * @param tr the updated {@link Trajectory}
+     */
     @Override
     public void activeTrajectoryChanged(Trajectory tr) {
+        // Implementation can be added if needed
     }
 
+    /**
+     * Handles changes to the active control point.
+     * 
+     * Updates the panel's interactability and refreshes the text fields' displays.
+     * 
+     * @param cp the updated {@link ControlPoint}
+     */
     @Override
     public void activeControlPointChanged(ControlPoint cp) {
         displayInteractability();
         updateTextField();
     }
 
+    /**
+     * Handles edits to the state of the active control point.
+     * 
+     * Updates the panel's interactability and refreshes the text fields' displays.
+     * 
+     * @param cp the {@link ControlPoint} whose state was edited
+     */
     @Override
     public void activeControlPointStateEdited(ControlPoint cp) {
         displayInteractability();
         updateTextField();
     }
 
+    /**
+     * Handles changes to the state of the active trajectory.
+     * 
+     * <strong>Note:</strong> Currently not implemented. Can be expanded if needed.
+     * 
+     * @param tr the updated {@link Trajectory}
+     */
     @Override
     public void activeTrajectoryStateEdited(Trajectory tr) {
+        // Implementation can be added if needed
     }
 }
