@@ -83,7 +83,7 @@ public class Config {
     public static final double CANVAS_PANEL_Y_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSIONS.getHeight()) / 2;
     public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-in.png";
     public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-out.png";
-    public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/High Stakes Field Setup - Match_size24x24.png";
+    public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/V5RC - High Stakes - Match_size24x24.png";
 
     public static final int PIXELS_IN_ONE_INCH = 36;
     public static final double MIN_ZOOM_SCALE_VALUE = 0.4;
@@ -227,7 +227,7 @@ public class Config {
 
     public static final String FIELD_IMAGE_DIMENSIONS_SUFFIX = "_size";
     public static final String FIELD_IMAGE_DIMENSIONS_SEPARATOR = "x";
-    public static final String FIELD_IMAGE_EXTENSION = ".png";
+    public static final String FIELD_IMAGE_SUFFIX = ".png";
 
     public static final String APP_INFO = 
     "\n" +

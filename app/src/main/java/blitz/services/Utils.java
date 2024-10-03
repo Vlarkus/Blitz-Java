@@ -98,7 +98,7 @@ public class Utils {
 
             if (files != null) {
                 for (File file : files) {
-                    if (file.isFile() && file.getName().toLowerCase().endsWith(Config.FIELD_IMAGE_EXTENSION)) {
+                    if (file.isFile() && file.getName().toLowerCase().endsWith(Config.FIELD_IMAGE_SUFFIX)) {
                         try {
                             FieldImage image = new FieldImage(file.getPath());
                             fieldImages.add(image);

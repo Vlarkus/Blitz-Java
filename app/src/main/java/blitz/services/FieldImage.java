@@ -66,7 +66,7 @@ public class FieldImage {
             if (start == -1) {
                 throw new IllegalArgumentException("Invalid file name format: missing dimensions suffix.");
             }
-            end = fileName.indexOf(Config.FIELD_IMAGE_EXTENSION);
+            end = fileName.indexOf(Config.FIELD_IMAGE_SUFFIX);
             String dimensions = fileName.substring(start, end);
 
             // Width
@@ -75,11 +75,11 @@ public class FieldImage {
             if (end == -1) {
                 throw new IllegalArgumentException("Invalid dimensions format: missing width.");
             }
-            this.originalWidth = Integer.parseInt(dimensions.substring(start, end));
+            this.originalWidth = (int) Double.parseDouble(dimensions.substring(start, end));
 
             // Height
             start = end + 1;
-            this.originalHeight = Integer.parseInt(dimensions.substring(start));
+            this.originalHeight = (int) Double.parseDouble(dimensions.substring(start));
 
             // Initialize the scaled width and height
             updateWidth();
