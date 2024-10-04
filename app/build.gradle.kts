@@ -39,7 +39,8 @@ java {
     }
 }
 
+
 application {
     // Define the main class for the application.
-    mainClass = "Main"
+    mainClass = "blitz.Main"
 }

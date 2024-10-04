@@ -1,16 +1,18 @@
-# Blitz
 
-![Blitz Logo](path-to-your-logo.png)
-
-**Complex Made Simple**\
-**Version 1.0.0**\
-{center the image and the two lines; delete this comment}
+<div align="center">
+  <img src="app/src/main/java/blitz/resources/images/icons/app/Blitz App Icon (No Background).png" alt="Blitz Logo">
+   <h1>Blitz</h1>
+  <h2>Complex Made Simple</h2>
+  <h3>Version 1.0.0</h3>
+</div>
 
 ---
 
 ## Introduction
 
-Blitz is advanced software for modeling autonomous routine trajectories for VEX Robotics Competitions. It simplifies the complex process of path planning by providing intuitive tools for generating and editing path splines. With Blitz, teams can efficiently design and fine-tune their robot's autonomous routines, enhancing performance in competitions. 
+Blitz is advanced software for modeling autonomous routine trajectories for VEX Robotics Competitions. It simplifies the complex process of trajectory planning by providing intuitive tools for generating and editing various splines. With Blitz, teams can efficiently design and fine-tune their robot's autonomous routines.
+
+Blitz's Philosophy: simplicity in usage & complexity in customization.
 
 ---
 
@@ -18,7 +20,7 @@ Blitz is advanced software for modeling autonomous routine trajectories for VEX 
 
 See the YouTube tutorial videos to get started with Blitz:
 
-- [Blitz Tutorial Part 1: Installation and Setup](https://www.youtube.com/link-to-tutorial-part1)
+- [Tutorial: Making Trajectories with Blitz v1.0.0](https://www.youtube.com/link-to-tutorial-part1)
 ---
 
 ## Installation Instructions
@@ -27,18 +29,18 @@ To install Blitz on your system, please follow these steps:
 
 1. **Install Java**
 
-   Make sure you have the Java Development Kit (JDK) installed. You can download it from [Oracle's official website](https://www.oracle.com/java/technologies/javase-downloads.html) or use an open-source alternative like [OpenJDK](https://openjdk.java.net/install/).
+   Make sure you have the Java Development Kit (JDK) installed (recommended version: 21+). You can download it from [Oracle's official website](https://www.oracle.com/java/technologies/javase-downloads.html) or use an open-source alternative like [OpenJDK](https://openjdk.java.net/install/).
 
 2. **Install Gradle**
 
-   Blitz uses Gradle for building the project. Download and install Gradle from the [official website](https://gradle.org/install/).
+   Blitz uses Gradle for building the project (recommended version: 8.8). Download and install Gradle from the [official website](https://gradle.org/install/).
 
 3. **Clone the Project**
 
    Open your terminal and run the following commands:
 
    ```bash
-   git clone https://github.com/your-username/blitz.git
+   git clone https://github.com/Vlarkus/Blitz.git
    cd blitz
    ```
 
@@ -52,8 +54,8 @@ To install Blitz on your system, please follow these steps:
 
 5. **Run Blitz**
 
-   After building, you can run Blitz with:
-
+   After building, go to ```app/src/main/java/blitz/Main.java``` and run the file.
+   Alternatively, you can use Gradle to run Blitz:
    ```bash
    gradle run
    ```
@@ -74,7 +76,7 @@ We value your feedback! If you encounter any issues or have suggestions for impr
 Currently, we are aware of the following issues:
 
 - **Laggy Spline Behavior**: Certain spline types may cause noticeable lag upon editing.
-- **Inconsistent Load of Custom Fields**: Inconsistent behavior when loading a custom fields using ```View/Change Field``` Menu.
+- **Inconsistent Load of Custom Fields**: Custom fields may not always load properly through the View/Change Field menu.
 - **Jittering on Max Zoom Out**: Panning on a max zoom out may cause jittering.
 
 We are actively working to resolve these problems. Stay updated by checking our [Issues page](https://github.com/your-username/blitz/issues).
@@ -87,13 +89,13 @@ Here is a list of features and improvements we plan to implement in the near fut
 
 - **Path Following Visualization**: Visualize robot paths with a configurable box when hovering over a path segment.
 - **Advanced Trajectory Planner**: Addition of a trajectory planner menu to allow the user modify selected trajectory by changing speed and time of the robot on different segments with keyframes.
-- **View Modes**: Choose to visuaize trajectories with the regard to their speed, time, curvature, or none.
+- **View Modes**: Choose to visualize trajectories with the regard to their speed, time, curvature, or none.
 - **Settings**: Addition of a settings window to configure visual, calculational, default, and other features within the program.
 - **Action History**: Addition of *UNDO* and *REDO* functionality.
 - **Units**: Choose other measuring systems when editing trajectories (currently the only choice is inches).
 - **Configurable Coordinate Systems**: Choose the origin and the absolute orientation on the field.
 - **Copy / Merge Tool**: Addition of a copy / merge window that creates a new trajectory from selected control points of multiple trajectories in the specified order.
-- **Canvas Panel Optimization**: Optimize structural and rendering functionality of the Canvas Panel to eliiminate lag.
+- **Canvas Panel Optimization**: Optimize structural and rendering functionality of the Canvas Panel to eliminate lag.
 - **Curve Calculations Optimization**: Optimize the calculations used for curve generation.
 - **Multi-Select Position Editing within One Trajectory**: Edit position of multiple control points within the same trajectory.
 - **More Export Options**: Support for more formats.
