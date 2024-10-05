@@ -20,7 +20,7 @@ Blitz's Philosophy: simplicity in usage & complexity in customization.
 
 See the YouTube tutorial videos to get started with Blitz:
 
-- [Tutorial: Making Trajectories with Blitz v1.0.0](https://www.youtube.com/link-to-tutorial-part1)
+- [Blitz v1.0.0 Showcase](https://youtu.be/nr9F6VdIvRY?si=DwqkOhjh7goCK9w5)
 ---
 
 ## Installation Instructions
@@ -99,6 +99,7 @@ Here is a list of features and improvements we plan to implement in the near fut
 - **Curve Calculations Optimization**: Optimize the calculations used for curve generation.
 - **Multi-Select Position Editing within One Trajectory**: Edit position of multiple control points within the same trajectory.
 - **More Export Options**: Support for more formats.
+- **Support for Holonomic Drive Systems**: Adaptation of the functionality to model trajectories for holonomic drive systems.
 
 ---
 
@@ -148,6 +149,6 @@ We welcome contributions from the community! Here's how you can contribute:
 
 ## License
 
-Blitz is distributed under the **MIT License**. See the [LICENSE](LICENSE) file for more information.
+Blitz is distributed under the **Apache License, Version 2.0**. See the [LICENSE](LICENSE) file for more information.
 
 ---

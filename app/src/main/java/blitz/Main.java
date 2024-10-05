@@ -24,7 +24,7 @@ import blitz.ui.application.MainFrame;
 
 
 /**
- * @author Valery Rabchanka Rabchanka
+ * @author Valery Rabchanka
  */
 public class Main {
     
