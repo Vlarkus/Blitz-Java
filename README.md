@@ -66,7 +66,7 @@ To install Blitz on your system, please follow these steps:
 
 We value your feedback! If you encounter any issues or have suggestions for improvements, please:
 
-- **Open an Issue**: Submit a detailed report on our [GitHub Issues page](https://github.com/your-username/blitz/issues).
+- **Open an Issue**: Submit a detailed report on our [GitHub Issues page](https://github.com/Vlarkus/Blitz/issues).
 - **Contact Us**: Reach out via Discord at [BLITZ](https://discord.gg/v6zSjrpWfh).
 
 ---
@@ -79,7 +79,7 @@ Currently, we are aware of the following issues:
 - **Inconsistent Load of Custom Fields**: Custom fields may not always load properly through the View/Change Field menu.
 - **Jittering on Max Zoom Out**: Panning on a max zoom out may cause jittering.
 
-We are actively working to resolve these problems. Stay updated by checking our [Issues page](https://github.com/your-username/blitz/issues).
+We are actively working to resolve these problems. Stay updated by checking our [Issues page](https://github.com/Vlarkus/Blitz/issues).
 
 ---
 
