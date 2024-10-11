@@ -23,7 +23,7 @@ import blitz.models.calculations.AbstractSpline;
 import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.trajectoryComponents.FollowPoint;
-import blitz.services.CartesianCoordinate;
+import blitz.utils.CartesianCoordinate;
 
 /**
  * Fixed amount interpolation algorithm that calculates a set number of follow points 

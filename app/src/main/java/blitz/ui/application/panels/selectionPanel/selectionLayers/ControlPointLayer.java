@@ -36,7 +36,7 @@ import blitz.configs.Config;
 import blitz.models.active.ActiveEntities;
 import blitz.models.trajectories.trajectoriesList.TrajectoriesList;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
-import blitz.services.Utils;
+import blitz.utils.Utils;
 
 public class ControlPointLayer extends JPanel{
 

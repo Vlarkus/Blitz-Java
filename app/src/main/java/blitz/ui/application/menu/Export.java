@@ -40,7 +40,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import blitz.configs.Config;
 import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoriesList.TrajectoriesList;
-import blitz.services.FormatManager;
+import blitz.utils.FormatManager;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

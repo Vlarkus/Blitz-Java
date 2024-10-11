@@ -18,7 +18,7 @@ package blitz.models.calculations.splines;
 
 import blitz.models.calculations.AbstractSpline;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
-import blitz.services.CartesianCoordinate;
+import blitz.utils.CartesianCoordinate;
 
 /**
  * Represents a Bezier spline that calculates the positions, arc length, 
