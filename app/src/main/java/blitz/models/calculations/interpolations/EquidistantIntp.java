@@ -79,7 +79,7 @@ public class EquidistantIntp extends AbstractInterpolation {
             for (int j = 0; j < Config.TABLE_DIVISION_COEFF; j++) {
                 double t = (double) j / Config.TABLE_DIVISION_COEFF;
                 table.add(splineObj.getArcLength(p0, p1, 0, t), t);
-            }
+            } // TODO: Making table is the laggiest part
 
             double accumulatedLength = offset;
 

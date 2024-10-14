@@ -35,19 +35,19 @@ public class Config {
     public static final String SAVE_FILE_EXTENSION_TYPE_DESCRIPTION = "BLITZ JSON";
     public static final String EXPORT_FILE_EXTENSION_TYPE = ".txt";
 
-    public static final String PATH_TO_APP_ICON = "app/src/main/java/blitz/resources/images/icons/app/Blitz App Icon.png";
+    public static final String PATH_TO_APP_ICON = "app/src/main/resources/images/icons/app/Blitz App Icon.png";
     
 
     
     // -=-=-=- Calculations -=-=-=-
 
-    public static final int TABLE_DIVISION_COEFF = 100;
+    public static  int TABLE_DIVISION_COEFF = 100;
 
 
 
     // -=-=-=- MenuBar -=-=-=-
 
-    public static final String PATH_TO_FIELDS_DIRECTORY = "app/src/main/java/blitz/resources/images/fields";
+    public static final String PATH_TO_FIELDS_DIRECTORY = "app/src/main/resources/images/fields";
     
 
 
@@ -67,18 +67,18 @@ public class Config {
     public static final HexColor TOOL_PANEL_OPTIONS_BACKGROUND_COLOR = new HexColor("#aaaaaa");
     public static final HexColor TOOL_PANEL_EXTRA_BACKGROUND_COLOR = new HexColor("#eeeeee");
 
-    public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/add-tool.png";
-    public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/cut-tool.png";
-    public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/insert-tool.png";
-    public static final String PATH_TO_EDIT_TIME_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/edit-time-tool.png";
-    public static final String PATH_TO_MERGE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/merge-tool.png";
-    public static final String PATH_TO_MOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/move-tool.png";
-    public static final String PATH_TO_PAN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/move-tool.png";
-    public static final String PATH_TO_REMOVE_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/remove-tool.png";
-    public static final String PATH_TO_RENDER_ALL_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/render-all-tool.png";
-    public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/show-robot-tool.png";
-    public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/tools/selected-tool-background.png";
-    public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/java/blitz/resources/images/icons/tools/unselected-tool-background.png";
+    public static final String PATH_TO_ADD_TOOL_ICON = "app/src/main/resources/images/icons/tools/add-tool.png";
+    public static final String PATH_TO_CUT_TOOL_ICON = "app/src/main/resources/images/icons/tools/cut-tool.png";
+    public static final String PATH_TO_INSERT_TOOL_ICON = "app/src/main/resources/images/icons/tools/insert-tool.png";
+    public static final String PATH_TO_EDIT_TIME_TOOL_ICON = "app/src/main/resources/images/icons/tools/edit-time-tool.png";
+    public static final String PATH_TO_MERGE_TOOL_ICON = "app/src/main/resources/images/icons/tools/merge-tool.png";
+    public static final String PATH_TO_MOVE_TOOL_ICON = "app/src/main/resources/images/icons/tools/move-tool.png";
+    public static final String PATH_TO_PAN_TOOL_ICON = "app/src/main/resources/images/icons/tools/move-tool.png";
+    public static final String PATH_TO_REMOVE_TOOL_ICON = "app/src/main/resources/images/icons/tools/remove-tool.png";
+    public static final String PATH_TO_RENDER_ALL_TOOL_ICON = "app/src/main/resources/images/icons/tools/render-all-tool.png";
+    public static final String PATH_TO_SHOW_ROBOT_TOOL_ICON = "app/src/main/resources/images/icons/tools/show-robot-tool.png";
+    public static final String PATH_TO_SELECTED_TOOL_BACKGROUND_ICON = "app/src/main/resources/images/icons/tools/selected-tool-background.png";
+    public static final String PATH_TO_UNSELECTED_TOOL_BACKGROUND_ICON = "app/src/main/resources/images/icons/tools/unselected-tool-background.png";
     
     public static final int RENDER_ALL_DELAY = 200;
 
@@ -97,9 +97,9 @@ public class Config {
     public static final CartesianCoordinate DEFAULT_OFFSET = new CartesianCoordinate(0, 0);
     public static final double CANVAS_PANEL_X_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSIONS.getWidth()) / 2;
     public static final double CANVAS_PANEL_Y_OFFSET = (CANVAS_PANEL_PREFERRED_DIMENSIONS.getHeight()) / 2;
-    public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-in.png";
-    public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/java/blitz/resources/images/icons/tools/zoom-out.png";
-    public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/java/blitz/resources/images/fields/V5RC - High Stakes - Match_size24x24.png";
+    public static final String PATH_TO_ZOOM_IN_TOOL_ICON = "app/src/main/resources/images/icons/tools/zoom-in.png";
+    public static final String PATH_TO_ZOOM_OUT_TOOL_ICON = "app/src/main/resources/images/icons/tools/zoom-out.png";
+    public static final String PATH_TO_DEFAULT_FIELD = "app/src/main/resources/images/fields/V5RC - High Stakes - Match_size24x24.png";
 
     public static final int PIXELS_IN_ONE_INCH = 36;
     public static final double MIN_ZOOM_SCALE_VALUE = 0.4;
@@ -107,17 +107,17 @@ public class Config {
     public static final double ZOOM_IN_COEFFICIENT = 1.05; // Must be >1
     public static final double ZOOM_OUT_COEFFICIENT = 0.95; // Must be <1
 
-    public static final String PATH_TO_PLUS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/plus.png";
-    public static final String PATH_TO_SCISSORS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/scissors.png";
-    public static final String PATH_TO_MOVE_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/move.png";
-    public static final String PATH_TO_HAND_OPEN_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/handopen.png";
-    public static final String PATH_TO_HAND_GRABBING_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/handgrabbing.png";
-    public static final String PATH_TO_HAND_POINTING_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/handpointing.png";
-    public static final String PATH_TO_HELP_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/help.png";
-    public static final String PATH_TO_MINUS_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/minus.png";
-    public static final String PATH_TO_EYE_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/eye.png";
-    public static final String PATH_TO_NOT_ALLOWED_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/notallowed.png";
-    public static final String PATH_TO_UNKNOWN_CURSOR_IMAGE = "app/src/main/java/blitz/resources/images/cursors/unknown.png";
+    public static final String PATH_TO_PLUS_CURSOR_IMAGE = "app/src/main/resources/images/cursors/plus.png";
+    public static final String PATH_TO_SCISSORS_CURSOR_IMAGE = "app/src/main/resources/images/cursors/scissors.png";
+    public static final String PATH_TO_MOVE_CURSOR_IMAGE = "app/src/main/resources/images/cursors/move.png";
+    public static final String PATH_TO_HAND_OPEN_CURSOR_IMAGE = "app/src/main/resources/images/cursors/handopen.png";
+    public static final String PATH_TO_HAND_GRABBING_CURSOR_IMAGE = "app/src/main/resources/images/cursors/handgrabbing.png";
+    public static final String PATH_TO_HAND_POINTING_CURSOR_IMAGE = "app/src/main/resources/images/cursors/handpointing.png";
+    public static final String PATH_TO_HELP_CURSOR_IMAGE = "app/src/main/resources/images/cursors/help.png";
+    public static final String PATH_TO_MINUS_CURSOR_IMAGE = "app/src/main/resources/images/cursors/minus.png";
+    public static final String PATH_TO_EYE_CURSOR_IMAGE = "app/src/main/resources/images/cursors/eye.png";
+    public static final String PATH_TO_NOT_ALLOWED_CURSOR_IMAGE = "app/src/main/resources/images/cursors/notallowed.png";
+    public static final String PATH_TO_UNKNOWN_CURSOR_IMAGE = "app/src/main/resources/images/cursors/unknown.png";
 
     
 
@@ -195,8 +195,8 @@ public class Config {
     public static final Font SELECTION_PANEL_TRAJECTORY_LABEL_FONT = new Font("Verdana", Font.PLAIN, 14);
     public static final Font SELECTION_PANEL_CONTROL_POINT_LABEL_FONT = new Font("Verdana", Font.PLAIN, 14);
 
-    public static final String PATH_TO_DELETE_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/delete-option.png";
-    public static final String PATH_TO_ADD_TRAJECTORY_OPTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/add-trajectory-option.png";
+    public static final String PATH_TO_DELETE_OPTION_ICON = "app/src/main/resources/images/icons/selection/delete-option.png";
+    public static final String PATH_TO_ADD_TRAJECTORY_OPTION_ICON = "app/src/main/resources/images/icons/selection/add-trajectory-option.png";
 
     public static final HexColor TRAJECTORY_LAYER_BACKGROUND_COLOR = new HexColor("#fefefe");
     public static final Dimension TRAJECTORY_LAYER_PREFERRED_DIMENSION = new Dimension((int)SELECTION_PANEL_PREFERRED_DIMENSIONS.getWidth(), 40);
@@ -210,16 +210,16 @@ public class Config {
     public static final HexColor CONTROL_POINT_LAYER_BACKGROUND_COLOR = new HexColor("#dedede");
     public static final Dimension CONTROL_POINT_LAYER_PREFERRED_DIMENSIONS = new Dimension((int)(TRAJECTORY_LAYER_PREFERRED_DIMENSION.getWidth() - TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight()), (int)TRAJECTORY_LAYER_PREFERRED_DIMENSION.getHeight());
 
-    public static final String PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/collapse-layers-selection-icon.png";
-    public static final String PATH_TO_EXPAND_LAYERS_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/expand-layers-selection-icon.png";
-    public static final String PATH_TO_HIDDEN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/hidden-layer-selection-icon.png";
-    public static final String PATH_TO_LOCKED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/locked-layer-selection-icon.png";
-    public static final String PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/move-down-layer-selection-icon.png";
-    public static final String PATH_TO_MOVE_UP_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/move-up-layer-selection-icon.png";
-    public static final String PATH_TO_SELECTED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/selected-layer-selection-icon.png";
-    public static final String PATH_TO_SHOWN_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/shown-layer-selection-icon.png";
-    public static final String PATH_TO_UNLOCKED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unlocked-layer-selection-icon.png";
-    public static final String PATH_TO_UNSELECTED_LAYER_SELECTION_ICON = "app/src/main/java/blitz/resources/images/icons/selection/unselected-layer-selection-icon.png";
+    public static final String PATH_TO_COLLAPSE_LAYERS_SELECTION_ICON = "app/src/main/resources/images/icons/selection/collapse-layers-selection-icon.png";
+    public static final String PATH_TO_EXPAND_LAYERS_SELECTION_ICON = "app/src/main/resources/images/icons/selection/expand-layers-selection-icon.png";
+    public static final String PATH_TO_HIDDEN_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/hidden-layer-selection-icon.png";
+    public static final String PATH_TO_LOCKED_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/locked-layer-selection-icon.png";
+    public static final String PATH_TO_MOVE_DOWN_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/move-down-layer-selection-icon.png";
+    public static final String PATH_TO_MOVE_UP_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/move-up-layer-selection-icon.png";
+    public static final String PATH_TO_SELECTED_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/selected-layer-selection-icon.png";
+    public static final String PATH_TO_SHOWN_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/shown-layer-selection-icon.png";
+    public static final String PATH_TO_UNLOCKED_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/unlocked-layer-selection-icon.png";
+    public static final String PATH_TO_UNSELECTED_LAYER_SELECTION_ICON = "app/src/main/resources/images/icons/selection/unselected-layer-selection-icon.png";
 
 
 

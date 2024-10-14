@@ -53,6 +53,9 @@ import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.awt.event.MouseEvent;
+import java.sql.Time;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import javax.swing.SwingUtilities;
@@ -99,6 +102,8 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     private HelperPointer selectedHelperPointer;
 
     private HashMap<CURSOR, Cursor> cursorMap;
+
+    private static LocalDateTime lastTime = LocalDateTime.now();
 
     public static enum CURSOR{
         SCISSORS,
@@ -218,12 +223,13 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
                 ControlPointer pointer = new ControlPointer(x, y, cp);
                 if(cp.equals(ActiveEntities.getActiveControlPoint())){
                     pointer.setState(State.SELECTED);
+                    // TODO: asign selected here
                 }
                 controlPointers.add(pointer);
 
             }
         }
-
+            // Tr[cp][icp]
     }
 
     private void populateFollowPointers(){
@@ -255,7 +261,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         clearHelperLines();
     
         for (ControlPointer p : controlPointers) {
-            if (p.getState() == State.SELECTED){
+            if (p.getState() == State.SELECTED){ // TODO: why check all if can store selected
                 Trajectory tr = TrajectoriesList.getTrajectoryByControlPoint(p.getRelatedControlPoint());
                 if(!tr.getSplineType().equals(Calculations.LINEAR_SPLINE) && 1 < tr.size()){
                     ControlPoint cp = p.getRelatedControlPoint();
@@ -719,6 +725,14 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         updateMIP(e);
         switch (Tool.getSelectedTool()) {
             case MOVE:
+                Duration duration = Duration.between(lastTime, LocalDateTime.now());
+                System.out.println("t=" + duration.toMillis());
+                 if (duration.toMillis() < 10) {
+                    break;
+                     
+                 }
+                 lastTime = LocalDateTime.now();
+
                 if(!isSelectedHelperPointerEmpty()){
                     moveSelectedHelperPointer(e.getX(), e.getY());
                 } else if (!isSelectedControlPointerEmpty()){
@@ -758,7 +772,7 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
     }
 
     public void moveSelectedControlPointer(int screenX, int screenY){
-        this.setCursor(cursorMap.get(CURSOR.HAND_GRABBING));
+        this.setCursor(cursorMap.get(CURSOR.HAND_GRABBING));   //  TODO: call one time
         CartesianCoordinate fieldCoordinate = convertScreenToFieldCoordinates(new CartesianCoordinate(screenX, screenY));
         ControlPoint cp = getSelectedControlPointer().getRelatedControlPoint();
         cp.setPosition(fieldCoordinate.getX(), fieldCoordinate.getY());
