@@ -25,7 +25,7 @@ import javax.swing.JTextField;
 
 import blitz.configs.Config;
 import blitz.models.active.ActiveEntities;
-import blitz.services.Utils;
+import blitz.utils.Utils;
 
 /**
  * Represents an abstract panel that provides common functionalities for line-related panels.

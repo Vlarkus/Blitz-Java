@@ -22,8 +22,8 @@ import java.awt.Graphics2D;
 
 import blitz.configs.Config;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
-import blitz.services.Gradient;
-import blitz.services.HexColor;
+import blitz.utils.Gradient;
+import blitz.utils.HexColor;
 
 /**
  * Represents a follow pointer that visually indicates a control point on the canvas.

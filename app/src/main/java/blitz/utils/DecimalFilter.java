@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package blitz.services;
+package blitz.utils;
 
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;

@@ -45,8 +45,6 @@ import javax.swing.KeyStroke;
 import javax.swing.text.JTextComponent;
 
 import blitz.configs.Config;
-import blitz.services.FieldImage;
-import blitz.services.Utils;
 import blitz.ui.application.menu.Export;
 import blitz.ui.application.menu.Open;
 import blitz.ui.application.menu.Save;
@@ -56,6 +54,8 @@ import blitz.ui.application.panels.infoPanel.InfoPanel;
 import blitz.ui.application.panels.selectionPanel.SelectionPanel;
 import blitz.ui.application.panels.toolPanel.ToolPanel;
 import blitz.ui.application.panels.toolPanel.tools.Tool.Tools;
+import blitz.utils.FieldImage;
+import blitz.utils.Utils;
 
 
 /**

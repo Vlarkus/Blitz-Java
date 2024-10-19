@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package blitz.services;
+package blitz.utils;
 
 import java.awt.image.BufferedImage;
 import java.io.File;

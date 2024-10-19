@@ -20,9 +20,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import blitz.configs.Config;
-import blitz.services.CartesianCoordinate;
-import blitz.services.PolarCoordinate;
-import blitz.services.Utils;
+import blitz.utils.CartesianCoordinate;
+import blitz.utils.PolarCoordinate;
+import blitz.utils.Utils;
 
 public final class ControlPoint {
     

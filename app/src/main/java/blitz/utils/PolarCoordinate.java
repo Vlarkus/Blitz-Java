@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package blitz.services;
+package blitz.utils;
 
 /**
  * Represents a point in a 2D polar coordinate system.

@@ -69,11 +69,10 @@ import blitz.configs.Config;
 import blitz.models.trajectories.trajectoriesList.TrajectoriesList;
 import blitz.models.active.ActiveEntities;
 import blitz.ui.application.panels.canvasPanel.pointers.HelperPointer;
-
-import blitz.services.CartesianCoordinate;
 import blitz.ui.application.panels.toolPanel.tools.Tool;
 import blitz.ui.application.panels.toolPanel.tools.Tool.Tools;
-import blitz.services.FieldImage;
+import blitz.utils.CartesianCoordinate;
+import blitz.utils.FieldImage;
 
 public class CanvasPanel extends JPanel implements MouseListener, MouseMotionListener, ActiveEntitiesListener, ToolListener, TrajectoriesListListener, VisibleTrajectoriesListener{
 

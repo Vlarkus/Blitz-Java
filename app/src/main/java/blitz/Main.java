@@ -19,8 +19,8 @@ package blitz;
 import javax.swing.SwingUtilities;
 
 import blitz.configs.Config;
-import blitz.services.Utils;
 import blitz.ui.application.MainFrame;
+import blitz.utils.Utils;
 
 
 /**

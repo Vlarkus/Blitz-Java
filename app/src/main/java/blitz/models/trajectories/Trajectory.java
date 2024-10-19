@@ -28,7 +28,7 @@ import blitz.models.active.ActiveEntities;
 import blitz.models.calculations.Calculations;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.trajectoryComponents.FollowPoint;
-import blitz.services.CartesianCoordinate;
+import blitz.utils.CartesianCoordinate;
 
 public class Trajectory {
 

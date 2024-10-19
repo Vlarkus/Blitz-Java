@@ -16,7 +16,7 @@
 
 package blitz.models.trajectories.trajectoryComponents;
 
-import blitz.services.CartesianCoordinate;
+import blitz.utils.CartesianCoordinate;
 
 /**
  * Represents a follow point on a trajectory with its position, speed, 

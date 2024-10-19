@@ -17,7 +17,7 @@
 package blitz.models.calculations;
 
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
-import blitz.services.CartesianCoordinate;
+import blitz.utils.CartesianCoordinate;
 
 /**
  * Abstract base class for spline calculations, providing methods for evaluating points 

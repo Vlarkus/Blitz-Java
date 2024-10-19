@@ -41,7 +41,7 @@ import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoriesList.TrajectoriesList;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.visibleTrajectories.VisibleTrajectories;
-import blitz.services.Utils;
+import blitz.utils.Utils;
 
 /**
  * Represents a layer for displaying and managing a trajectory within the selection panel.

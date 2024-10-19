@@ -33,7 +33,7 @@ import blitz.models.active.ActiveEntitiesListener;
 import blitz.models.calculations.Calculations;
 import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
-import blitz.services.DecimalFilter;
+import blitz.utils.DecimalFilter;
 
 /**
  * Represents a panel for displaying and editing the distance-related properties of a trajectory.
