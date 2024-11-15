@@ -76,7 +76,7 @@ public abstract class AbstractSpline {
      * @param t the interpolation parameter (0 ≤ t ≤ 1)
      * @return an array containing the first derivative in x and y coordinates
      */
-    protected double[] firstDerivative(ControlPoint p0, ControlPoint p1, double t) {
+    public double[] firstDerivative(ControlPoint p0, ControlPoint p1, double t) {
         double delta = 1e-5;
     
         // Clamp t + delta and t - delta to the valid range [0, 1]
@@ -100,7 +100,7 @@ public abstract class AbstractSpline {
      * @param t the interpolation parameter (0 ≤ t ≤ 1)
      * @return an array containing the second derivative in x and y coordinates
      */
-    protected double[] secondDerivative(ControlPoint p0, ControlPoint p1, double t) {
+    public double[] secondDerivative(ControlPoint p0, ControlPoint p1, double t) {
         double delta = 1e-5;
     
         // Clamp t + delta and t - delta to the valid range [0, 1]

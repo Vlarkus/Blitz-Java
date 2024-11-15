@@ -18,14 +18,12 @@ package blitz.models.calculations.interpolations;
 
 import java.util.ArrayList;
 
-import blitz.configs.Config;
 import blitz.models.calculations.AbstractInterpolation;
 import blitz.models.calculations.AbstractSpline;
 import blitz.models.trajectories.Trajectory;
 import blitz.models.trajectories.trajectoryComponents.ControlPoint;
 import blitz.models.trajectories.trajectoryComponents.FollowPoint;
 import blitz.services.CartesianCoordinate;
-import blitz.services.Table;
 
 /**
  * Equidistant interpolation algorithm that calculates a set of equidistant
@@ -48,68 +46,114 @@ public class EquidistantIntp extends AbstractInterpolation {
      * @return an {@link ArrayList} of {@link FollowPoint} objects representing the equidistant points along the trajectory
      */
     @Override
-    public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
+public ArrayList<FollowPoint> calculate(Trajectory tr, AbstractSpline splineObj) {
 
-        this.splineObj = splineObj;
+    this.splineObj = splineObj;
 
-        double minSpeed = tr.getMinSpeed();
-        double maxSpeed = tr.getMaxSpeed();
-        double minBentRate = tr.getMinBentRate();
-        double maxBentRate = tr.getMaxBentRate();
+    double minSpeed = tr.getMinSpeed();
+    double maxSpeed = tr.getMaxSpeed();
+    double minBentRate = tr.getMinBentRate();
+    double maxBentRate = tr.getMaxBentRate();
 
-        ArrayList<FollowPoint> followPoints = new ArrayList<>();
-        ArrayList<ControlPoint> controlPoints = tr.getAllControlPoints();
+    ArrayList<FollowPoint> followPoints = new ArrayList<>();
+    ArrayList<ControlPoint> controlPoints = tr.getAllControlPoints();
 
-        double offset = 0;
-        double spacing = tr.getSpacing();
+    double offset = 0;
+    double spacing = tr.getSpacing();
 
-        boolean isLastCurve;
+    boolean isLastCurve;
 
-        // Loop through each segment between consecutive control points
-        for (int i = 0; i < controlPoints.size() - 1; i++) {
+    // Loop through each segment between consecutive control points
+    for (int i = 0; i < controlPoints.size() - 1; i++) {
 
-            ControlPoint p0 = controlPoints.get(i);
-            ControlPoint p1 = controlPoints.get(i + 1);
+        ControlPoint p0 = controlPoints.get(i);
+        ControlPoint p1 = controlPoints.get(i + 1);
 
-            isLastCurve = (p1 == tr.getLast());
+        isLastCurve = (p1 == tr.getLast());
 
-            double arcLength = splineObj.getArcLength(p0, p1, 0, 1);
-            
-            // Construct t/s table
-            Table table = new Table(0, arcLength, 0, 1);
-            for (int j = 0; j < Config.TABLE_DIVISION_COEFF; j++) {
-                double t = (double) j / Config.TABLE_DIVISION_COEFF;
-                table.add(splineObj.getArcLength(p0, p1, 0, t), t);
-            } // TODO: Making table is the laggiest part
+        double arcLength = splineObj.getArcLength(p0, p1, 0, 1);
 
-            double accumulatedLength = offset;
+        double accumulatedLength = offset;
 
-            // Accumulate follow points based on the calculated arc length
-            while (accumulatedLength < arcLength) {
-                double t = table.approximate(accumulatedLength);
-                CartesianCoordinate c = splineObj.evaluate(p0, p1, t);
-                double currentSpeed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
-                
-                if (isLastCurve) {
-                    double decliningSpeed = maxSpeed - (maxSpeed - minSpeed) * (accumulatedLength / arcLength);
-                    if (decliningSpeed < currentSpeed) {
-                        currentSpeed = decliningSpeed;
-                    }
+        // Accumulate follow points based on the calculated arc length
+        while (accumulatedLength < arcLength) {
+
+            // Use Newton-Raphson to approximate t for the desired arc length
+            double t = findTUsingNewtonRaphson(splineObj, p0, p1, accumulatedLength, 0, 1);
+
+            CartesianCoordinate c = splineObj.evaluate(p0, p1, t);
+            double currentSpeed = calculateSpeedAtT(minSpeed, maxSpeed, minBentRate, maxBentRate, p0, p1, t);
+
+            if (isLastCurve) {
+                double decliningSpeed = maxSpeed - (maxSpeed - minSpeed) * (accumulatedLength / arcLength);
+                if (decliningSpeed < currentSpeed) {
+                    currentSpeed = decliningSpeed;
                 }
-                
-                FollowPoint fp = new FollowPoint(c, currentSpeed, p0);
-                followPoints.add(fp);
-                accumulatedLength += spacing;
             }
 
-            offset = accumulatedLength - arcLength;
+            FollowPoint fp = new FollowPoint(c, currentSpeed, p0);
+            followPoints.add(fp);
+            accumulatedLength += spacing;
         }
 
-        // Add the final follow point at the last control point with a speed of 0
-        ControlPoint last = tr.getLast();
-        FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
-        followPoints.add(fp);
-
-        return followPoints;
+        offset = accumulatedLength - arcLength;
     }
+
+    // Add the final follow point at the last control point with a speed of 0
+    ControlPoint last = tr.getLast();
+    FollowPoint fp = new FollowPoint(last.getPosition(), 0.0, last);
+    followPoints.add(fp);
+
+    return followPoints;
+    }
+
+    /**
+     * Uses Newton-Raphson to find the parameter t for a given arc length.
+     *
+     * @param splineObj the spline object representing the curve
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param sTarget the target arc length
+     * @param tMin the minimum parameter (usually 0)
+     * @param tMax the maximum parameter (usually 1)
+     * @return the parameter t corresponding to the target arc length
+     */
+    private double findTUsingNewtonRaphson(AbstractSpline splineObj, ControlPoint p0, ControlPoint p1, double sTarget, double tMin, double tMax) {
+        double t = (tMin + tMax) / 2; // Initial guess
+        double epsilon = 1e-2;        // Convergence threshold
+        int maxIterations = 100;     // Safety limit for iterations
+
+        for (int i = 0; i < maxIterations; i++) {
+            double s = splineObj.getArcLength(p0, p1, 0, t);
+            double sPrime = computeSpeed(splineObj, p0, p1, t); // ds/dt
+
+            double error = s - sTarget;
+
+            if (Math.abs(error) < epsilon) {
+                break; // Converged
+            }
+
+            t = t - error / sPrime;
+
+            // Clamp t to the valid range
+            t = Math.max(tMin, Math.min(tMax, t));
+        }
+
+        return t;
+    }
+
+    /**
+     * Computes the speed (magnitude of the first derivative) at parameter t.
+     *
+     * @param splineObj the spline object
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the parameter at which to compute speed
+     * @return the speed at parameter t
+     */
+    private double computeSpeed(AbstractSpline splineObj, ControlPoint p0, ControlPoint p1, double t) {
+        double[] firstDerivative = splineObj.firstDerivative(p0, p1, t);
+        return Math.sqrt(firstDerivative[0] * firstDerivative[0] + firstDerivative[1] * firstDerivative[1]);
+    }
+
 }
