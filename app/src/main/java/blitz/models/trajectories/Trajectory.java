@@ -85,6 +85,8 @@ public class Trajectory {
         setSpacing(other.getSpacing());
         setMaxSpeed(other.getMaxSpeed());
         setMinSpeed(other.getMinSpeed());
+        setMinBentRate(other.getMinBentRate());
+        setMaxBentRate(other.getMaxBentRate());
     }
 
 

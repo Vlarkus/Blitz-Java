@@ -75,6 +75,7 @@ public class EquidistantIntp extends AbstractInterpolation {
 
             double arcLength = splineObj.getArcLength(p0, p1, 0, 1);
             
+            // Construct t/s table
             Table table = new Table(0, arcLength, 0, 1);
             for (int j = 0; j < Config.TABLE_DIVISION_COEFF; j++) {
                 double t = (double) j / Config.TABLE_DIVISION_COEFF;

@@ -156,5 +156,60 @@ public class BezierSpline extends AbstractSpline {
 
         return numerator / denominator;
     }
+
+    /**
+     * Calculates the first derivative of the Bezier spline at a given parameter t.
+     *
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return an array containing the first derivative in x and y coordinates
+     */
+    protected double[] firstDerivativeMathematical(ControlPoint p0, ControlPoint p1, double t) {
+        CartesianCoordinate P0 = p0.getPosition();
+        CartesianCoordinate P1 = p0.getAbsStartHelperPos();
+        CartesianCoordinate P2 = p1.getAbsEndHelperPos();
+        CartesianCoordinate P3 = p1.getPosition();
+
+        double xPrime = -3 * Math.pow(1 - t, 2) * P0.getX()
+                + (9 * t * t - 12 * t + 3) * P1.getX()
+                + (6 * t - 9 * t * t) * P2.getX()
+                + 3 * t * t * P3.getX();
+
+        double yPrime = -3 * Math.pow(1 - t, 2) * P0.getY()
+                + (9 * t * t - 12 * t + 3) * P1.getY()
+                + (6 * t - 9 * t * t) * P2.getY()
+                + 3 * t * t * P3.getY();
+
+        return new double[]{xPrime, yPrime};
+    }
+
+    /**
+     * Calculates the second derivative of the Bezier spline at a given parameter t.
+     *
+     * @param p0 the starting control point
+     * @param p1 the ending control point
+     * @param t the interpolation parameter (0 ≤ t ≤ 1)
+     * @return an array containing the second derivative in x and y coordinates
+     */
+    protected double[] secondDerivativeMathematical(ControlPoint p0, ControlPoint p1, double t) {
+        CartesianCoordinate P0 = p0.getPosition();
+        CartesianCoordinate P1 = p0.getAbsStartHelperPos();
+        CartesianCoordinate P2 = p1.getAbsEndHelperPos();
+        CartesianCoordinate P3 = p1.getPosition();
+
+        double xDoublePrime = 6 * (1 - t) * P0.getX()
+                + (-12 + 18 * t) * P1.getX()
+                + (6 - 18 * t) * P2.getX()
+                + 6 * t * P3.getX();
+
+        double yDoublePrime = 6 * (1 - t) * P0.getY()
+                + (-12 + 18 * t) * P1.getY()
+                + (6 - 18 * t) * P2.getY()
+                + 6 * t * P3.getY();
+
+        return new double[]{xDoublePrime, yDoublePrime};
+    }
+
     
 }
