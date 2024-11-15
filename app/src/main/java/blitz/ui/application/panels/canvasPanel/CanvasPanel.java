@@ -726,7 +726,6 @@ public class CanvasPanel extends JPanel implements MouseListener, MouseMotionLis
         switch (Tool.getSelectedTool()) {
             case MOVE:
                 Duration duration = Duration.between(lastTime, LocalDateTime.now());
-                System.out.println("t=" + duration.toMillis());
                  if (duration.toMillis() < 10) {
                     break;
                      
