@@ -10,7 +10,7 @@
 
 # NOTE!
 
-This project is **NO LONGER MAINTAINED**. This was the first attempt written in Java. For active project, see [Blitz](github.com/Vlarkus/Blitz)
+This project is **NO LONGER MAINTAINED**. This was the first attempt written in Java. For active project, see [Blitz](https://github.com/Vlarkus/Blitz)
 
 ---
 
