@@ -8,6 +8,12 @@
 
 ---
 
+# NOTE!
+
+This project is **NO LONGER MAINTAINED**. This was the first attempt written in Java. For active project, see [Blitz](github.com/Vlarkus/Blitz)
+
+---
+
 ## Introduction
 
 Blitz is advanced software for modeling autonomous routine trajectories for VEX Robotics Competitions. It simplifies the complex process of trajectory planning by providing intuitive tools for generating and editing various splines. With Blitz, teams can efficiently design and fine-tune their robot's autonomous routines.
